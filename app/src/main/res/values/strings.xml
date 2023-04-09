@@ -1,0 +1,43 @@
+<resources>
+    <string name="app_name">Polideportivo</string>
+
+
+    <string name="email">Email</string>
+
+    <string name="password">Contraseña</string>
+
+    <string name="login">Entrar</string>
+
+    <string name="forgot_password">Recuperar contraseña</string>
+
+    <string name="or">OR</string>
+
+    <string name="google_icon">google icon</string>
+
+    <string name="facebook_icon">facebook icon</string>
+
+    <string name="registrarse">Registrarse</string>
+    <string name="nombre">Nombre</string>
+    <string name="primerApellido">1ºApellido</string>
+    <string name="segundoApellido">2ºApellido</string>
+    <string name="direccion">Dirección</string>
+    <string name="movil">Móvil</string>
+    <string name="repitePassword">Repite contraseña</string>
+    <string name="reservaPista">RESERVA DE PISTAS</string>
+    <string name="reservaGim">ACTIVIDADES DE GIMNASIO</string>
+    <string name="reservaPiscina">ACTIVIDADES DE PISCINA</string>
+    <string name="horariosDisponibles">HORARIOS DISPONIBLES</string>
+    <string name="dia">Lun</string>
+    <string name="diaNum">4</string>
+    <string name="mes">Abr</string>
+    <string name="confirmarReserva">CONFIRMAR RESERVA</string>
+    <string name="padel">Pádel</string>
+    <string name="spinning">Spinning</string>
+    <string name="tipo_deporte">Tipo Deporte</string>
+    <string name="ver">VER</string>
+    <string name="reservar">RESERVAR</string>
+    <string name="seleccionarActividad">Seleccionar Actividad</string>
+    <string name="seleccionaFecha">Selecciona fecha</string>
+    <string name="seleccionaHora">Selecciona hora</string>
+
+</resources>
