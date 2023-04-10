@@ -15,13 +15,16 @@
             android:name=".activity.ConfirmarReservaPiscinaActivity"
             android:exported="false" />
         <activity
+            android:name=".activity.ReservaPiscinaActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.ConfirmarReservaGimActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.ReservaGimActivity"
+            android:name=".activity.ReservaActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.ConfirmarReservaPistaActivity"
+            android:name=".activity.ConfirmarReservaActivity"
             android:exported="false" />
         <activity
             android:name=".activity.ReservaPistasActivity"

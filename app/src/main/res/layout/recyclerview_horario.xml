@@ -18,13 +18,13 @@
         android:layout_height="match_parent">
 
 
-        <Button
+        <TextView
             android:id="@+id/btn_horario"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_gravity="center"
             android:text="12:00"
-            android:textColor="@color/black"
+            android:textColor="@color/grey"
             android:textSize="20sp"
             style="@style/Widget.AppCompat.Button.Borderless"
             app:layout_constraintEnd_toEndOf="parent"

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.ConfirmarReservaPistaActivity"
+    tools:context=".activity.ConfirmarReservaActivity"
     android:background="@drawable/background1">
 
     <RelativeLayout
@@ -21,10 +21,11 @@
             app:cardCornerRadius="20dp">
 
             <ImageView
+                android:id="@+id/iv_foto_confirmar_reserva"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/padel"
-                android:scaleType="centerCrop"/>
+                android:scaleType="fitXY"/>
 
         <LinearLayout
             android:layout_width="match_parent"

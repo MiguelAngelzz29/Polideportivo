@@ -48,7 +48,7 @@ public class CalendarioAdapter extends RecyclerView.Adapter<CalendarioAdapter.Vi
         } else {
             holder.cl.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.white));
         }
-        holder.cv.setOnClickListener(new View.OnClickListener() {
+       /* holder.cv.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -77,7 +77,7 @@ public class CalendarioAdapter extends RecyclerView.Adapter<CalendarioAdapter.Vi
                 notifyItemChanged(selectedItem);
 
             }
-        });
+        });*/
 
     }
 

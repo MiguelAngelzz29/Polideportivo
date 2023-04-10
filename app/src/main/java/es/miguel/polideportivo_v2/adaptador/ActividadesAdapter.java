@@ -17,40 +17,45 @@ import java.util.List;
 import es.miguel.polideportivo_v2.R;
 import es.miguel.polideportivo_v2.dominio.Actividad;
 
-public class ActividadesPiscinaAdapter extends RecyclerView.Adapter<ActividadesPiscinaAdapter.ViewHolder> {
+public class ActividadesAdapter extends RecyclerView.Adapter<ActividadesAdapter.ViewHolder> {
 
     private List<Actividad> listaActividades;
 
-    public ActividadesPiscinaAdapter(List<Actividad> listaActividades) {
+    public ActividadesAdapter(List<Actividad> listaActividades) {
         this.listaActividades = listaActividades;
     }
 
     @NonNull
     @Override
-    public ActividadesPiscinaAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_piscina, parent, false);
+    public ActividadesAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_actividades,parent,false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ActividadesPiscinaAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ActividadesAdapter.ViewHolder holder, int position) {
         int imagenId = listaActividades.get(position).getImagen();
         holder.imagen.setImageResource(imagenId);
         holder.descripcion.setText(listaActividades.get(position).getDescripcion());
-        holder.seleccionar.setOnClickListener(v -> {
+        holder.seleccionar.setOnClickListener( v -> {
 
-            RecyclerView rv2 = ((Activity) v.getContext()).findViewById(R.id.rv2);
-            TextView tv2 = ((Activity) v.getContext()).findViewById(R.id.tv_fechaGim);
-            if (rv2.getVisibility() == View.GONE) {
-                rv2.setVisibility(View.VISIBLE);
-                tv2.setVisibility(View.VISIBLE);
-            } else {
-                rv2.setVisibility(View.GONE);
-                tv2.setVisibility(View.GONE);
-            }
-
-        });
-    }
+                RecyclerView rv2 = ((Activity) v.getContext()).findViewById(R.id.rv2);
+                RecyclerView rv3 = ((Activity) v.getContext()).findViewById(R.id.rv3);
+                TextView tv2 = ((Activity) v.getContext()).findViewById(R.id.tv_fecha);
+                TextView tv3 = ((Activity) v.getContext()).findViewById(R.id.tv_hora);
+                if(rv2.getVisibility() == View.GONE) {
+                    rv2.setVisibility(View.VISIBLE);
+                    tv2.setVisibility(View.VISIBLE);
+                    rv3.setVisibility(View.VISIBLE);
+                    tv3.setVisibility(View.VISIBLE);
+                }else{
+                    rv2.setVisibility(View.GONE);
+                    tv2.setVisibility(View.GONE);
+                    rv3.setVisibility(View.GONE);
+                    tv3.setVisibility(View.GONE);
+                }
+            });
+        }
 
     @Override
     public int getItemCount() {
@@ -65,7 +70,6 @@ public class ActividadesPiscinaAdapter extends RecyclerView.Adapter<ActividadesP
         private RecyclerView rv;
         private Button btn_hora;
         private ConstraintLayout cv;
-
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -74,7 +78,7 @@ public class ActividadesPiscinaAdapter extends RecyclerView.Adapter<ActividadesP
             imagen = itemView.findViewById(R.id.iv_foto);
             rv = itemView.findViewById(R.id.rv2);
             btn_hora = itemView.findViewById(R.id.btn_horario);
-            cv = itemView.findViewById(R.id.constraintDias);
+            cv =  itemView.findViewById(R.id.constraintDias);
         }
     }
 }
