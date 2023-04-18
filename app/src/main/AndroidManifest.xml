@@ -12,13 +12,10 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".activity.ConfirmarReservaPiscinaActivity"
+            android:name=".activity.CentroActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.ReservaPiscinaActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.ConfirmarReservaGimActivity"
+            android:name=".activity.SeleccionarActividadActivity"
             android:exported="false" />
         <activity
             android:name=".activity.ReservaActivity"
@@ -27,11 +24,7 @@
             android:name=".activity.ConfirmarReservaActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.ReservaPistasActivity"
-            android:exported="false"
-            android:parentActivityName=".activity.MainActivity" />
-        <activity
-            android:name=".activity.HorarioDisponibleActivity"
+            android:name=".activity.HorarioActivity"
             android:exported="false"
             android:parentActivityName=".activity.MainActivity" />
         <activity

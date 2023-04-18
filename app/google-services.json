@@ -9,6 +9,35 @@
       "client_info": {
         "mobilesdk_app_id": "1:994272246797:android:0c53109795ca46fed2e944",
         "android_client_info": {
+          "package_name": "es.miguel.polideportivo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "994272246797-v8fmb3pa478md7ubtu3lkbntadah10ol.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAl8UmhpLBudZt5ZHOMP_Kprq5R8jtvtIs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "994272246797-v8fmb3pa478md7ubtu3lkbntadah10ol.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:994272246797:android:5cd7db2a72d87423d2e944",
+        "android_client_info": {
           "package_name": "es.miguel.polideportivo_v2"
         }
       },

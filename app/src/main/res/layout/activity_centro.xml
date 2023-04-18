@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+        <LinearLayout
+        android:id="@+id/layout_centro1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.25"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5">
+
+            <LinearLayout
+                android:id="@+id/layout_centro1_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/black">
+                <TextView
+                    android:id="@+id/centro_flecha_izq"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.25"
+                    android:drawableLeft="@drawable/flecha_izq"
+                    android:paddingStart="20dp" />
+
+                <TextView
+                    android:id="@+id/tv_centro_titulo"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="CENTRO"
+                    android:textColor="@color/teal_200"
+                    android:textSize="26dp"
+                    android:textStyle="bold" />
+                </LinearLayout>
+
+
+         </LinearLayout>
+         <LinearLayout
+        android:id="@+id/layout_centro2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_centro1"
+        app:layout_constraintVertical_bias="0.5">
+
+             <ImageView
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:src="@drawable/pista_padel"
+                 android:scaleType="fitXY"/>
+
+         </LinearLayout>
+        <LinearLayout
+        android:id="@+id/layout_centro3"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:background="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_centro2"
+        app:layout_constraintVertical_bias="0.5">
+            <EditText
+                android:id="@+id/editText_confirmar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:paddingTop="10dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="adsfasdfasdfasdfasdfsdfasdffsfasfdsafasfasdfasdfasdfsdafasdfafasdf
+                          afasdfasfasfasdfasdfasfdasdffasfasdfasfs"
+                android:gravity="top"
+                android:textColor="@color/teal_200"
+                android:editable="false"
+                android:cursorVisible="false"/>
+        </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

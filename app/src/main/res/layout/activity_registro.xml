@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background1">
+    android:background="@drawable/background">
 
 
     <EditText
@@ -17,8 +17,8 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:padding="20dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
+        android:textColor="@color/teal_200"
+        android:textColorHint="@color/teal_200"
         android:maxLength="30"
         android:singleLine="true"
         android:imeOptions="actionDone"
@@ -35,11 +35,11 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:textColor="@color/white"
+        android:textColor="@color/teal_200"
         android:maxLength="30"
         android:singleLine="true"
         android:imeOptions="actionDone"
-        android:textColorHint="@color/white"
+        android:textColorHint="@color/teal_200"
         app:layout_constraintTop_toBottomOf="@+id/registroNombre"
         tools:layout_editor_absoluteX="0dp" />
 
@@ -53,11 +53,11 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:textColor="@color/white"
+        android:textColor="@color/teal_200"
         android:maxLength="30"
         android:singleLine="true"
         android:imeOptions="actionDone"
-        android:textColorHint="@color/white"
+        android:textColorHint="@color/teal_200"
         app:layout_constraintTop_toBottomOf="@+id/registro1Apellido"
         tools:layout_editor_absoluteX="0dp" />
 
@@ -71,8 +71,8 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
+        android:textColor="@color/teal_200"
+        android:textColorHint="@color/teal_200"
         android:maxLength="30"
         android:singleLine="true"
         android:imeOptions="actionDone"
@@ -89,8 +89,8 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
+        android:textColor="@color/teal_200"
+        android:textColorHint="@color/teal_200"
         android:maxLength="30"
         android:singleLine="true"
         android:imeOptions="actionDone"
@@ -107,8 +107,8 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
+        android:textColor="@color/teal_200"
+        android:textColorHint="@color/teal_200"
         android:maxLength="30"
         android:singleLine="true"
         android:imeOptions="actionDone"
@@ -116,7 +116,7 @@
         tools:layout_editor_absoluteX="0dp" />
 
     <EditText
-        android:id="@+id/registroContraseña"
+        android:id="@+id/registroPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#30ffffff"
@@ -126,8 +126,8 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
+        android:textColor="@color/teal_200"
+        android:textColorHint="@color/teal_200"
         android:maxLength="30"
         android:singleLine="true"
         android:imeOptions="actionDone"
@@ -135,7 +135,7 @@
         tools:layout_editor_absoluteX="0dp" />
 
     <EditText
-        android:id="@+id/registroRepiteContraseña"
+        android:id="@+id/registroRepitePassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#30ffffff"
@@ -145,16 +145,16 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
+        android:textColor="@color/teal_200"
+        android:textColorHint="@color/teal_200"
         android:maxLength="30"
         android:singleLine="true"
         android:imeOptions="actionDone"
-        app:layout_constraintTop_toBottomOf="@+id/registroContraseña"
+        app:layout_constraintTop_toBottomOf="@+id/registroPassword"
         tools:layout_editor_absoluteX="0dp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
+        android:id="@+id/btn_registro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -162,8 +162,10 @@
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:backgroundTint="@color/colorPrimary"
+        app:backgroundTint="@color/grey"
         app:srcCompat="@drawable/baseline_check_24" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

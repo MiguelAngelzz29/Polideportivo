@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background1">
+    android:background="@drawable/background">
 
     <TextView
         android:id="@+id/signin"
@@ -12,8 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="50dp"
         android:gravity="center"
-        android:text="Sign in"
-        android:textColor="@color/white"
+        android:text="@string/app_name"
+        android:textColor="@color/teal_200"
         android:textSize="35dp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
@@ -34,8 +34,8 @@
         android:maxLength="30"
         android:padding="20dp"
         android:singleLine="true"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
+        android:textColor="@color/teal_200"
+        android:textColorHint="@color/teal_200"
         app:layout_constraintTop_toBottomOf="@+id/signin"
         tools:layout_editor_absoluteX="9dp" />
 
@@ -56,8 +56,8 @@
         android:maxLength="30"
         android:padding="20dp"
         android:singleLine="true"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
+        android:textColor="@color/teal_200"
+        android:textColorHint="@color/teal_200"
         app:layout_constraintTop_toBottomOf="@+id/username"
         tools:layout_editor_absoluteX="16dp" />
 
@@ -67,11 +67,11 @@
         android:layout_height="54dp"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="7dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="160dp"
         android:layout_marginRight="7dp"
-        android:backgroundTint="@color/white"
+        android:backgroundTint="#30ffffff"
         android:text="@string/login"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/teal_200"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -87,19 +87,21 @@
 
         <TextView
             android:id="@+id/forgotpass"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="160dp"
+            android:layout_marginRight="100dp"
             android:text="@string/forgot_password"
-            android:textColor="@color/white" />
+            android:textColor="@color/teal_200" />
 
         <TextView
             android:id="@+id/registrarse"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="0.6"
             android:text="@string/registrarse"
-            android:textColor="@color/white" />
+            android:textColor="@color/teal_200" />
     </LinearLayout>
 
     <TextView
@@ -108,7 +110,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:text="or sign in with"
-        android:textColor="@color/white"
+        android:textColor="@color/teal_200"
         app:layout_constraintBottom_toTopOf="@+id/socialicons"
         android:layout_marginBottom="20dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -123,6 +125,7 @@
         tools:layout_editor_absoluteX="0dp">
 
         <ImageView
+            android:id="@+id/iv_google"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_marginLeft="150dp"
@@ -130,6 +133,7 @@
             android:src="@drawable/google" />
 
         <ImageView
+            android:id="@+id/iv_facebook"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:src="@drawable/facebook" />

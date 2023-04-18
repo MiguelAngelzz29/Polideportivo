@@ -5,24 +5,41 @@ import android.media.Image;
 import android.view.View;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
+
 public class Actividad {
 
     private int id_actividad;
     private String descripcion;
+    private int capacidad;
     private int imagen;
+    private String horario;
+    private boolean reservar;
+    private int tipo_actividad;
+    private ArrayList<ReservasActividades> listaReservasActividades;
+
+
+
 
     public Actividad() {
     }
 
-    public Actividad(int id_actividad, String descripcion, int imagen) {
+    public Actividad(int id_actividad, String descripcion, int capacidad, int imagen, String horario, boolean reservar, int tipo_actividad, ArrayList<ReservasActividades> listaReservasActividades) {
         this.id_actividad = id_actividad;
         this.descripcion = descripcion;
+        this.capacidad = capacidad;
         this.imagen = imagen;
+        this.horario = horario;
+        this.reservar = reservar;
+        this.tipo_actividad = tipo_actividad;
+        this.listaReservasActividades = listaReservasActividades;
     }
 
-    public Actividad(String descripcion, int imagen) {
+    public Actividad(String descripcion, int capacidad, int imagen, String horario) {
         this.descripcion = descripcion;
+        this.capacidad = capacidad;
         this.imagen = imagen;
+        this.horario = horario;
     }
 
     public int getId_actividad() {
@@ -49,4 +66,43 @@ public class Actividad {
         this.imagen = imagen;
     }
 
+    public String getHorario() {
+        return horario;
+    }
+
+    public void setHorario(String horario) {
+        this.horario = horario;
+    }
+
+    public boolean isReservar() {
+        return reservar;
+    }
+
+    public void setReservar(boolean reservar) {
+        this.reservar = reservar;
+    }
+
+    public int getTipo_actividad() {
+        return tipo_actividad;
+    }
+
+    public void setTipo_actividad(int tipo_actividad) {
+        this.tipo_actividad = tipo_actividad;
+    }
+
+    public ArrayList<ReservasActividades> getListaReservasActividades() {
+        return listaReservasActividades;
+    }
+
+    public void setListaReservasActividades(ArrayList<ReservasActividades> listaReservasActividades) {
+        this.listaReservasActividades = listaReservasActividades;
+    }
+
+    public int getCapacidad() {
+        return capacidad;
+    }
+
+    public void setCapacidad(int capacidad) {
+        this.capacidad = capacidad;
+    }
 }

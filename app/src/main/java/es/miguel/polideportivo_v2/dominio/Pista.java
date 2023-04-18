@@ -1,27 +1,51 @@
 package es.miguel.polideportivo_v2.dominio;
 
+import java.util.ArrayList;
+
 public class Pista {
 
     private int id_pista;
     private String tipo_deporte;
     private String ubicacion;
     private boolean disponible;
-    private double precio_tarifa;
+    private int imagen;
+    private double precio_sin_iluminacion;
     private boolean iluminacion;
-    private double precio_iluminacion;
+    private double precio_con_iluminacion;
+
+    private ArrayList<ReservaPistas> listaReservas;
 
     public Pista() {
     }
 
-    public Pista(int id_pista, String tipo_deporte, String ubicacion, boolean disponible,
-                 double precio_tarifa, boolean iluminacion, double precio_iluminacion) {
+    public Pista(int id_pista, String tipo_deporte, String ubicacion, boolean disponible, int imagen, double precio_sin_iluminacion, boolean iluminacion, double precion_con_iluminacion, ArrayList<ReservaPistas> listaReservas) {
         this.id_pista = id_pista;
         this.tipo_deporte = tipo_deporte;
         this.ubicacion = ubicacion;
         this.disponible = disponible;
-        this.precio_tarifa = precio_tarifa;
+        this.imagen = imagen;
+        this.precio_sin_iluminacion = precio_sin_iluminacion;
         this.iluminacion = iluminacion;
-        this.precio_iluminacion = precio_iluminacion;
+        this.precio_con_iluminacion = precion_con_iluminacion;
+        this.listaReservas = listaReservas;
+    }
+
+    public Pista(String tipo_deporte, String ubicacion, boolean disponible, int imagen, double precio_sin_iluminacion, boolean iluminacion, double precion_con_iluminacion, ArrayList<ReservaPistas> listaReservas) {
+        this.tipo_deporte = tipo_deporte;
+        this.ubicacion = ubicacion;
+        this.disponible = disponible;
+        this.imagen = imagen;
+        this.precio_sin_iluminacion = precio_sin_iluminacion;
+        this.iluminacion = iluminacion;
+        this.precio_con_iluminacion = precion_con_iluminacion;
+        this.listaReservas = listaReservas;
+    }
+
+    public Pista(String tipo_deporte, String ubicacion, boolean disponible, int imagen) {
+        this.tipo_deporte = tipo_deporte;
+        this.ubicacion = ubicacion;
+        this.disponible = disponible;
+        this.imagen = imagen;
     }
 
     public int getId_pista() {
@@ -57,11 +81,11 @@ public class Pista {
     }
 
     public double getPrecio_tarifa() {
-        return precio_tarifa;
+        return precio_sin_iluminacion;
     }
 
     public void setPrecio_tarifa(double precio_tarifa) {
-        this.precio_tarifa = precio_tarifa;
+        this.precio_sin_iluminacion = precio_tarifa;
     }
 
     public boolean isIluminacion() {
@@ -72,12 +96,37 @@ public class Pista {
         this.iluminacion = iluminacion;
     }
 
-    public double getPrecio_iluminacion() {
-        return precio_iluminacion;
+    public double getPrecio_con_iluminacion() {
+        return precio_con_iluminacion;
     }
 
-    public void setPrecio_iluminacion(double precio_iluminacion) {
-        this.precio_iluminacion = precio_iluminacion;
+    public void setPrecio_con_iluminacion(double precio_con_iluminacion) {
+        this.precio_con_iluminacion = precio_con_iluminacion;
+    }
+
+
+    public double getPrecio_sin_iluminacion() {
+        return precio_sin_iluminacion;
+    }
+
+    public void setPrecio_sin_iluminacion(double precio_sin_iluminacion) {
+        this.precio_sin_iluminacion = precio_sin_iluminacion;
+    }
+
+    public ArrayList<ReservaPistas> getListaReservas() {
+        return listaReservas;
+    }
+
+    public void setListaReservas(ArrayList<ReservaPistas> listaReservas) {
+        this.listaReservas = listaReservas;
+    }
+
+    public int getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(int imagen) {
+        this.imagen = imagen;
     }
 
     @Override
@@ -87,9 +136,9 @@ public class Pista {
                 ", tipo_deporte='" + tipo_deporte + '\'' +
                 ", ubicacion='" + ubicacion + '\'' +
                 ", disponible=" + disponible +
-                ", precio_tarifa=" + precio_tarifa +
+                ", precio_tarifa=" + precio_sin_iluminacion +
                 ", iluminacion=" + iluminacion +
-                ", precio_iluminacion=" + precio_iluminacion +
+                ", precio_iluminacion=" + precio_con_iluminacion +
                 '}';
     }
 }

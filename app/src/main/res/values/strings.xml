@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Polideportivo</string>
-
+    <string name="archivo_preferencias">es.miguel.polideportivo_v2.PREFERENCIA_FILE_KEY</string>
 
     <string name="email">Email</string>
 
@@ -23,9 +23,9 @@
     <string name="direccion">Dirección</string>
     <string name="movil">Móvil</string>
     <string name="repitePassword">Repite contraseña</string>
-    <string name="reservaPista">RESERVA DE PISTAS</string>
-    <string name="reservaGim">ACTIVIDADES DE GIMNASIO</string>
-    <string name="reservaPiscina">ACTIVIDADES DE PISCINA</string>
+    <string name="reservaPista">RESERVA PISTAS</string>
+    <string name="reservaGim">ACTIVIDADES GIMNASIO</string>
+    <string name="reservaPiscina">ACTIVIDADES PISCINA</string>
     <string name="horariosDisponibles">HORARIOS DISPONIBLES</string>
     <string name="dia">Lun</string>
     <string name="diaNum">4</string>
@@ -39,5 +39,19 @@
     <string name="seleccionarActividad">Seleccionar Actividad</string>
     <string name="seleccionaFecha">Selecciona fecha</string>
     <string name="seleccionaHora">Selecciona hora</string>
+    <string name="centro">CENTRO</string>
+    <string name="horarios">HORARIO</string>
+    <string name="reservas">RESERVAS</string>
+    <string name="mis_reservas">MIS RESERVAS</string>
+    <string name="novedades">NOVEDADES</string>
+    <string name="seleccionar">SELECCIONAR</string>
+    <string name="contacto">CONTACTO</string>
+    <string name="horario_lunes"><b>Lunes:</b>         7:30 a 22:30h</string>
+    <string name="horario_martes"><b>Martes:</b>        7:30 a 22:30h</string>
+    <string name="horario_miercoles"><b>Miércoles:</b>   7:30 a 22:30h</string>
+    <string name="horario_jueves"><b>Jueves:</b>        7:30 a 22:30h</string>
+    <string name="horario_viernes"><b>Viernes:</b>       7:30 a 22:30h</string>
+    <string name="horario_sabado"><b>Sábado:</b>        7:30 a 14:00h</string>
+    <string name="horario_domingo"><b>Domingo:</b>     7:30 a 14:00h</string>
 
 </resources>
