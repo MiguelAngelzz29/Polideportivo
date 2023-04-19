@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
@@ -32,7 +31,7 @@ import java.util.Map;
 import es.miguel.polideportivo_v2.R;
 import es.miguel.polideportivo_v2.adaptador.ReservaPistaAdapter;
 import es.miguel.polideportivo_v2.dominio.Pista;
-import es.miguel.polideportivo_v2.dominio.ReservaPistas;
+import es.miguel.polideportivo_v2.dominio.ReservaPista;
 
 public class ReservaActivity extends AppCompatActivity {
 
@@ -40,15 +39,20 @@ public class ReservaActivity extends AppCompatActivity {
     private ReservaPistaAdapter pistaAdapter;
     private FirebaseFirestore mFirestore;
 
+    private String opcion, email;
+    private Bundle extra;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reserva);
 
         recyclerView_actividad = findViewById(R.id.rv1_reserva);
+        extra = getIntent().getExtras();
+        email = extra.getString("EMAIL_ACTIVIDAD");
         cambiarColorDias();
         recibirDatosBaseDatos();
-        datosFirestoreAarrayList();
+      //  datosFirestoreAarrayList();
 
 
 
@@ -65,7 +69,7 @@ public class ReservaActivity extends AppCompatActivity {
                 .Builder<Pista>().setQuery(query,Pista.class).build();*/
 
 
-        pistaAdapter = new ReservaPistaAdapter(/*listaPistas*/listaParaReservarPádel());
+        pistaAdapter = new ReservaPistaAdapter(/*listaPistas*/listaParaReservarPádel(),email);
         recyclerView_actividad.setAdapter(pistaAdapter);
     }
 
@@ -130,6 +134,7 @@ public class ReservaActivity extends AppCompatActivity {
          LocalDate hoy = LocalDate.now(); // Obtener fecha actual
          DayOfWeek dia = hoy.getDayOfWeek(); // Obtener día de la semana actual
 
+
          for (TextView textView : listaDias) {
              if(textView.getText().toString().equalsIgnoreCase(dia.getDisplayName(TextStyle.SHORT, Locale.getDefault()))){ // Si el TextView corresponde al día actual
                  textView.setTextColor(getResources().getColor(R.color.teal_200)); // Establecer color blanco
@@ -150,40 +155,42 @@ public class ReservaActivity extends AppCompatActivity {
          }
      }
 
-     public ArrayList<ReservaPistas> listaParaReservarPádel(){
+     public ArrayList<ReservaPista> listaParaReservarPádel(){
         Bundle extra = getIntent().getExtras();
-        String opcion =  extra.getString("DESCRIPCION");
-        ArrayList<ReservaPistas> lista = new ArrayList<>();
+        opcion =  extra.getString("DESCRIPCION_ACTIVIDAD");
+
+
+        ArrayList<ReservaPista> lista = new ArrayList<>();
          Pista pista1=null;
          Pista pista2=null;
 
         if(opcion.equalsIgnoreCase("Pádel")) {
-            pista1 = new Pista("Pádel", "Pista 1", true, R.drawable.pista_padel);
-            pista2 = new Pista("Pádel", "Pista 2", true, R.drawable.pista_padel);
+            pista1 = new Pista(1,"Pádel", "Pista 1", R.drawable.pista_padel);
+            pista2 = new Pista(2,"Pádel", "Pista 2",  R.drawable.pista_padel);
         }else if(opcion.equalsIgnoreCase("Tenis")){
-            pista1 = new Pista("Tenis","Pista 1",true,R.drawable.tenis);
-            pista2 = new Pista("Tenis","Pista 2",true,R.drawable.tenis);
+            pista1 = new Pista(3,"Tenis","Pista 1",R.drawable.tenis);
+            pista2 = new Pista(4,"Tenis","Pista 2",R.drawable.tenis);
         }else if(opcion.equalsIgnoreCase("Baloncesto")){
-             pista1 = new Pista("Baloncesto","Pista 1",true,R.drawable.baloncesto);
-             pista2 = new Pista("Baloncesto","Pista 2",true,R.drawable.baloncesto);
+             pista1 = new Pista(5,"Baloncesto","Pista 1",R.drawable.baloncesto);
+             pista2 = new Pista(6,"Baloncesto","Pista 2",R.drawable.baloncesto);
         }else{
-            pista1 = new Pista("Fútbol Sala","Pista 1",true,R.drawable.futbol_sala);
-            pista2 = new Pista("Fútbol Sala","Pista 2",true,R.drawable.futbol_sala);
+            pista1 = new Pista(7,"Fútbol Sala","Pista 1",R.drawable.futbol_sala);
+            pista2 = new Pista(8,"Fútbol Sala","Pista 2",R.drawable.futbol_sala);
         }
 
-         ReservaPistas horario1Pista1 = new ReservaPistas("10:00 - 11:30",pista1);
-         ReservaPistas horario2Pista1 = new ReservaPistas("11:30 - 13:00",pista1);
-         ReservaPistas horario3Pista1 = new ReservaPistas("15:00 - 16:30",pista1);
-         ReservaPistas horario4Pista1 = new ReservaPistas("16:30 - 18:00",pista1);
-         ReservaPistas horario5Pista1 = new ReservaPistas("19:30 - 21:00",pista1);
-         ReservaPistas horario6Pista1 = new ReservaPistas("21:00 - 22:30",pista1);
+         ReservaPista horario1Pista1 = new ReservaPista("10:00 - 11:30",pista1);
+         ReservaPista horario2Pista1 = new ReservaPista("11:30 - 13:00",pista1);
+         ReservaPista horario3Pista1 = new ReservaPista("15:00 - 16:30",pista1);
+         ReservaPista horario4Pista1 = new ReservaPista("16:30 - 18:00",pista1);
+         ReservaPista horario5Pista1 = new ReservaPista("19:30 - 21:00",pista1);
+         ReservaPista horario6Pista1 = new ReservaPista("21:00 - 22:30",pista1);
 
-         ReservaPistas horario1Pista2 = new ReservaPistas("10:00 - 11:30",pista2);
-         ReservaPistas horario2Pista2 = new ReservaPistas("11:30 - 13:00",pista2);
-         ReservaPistas horario3Pista2 = new ReservaPistas("15:00 - 16:30",pista2);
-         ReservaPistas horario4Pista2 = new ReservaPistas("16:30 - 18:00",pista2);
-         ReservaPistas horario5Pista2 = new ReservaPistas("19:30 - 21:00",pista2);
-         ReservaPistas horario6Pista2 = new ReservaPistas("21:00 - 22:30",pista2);
+         ReservaPista horario1Pista2 = new ReservaPista("10:00 - 11:30",pista2);
+         ReservaPista horario2Pista2 = new ReservaPista("11:30 - 13:00",pista2);
+         ReservaPista horario3Pista2 = new ReservaPista("15:00 - 16:30",pista2);
+         ReservaPista horario4Pista2 = new ReservaPista("16:30 - 18:00",pista2);
+         ReservaPista horario5Pista2 = new ReservaPista("19:30 - 21:00",pista2);
+         ReservaPista horario6Pista2 = new ReservaPista("21:00 - 22:30",pista2);
 
          lista.add(horario1Pista1);
          lista.add(horario2Pista1);

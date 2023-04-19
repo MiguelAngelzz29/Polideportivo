@@ -1,10 +1,5 @@
 package es.miguel.polideportivo_v2.dominio;
 
-import android.graphics.drawable.Drawable;
-import android.media.Image;
-import android.view.View;
-import android.widget.ImageView;
-
 import java.util.ArrayList;
 
 public class Actividad {
@@ -16,7 +11,7 @@ public class Actividad {
     private String horario;
     private boolean reservar;
     private int tipo_actividad;
-    private ArrayList<ReservasActividades> listaReservasActividades;
+    private ArrayList<ReservaActividad> listaReservasActividades;
 
 
 
@@ -24,7 +19,7 @@ public class Actividad {
     public Actividad() {
     }
 
-    public Actividad(int id_actividad, String descripcion, int capacidad, int imagen, String horario, boolean reservar, int tipo_actividad, ArrayList<ReservasActividades> listaReservasActividades) {
+    public Actividad(int id_actividad, String descripcion, int capacidad, int imagen, String horario, boolean reservar, int tipo_actividad, ArrayList<ReservaActividad> listaReservasActividades) {
         this.id_actividad = id_actividad;
         this.descripcion = descripcion;
         this.capacidad = capacidad;
@@ -90,11 +85,11 @@ public class Actividad {
         this.tipo_actividad = tipo_actividad;
     }
 
-    public ArrayList<ReservasActividades> getListaReservasActividades() {
+    public ArrayList<ReservaActividad> getListaReservasActividades() {
         return listaReservasActividades;
     }
 
-    public void setListaReservasActividades(ArrayList<ReservasActividades> listaReservasActividades) {
+    public void setListaReservasActividades(ArrayList<ReservaActividad> listaReservasActividades) {
         this.listaReservasActividades = listaReservasActividades;
     }
 

@@ -10,41 +10,38 @@ public class Pista {
     private boolean disponible;
     private int imagen;
     private double precio_sin_iluminacion;
-    private boolean iluminacion;
     private double precio_con_iluminacion;
 
-    private ArrayList<ReservaPistas> listaReservas;
+    private ArrayList<ReservaPista> listaReservas;
 
-    public Pista() {
+    public Pista(int i, String pádel, String s, boolean b, int pista_padel) {
     }
 
-    public Pista(int id_pista, String tipo_deporte, String ubicacion, boolean disponible, int imagen, double precio_sin_iluminacion, boolean iluminacion, double precion_con_iluminacion, ArrayList<ReservaPistas> listaReservas) {
+    public Pista(int id_pista, String tipo_deporte, String ubicacion, boolean disponible, int imagen, double precio_sin_iluminacion, double precion_con_iluminacion, ArrayList<ReservaPista> listaReservas) {
         this.id_pista = id_pista;
         this.tipo_deporte = tipo_deporte;
         this.ubicacion = ubicacion;
         this.disponible = disponible;
         this.imagen = imagen;
         this.precio_sin_iluminacion = precio_sin_iluminacion;
-        this.iluminacion = iluminacion;
         this.precio_con_iluminacion = precion_con_iluminacion;
         this.listaReservas = listaReservas;
     }
 
-    public Pista(String tipo_deporte, String ubicacion, boolean disponible, int imagen, double precio_sin_iluminacion, boolean iluminacion, double precion_con_iluminacion, ArrayList<ReservaPistas> listaReservas) {
+    public Pista(String tipo_deporte, String ubicacion, boolean disponible, int imagen, double precio_sin_iluminacion, double precion_con_iluminacion, ArrayList<ReservaPista> listaReservas) {
         this.tipo_deporte = tipo_deporte;
         this.ubicacion = ubicacion;
         this.disponible = disponible;
         this.imagen = imagen;
         this.precio_sin_iluminacion = precio_sin_iluminacion;
-        this.iluminacion = iluminacion;
         this.precio_con_iluminacion = precion_con_iluminacion;
         this.listaReservas = listaReservas;
     }
 
-    public Pista(String tipo_deporte, String ubicacion, boolean disponible, int imagen) {
+    public Pista(int id_pista, String tipo_deporte, String ubicacion, int imagen) {
+        this.id_pista = id_pista;
         this.tipo_deporte = tipo_deporte;
         this.ubicacion = ubicacion;
-        this.disponible = disponible;
         this.imagen = imagen;
     }
 
@@ -88,14 +85,6 @@ public class Pista {
         this.precio_sin_iluminacion = precio_tarifa;
     }
 
-    public boolean isIluminacion() {
-        return iluminacion;
-    }
-
-    public void setIluminacion(boolean iluminacion) {
-        this.iluminacion = iluminacion;
-    }
-
     public double getPrecio_con_iluminacion() {
         return precio_con_iluminacion;
     }
@@ -113,11 +102,11 @@ public class Pista {
         this.precio_sin_iluminacion = precio_sin_iluminacion;
     }
 
-    public ArrayList<ReservaPistas> getListaReservas() {
+    public ArrayList<ReservaPista> getListaReservas() {
         return listaReservas;
     }
 
-    public void setListaReservas(ArrayList<ReservaPistas> listaReservas) {
+    public void setListaReservas(ArrayList<ReservaPista> listaReservas) {
         this.listaReservas = listaReservas;
     }
 
@@ -137,7 +126,6 @@ public class Pista {
                 ", ubicacion='" + ubicacion + '\'' +
                 ", disponible=" + disponible +
                 ", precio_tarifa=" + precio_sin_iluminacion +
-                ", iluminacion=" + iluminacion +
                 ", precio_iluminacion=" + precio_con_iluminacion +
                 '}';
     }

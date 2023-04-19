@@ -17,6 +17,7 @@ public class SeleccionarActividadActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView_actividad;
     private boolean seleccionaPista,seleccionaGim,seleccionaPiscina;
+    private String email;
 
 
     @Override
@@ -27,7 +28,7 @@ public class SeleccionarActividadActivity extends AppCompatActivity {
         seleccionaPista = getIntent().getBooleanExtra("PISTA",false);
         seleccionaGim = getIntent().getBooleanExtra("GIM",false);
         seleccionaPiscina = getIntent().getBooleanExtra("PISCINA",false);
-
+        email = getIntent().getStringExtra("EMAIL_INICIO");
         recyclerView_actividad = findViewById(R.id.rv_seleccionar_actividad);
 
 
@@ -36,7 +37,7 @@ public class SeleccionarActividadActivity extends AppCompatActivity {
 
         recyclerView_actividad.setHasFixedSize(true);
         recyclerView_actividad.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-        SeleccionarActividadAdapter seleccionarActividadesAdapter = new SeleccionarActividadAdapter (listaActividades());
+        SeleccionarActividadAdapter seleccionarActividadesAdapter = new SeleccionarActividadAdapter (listaActividades(),email);
         recyclerView_actividad.setAdapter(seleccionarActividadesAdapter);
 
 

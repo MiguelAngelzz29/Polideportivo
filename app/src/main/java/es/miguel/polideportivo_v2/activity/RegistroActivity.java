@@ -86,7 +86,7 @@ public class RegistroActivity extends AppCompatActivity {
         repitePassword = findViewById(R.id.registroRepitePassword);
         btn_registro = findViewById(R.id.btn_registro);
 
-        // Configurar la visibilidad inicial del botÃ³n de registro
+        // Configurar la visibilidad inicial del botón de registro
         actualizarVisibilidadBotonRegistro();
     }
 

@@ -1,20 +1,21 @@
 package es.miguel.polideportivo_v2.dominio;
 
 import java.time.LocalDate;
+import java.util.GregorianCalendar;
 
-public class ReservaPistas implements Comparable<ReservaPistas>{
+public class ReservaPista implements Comparable<ReservaPista>{
 
     private String id_reserva_pista;
-    private LocalDate fecha_reserva;
+    private GregorianCalendar fecha_reserva;
     private String horario_reservado;
     private double precio_pagado;
     private Pista pista;
     private Cliente cliente;
 
-    public ReservaPistas() {
+    public ReservaPista() {
     }
 
-    public ReservaPistas(String id_reserva_pista, LocalDate fecha_reserva, String horario_reservado, double precio_pagado, Pista pista, Cliente cliente) {
+    public ReservaPista(String id_reserva_pista, GregorianCalendar fecha_reserva, String horario_reservado, double precio_pagado, Pista pista, Cliente cliente) {
         this.id_reserva_pista = id_reserva_pista;
         this.fecha_reserva = fecha_reserva;
         this.horario_reservado = horario_reservado;
@@ -23,7 +24,7 @@ public class ReservaPistas implements Comparable<ReservaPistas>{
         this.cliente = cliente;
     }
 
-    public ReservaPistas(LocalDate fecha_reserva, String horario_reservado, double precio_pagado, Pista pista, Cliente cliente) {
+    public ReservaPista(GregorianCalendar fecha_reserva, String horario_reservado, double precio_pagado, Pista pista, Cliente cliente) {
         this.fecha_reserva = fecha_reserva;
         this.horario_reservado = horario_reservado;
         this.precio_pagado = precio_pagado;
@@ -31,7 +32,7 @@ public class ReservaPistas implements Comparable<ReservaPistas>{
         this.cliente = cliente;
     }
 
-    public ReservaPistas(String horario_reservado, Pista pista) {
+    public ReservaPista(String horario_reservado, Pista pista) {
         this.horario_reservado = horario_reservado;
         this.pista = pista;
     }
@@ -44,11 +45,11 @@ public class ReservaPistas implements Comparable<ReservaPistas>{
         this.id_reserva_pista = id_reserva_pista;
     }
 
-    public LocalDate getFecha_reserva() {
+    public GregorianCalendar getFecha_reserva() {
         return fecha_reserva;
     }
 
-    public void setFecha_reserva(LocalDate fecha_reserva) {
+    public void setFecha_reserva(GregorianCalendar fecha_reserva) {
         this.fecha_reserva = fecha_reserva;
     }
 
@@ -85,7 +86,19 @@ public class ReservaPistas implements Comparable<ReservaPistas>{
     }
 
     @Override
-    public int compareTo(ReservaPistas otraReserva) {
+    public int compareTo(ReservaPista otraReserva) {
         return this.horario_reservado.compareTo(otraReserva.getHorario_reservado());
+    }
+
+    @Override
+    public String toString() {
+        return "ReservaPista{" +
+                "id_reserva_pista='" + id_reserva_pista + '\'' +
+                ", fecha_reserva=" + fecha_reserva +
+                ", horario_reservado='" + horario_reservado + '\'' +
+                ", precio_pagado=" + precio_pagado +
+                ", pista=" + pista +
+                ", cliente=" + cliente +
+                '}';
     }
 }

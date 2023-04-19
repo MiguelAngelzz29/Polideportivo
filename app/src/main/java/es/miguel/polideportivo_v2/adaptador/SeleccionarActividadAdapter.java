@@ -1,5 +1,7 @@
 package es.miguel.polideportivo_v2.adaptador;
 
+import static android.content.Intent.getIntent;
+
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,20 +13,24 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.apache.tools.ant.Main;
+
 import java.util.List;
 
 import es.miguel.polideportivo_v2.R;
-import es.miguel.polideportivo_v2.activity.ConfirmarReservaActivity;
+import es.miguel.polideportivo_v2.activity.MainActivity;
 import es.miguel.polideportivo_v2.activity.ReservaActivity;
 import es.miguel.polideportivo_v2.dominio.Actividad;
 
 public class SeleccionarActividadAdapter extends RecyclerView.Adapter<SeleccionarActividadAdapter.ViewHolder> {
 
     private List<Actividad> listaActividades;
+    private String email;
 
 
-    public SeleccionarActividadAdapter(List<Actividad> listaActividades) {
+    public SeleccionarActividadAdapter(List<Actividad> listaActividades, String email) {
         this.listaActividades = listaActividades;
+        this.email = email;
     }
 
     @NonNull
@@ -44,10 +50,11 @@ public class SeleccionarActividadAdapter extends RecyclerView.Adapter<Selecciona
         alternarColorRecyclerView(holder,position);
 
         holder.layout.setOnClickListener( v -> {
-            Intent intent = new Intent(v.getContext(), ReservaActivity.class);
-            intent.putExtra("IMAGEN",listaActividades.get(position).getImagen());
-            intent.putExtra("DESCRIPCION",listaActividades.get(position).getDescripcion());
 
+            Intent intent = new Intent(v.getContext(), ReservaActivity.class);
+            intent.putExtra("IMAGEN_ACTIVIDAD",listaActividades.get(position).getImagen());
+            intent.putExtra("DESCRIPCION_ACTIVIDAD",listaActividades.get(position).getDescripcion());
+            intent.putExtra("EMAIL_ACTIVIDAD",this.email);
             v.getContext().startActivity(intent);
 
         });

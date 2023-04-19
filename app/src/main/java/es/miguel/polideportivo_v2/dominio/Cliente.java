@@ -1,5 +1,7 @@
 package es.miguel.polideportivo_v2.dominio;
 
+import java.util.ArrayList;
+
 public class Cliente {
 
     private int id_cliente;
@@ -12,6 +14,10 @@ public class Cliente {
     private String telefono;
     private String password;
     private int tipo_abono;
+
+    private ArrayList<ContrataInstalacion> listaContrataciones;
+    private ArrayList<ReservaPista> listaReservaPistas;
+    private ArrayList<ReservaActividad> listaReservaActividades;
 
     public Cliente() {
     }

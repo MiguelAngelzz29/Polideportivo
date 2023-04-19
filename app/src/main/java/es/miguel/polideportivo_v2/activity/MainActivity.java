@@ -3,6 +3,7 @@ package es.miguel.polideportivo_v2.activity;
 import static android.content.ContentValues.TAG;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.content.Context;
 import android.content.Intent;
@@ -26,6 +27,12 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import es.miguel.polideportivo_v2.R;
 
@@ -36,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private Button login;
     private ImageView btn_google;
     private int GOOGLE_SIGN_IN = 100;
+
 
 
     @Override
@@ -71,8 +79,10 @@ public class MainActivity extends AppCompatActivity {
                         password.getText().toString()).addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {*/
 
+
+
                         Intent intent = new Intent(MainActivity.this, InicioActivity.class);
-                        intent.putExtra("EMAIL", email.getText().toString());
+                        intent.putExtra("EMAIL_MAIN", email.getText().toString());
                         startActivity(intent);
                  //   }
 
@@ -125,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
             if(email != null){
 
                 Intent intent = new Intent(this, InicioActivity.class);
+                intent.putExtra("EMAIL_MAIN", email);
                 startActivity(intent);
             }
 
@@ -149,10 +160,13 @@ public class MainActivity extends AppCompatActivity {
                     if(t.isSuccessful()){
 
                         Intent intent = new Intent(this, InicioActivity.class);
+                        intent.putExtra("EMAIL_MAIN", email.getText().toString());
                         startActivity(intent);
                     }
                 });
             }
         }
     }
+
+
 }

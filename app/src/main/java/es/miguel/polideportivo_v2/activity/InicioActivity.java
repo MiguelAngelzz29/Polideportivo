@@ -21,6 +21,7 @@ public class InicioActivity extends AppCompatActivity {
 
      private boolean seleccionaPista,seleccionaGim,seleccionaPiscina;
      private LinearLayout reservaPista,actividadGim,actividadPiscina,centro,horario;
+     private String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +32,11 @@ public class InicioActivity extends AppCompatActivity {
 
         informacionCentro();
         informacionHorario();
+        recibirDatos();
         reservarPista();
         reservarGim();
         reservarPiscina();
+        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxinicio" + email);
 
 
 
@@ -42,6 +45,7 @@ public class InicioActivity extends AppCompatActivity {
     public void reservarPista(){
         reservaPista = findViewById(R.id.cv_reserva_pistas);
         reservaPista.setOnClickListener( v -> {
+            recibirDatos();
             seleccionaPista = true;
             seleccionaGim = false;
             seleccionaPiscina=false;
@@ -49,6 +53,8 @@ public class InicioActivity extends AppCompatActivity {
             intent.putExtra("PISTA",seleccionaPista);
             intent.putExtra("GIM",seleccionaGim);
             intent.putExtra("PISCINA",seleccionaPiscina);
+            intent.putExtra("EMAIL_INICIO",email);
+            System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxinicio3" + email);
             startActivity(intent);
         });
     }
@@ -71,10 +77,12 @@ public class InicioActivity extends AppCompatActivity {
             seleccionaPista = false;
             seleccionaGim = false;
             seleccionaPiscina=true;
+            recibirDatos();
             Intent intent = new Intent(InicioActivity.this,SeleccionarActividadActivity.class);
             intent.putExtra("PISTA",seleccionaPista);
             intent.putExtra("GIM",seleccionaGim);
             intent.putExtra("PISCINA",seleccionaPiscina);
+            intent.putExtra("EMAIL_INICIO",email);
             startActivity(intent);
         });
     }
@@ -111,5 +119,11 @@ public class InicioActivity extends AppCompatActivity {
             toast.setDuration(Toast.LENGTH_LONG);
             toast.setView(toastLayout);
             toast.show();
+    }
+
+    public void recibirDatos(){
+        Intent intent = getIntent();
+        email = intent.getStringExtra("EMAIL_MAIN");
+                System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxinicio2" + email);
     }
 }
