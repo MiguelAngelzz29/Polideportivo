@@ -20,7 +20,7 @@ public class InicioActivity extends AppCompatActivity {
 
 
      private boolean seleccionaPista,seleccionaGim,seleccionaPiscina;
-     private LinearLayout reservaPista,actividadGim,actividadPiscina,centro,horario;
+     private LinearLayout reservaPista,actividadGim,actividadPiscina,centro,horario,misReservas;
      private String email;
 
     @Override
@@ -36,7 +36,7 @@ public class InicioActivity extends AppCompatActivity {
         reservarPista();
         reservarGim();
         reservarPiscina();
-        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxinicio" + email);
+        misReservas();
 
 
 
@@ -54,7 +54,6 @@ public class InicioActivity extends AppCompatActivity {
             intent.putExtra("GIM",seleccionaGim);
             intent.putExtra("PISCINA",seleccionaPiscina);
             intent.putExtra("EMAIL_INICIO",email);
-            System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxinicio3" + email);
             startActivity(intent);
         });
     }
@@ -68,6 +67,7 @@ public class InicioActivity extends AppCompatActivity {
             intent.putExtra("PISTA",seleccionaPista);
             intent.putExtra("GIM",seleccionaGim);
             intent.putExtra("PISCINA",seleccionaPiscina);
+            intent.putExtra("EMAIL_INICIO",email);
             startActivity(intent);
         });
     }
@@ -85,6 +85,17 @@ public class InicioActivity extends AppCompatActivity {
             intent.putExtra("EMAIL_INICIO",email);
             startActivity(intent);
         });
+    }
+
+    public void misReservas(){
+        misReservas = findViewById(R.id.cv_mis_reservas);
+        misReservas.setOnClickListener( v->{
+            recibirDatos();
+            Intent intent = new Intent(InicioActivity.this,MisReservasActivity.class);
+            intent.putExtra("EMAIL_INICIO",email);
+            startActivity(intent);
+        });
+
     }
     public void informacionCentro(){
         centro = findViewById(R.id.cv_centro);
@@ -124,6 +135,6 @@ public class InicioActivity extends AppCompatActivity {
     public void recibirDatos(){
         Intent intent = getIntent();
         email = intent.getStringExtra("EMAIL_MAIN");
-                System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxinicio2" + email);
+
     }
 }

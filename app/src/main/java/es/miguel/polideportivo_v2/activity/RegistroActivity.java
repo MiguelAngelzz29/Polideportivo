@@ -131,7 +131,7 @@ public class RegistroActivity extends AppCompatActivity {
         user.put("tlf_movil", movil.getText().toString());
 
         // Añadir el documento a Firestore (la colección "usuarios" no tiene por qué existir previamente)
-        db.collection("usuarios").add(user)
+        db.collection("Cliente").add(user)
                 .addOnSuccessListener(documentReference -> Log.d(TAG, "Documento creado con ID: " + documentReference.getId()))
                 .addOnFailureListener(e -> Log.w(TAG, "Error al crear el documento", e));
     }

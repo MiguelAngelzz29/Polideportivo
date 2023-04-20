@@ -8,7 +8,7 @@ public class Pista {
     private String tipo_deporte;
     private String ubicacion;
     private boolean disponible;
-    private int imagen;
+    private String imagen;
     private double precio_sin_iluminacion;
     private double precio_con_iluminacion;
 
@@ -17,7 +17,7 @@ public class Pista {
     public Pista(int i, String pádel, String s, boolean b, int pista_padel) {
     }
 
-    public Pista(int id_pista, String tipo_deporte, String ubicacion, boolean disponible, int imagen, double precio_sin_iluminacion, double precion_con_iluminacion, ArrayList<ReservaPista> listaReservas) {
+    public Pista(int id_pista, String tipo_deporte, String ubicacion, boolean disponible, String imagen, double precio_sin_iluminacion, double precion_con_iluminacion, ArrayList<ReservaPista> listaReservas) {
         this.id_pista = id_pista;
         this.tipo_deporte = tipo_deporte;
         this.ubicacion = ubicacion;
@@ -28,7 +28,7 @@ public class Pista {
         this.listaReservas = listaReservas;
     }
 
-    public Pista(String tipo_deporte, String ubicacion, boolean disponible, int imagen, double precio_sin_iluminacion, double precion_con_iluminacion, ArrayList<ReservaPista> listaReservas) {
+    public Pista(String tipo_deporte, String ubicacion, boolean disponible, String imagen, double precio_sin_iluminacion, double precion_con_iluminacion, ArrayList<ReservaPista> listaReservas) {
         this.tipo_deporte = tipo_deporte;
         this.ubicacion = ubicacion;
         this.disponible = disponible;
@@ -38,7 +38,7 @@ public class Pista {
         this.listaReservas = listaReservas;
     }
 
-    public Pista(int id_pista, String tipo_deporte, String ubicacion, int imagen) {
+    public Pista(int id_pista, String tipo_deporte, String ubicacion, String imagen) {
         this.id_pista = id_pista;
         this.tipo_deporte = tipo_deporte;
         this.ubicacion = ubicacion;
@@ -110,11 +110,11 @@ public class Pista {
         this.listaReservas = listaReservas;
     }
 
-    public int getImagen() {
+    public String getImagen() {
         return imagen;
     }
 
-    public void setImagen(int imagen) {
+    public void setImagen(String imagen) {
         this.imagen = imagen;
     }
 
@@ -127,6 +127,7 @@ public class Pista {
                 ", disponible=" + disponible +
                 ", precio_tarifa=" + precio_sin_iluminacion +
                 ", precio_iluminacion=" + precio_con_iluminacion +
+                ", imagen=" + imagen +
                 '}';
     }
 }

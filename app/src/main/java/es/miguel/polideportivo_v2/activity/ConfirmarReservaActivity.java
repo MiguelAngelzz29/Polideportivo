@@ -3,12 +3,8 @@ package es.miguel.polideportivo_v2.activity;
 import static android.content.ContentValues.TAG;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-
 import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.sql.SQLOutput;
@@ -43,9 +40,6 @@ public class ConfirmarReservaActivity extends AppCompatActivity {
     private LinearLayout  layout_capacidad;
     private double precio_pagado = 0;
 
-    private BroadcastReceiver miBroadcastReceiver;
-    private String email;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,22 +54,15 @@ public class ConfirmarReservaActivity extends AppCompatActivity {
         layout_capacidad = findViewById(R.id.confirmar_capacidad);
         reservar = findViewById(R.id.layout_reservar_actividad);
 
-
         recibirDatosIntent();
         flechaVolver();
         quitarCapacidad();
         seleccionarIluminacion();
 
-
         reservar.setOnClickListener(v -> {
             mostrarToastPersonalizado();
             guardarDatos();
         });
-
-
-
-
-
     }
 
     public void mostrarToastPersonalizado(){
@@ -94,13 +81,16 @@ public class ConfirmarReservaActivity extends AppCompatActivity {
 
     public void recibirDatosIntent(){
         Intent intent = getIntent();
-        int imagen = intent.getIntExtra("IMAGEN_RESERVA",0);
+        String imagen = intent.getStringExtra("IMAGEN_RESERVA");
         String hora = intent.getStringExtra("HORARIO_RESERVA");
         String descripcion = intent.getStringExtra("DESCRIPCION_RESERVA");
         String ubicacion = intent.getStringExtra("UBICACION_RESERVA");
         int capacidad = intent.getIntExtra("CAPACIDAD",0);
+        Glide.with(this)
+                .load(imagen)
+                .into(imageView);
 
-        imageView.setImageResource(imagen);
+       // imageView.setImageResource(imagen);
         tv_horario.setText(hora);
         tv_descripcion.setText(descripcion);
         tv_capacidad.setText(capacidad+"");
@@ -135,7 +125,7 @@ public class ConfirmarReservaActivity extends AppCompatActivity {
 
             Intent intent = getIntent();
             int id_pista = intent.getIntExtra("ID_PISTA_RESERVA",0);
-            int imagen = intent.getIntExtra("IMAGEN_RESERVA",0);
+            String imagen = intent.getStringExtra("IMAGEN_RESERVA");
             String hora = intent.getStringExtra("HORARIO_RESERVA");
             String descripcion = intent.getStringExtra("DESCRIPCION_RESERVA");
             String ubicacion = intent.getStringExtra("UBICACION_RESERVA");

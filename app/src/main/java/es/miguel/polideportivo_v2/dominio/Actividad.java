@@ -7,8 +7,8 @@ public class Actividad {
     private int id_actividad;
     private String descripcion;
     private int capacidad;
+    private int numero_reservas;
     private int imagen;
-    private String horario;
     private boolean reservar;
     private int tipo_actividad;
     private ArrayList<ReservaActividad> listaReservasActividades;
@@ -19,22 +19,21 @@ public class Actividad {
     public Actividad() {
     }
 
-    public Actividad(int id_actividad, String descripcion, int capacidad, int imagen, String horario, boolean reservar, int tipo_actividad, ArrayList<ReservaActividad> listaReservasActividades) {
+    public Actividad(int id_actividad, String descripcion, int capacidad, int numero_reservas, int imagen, boolean reservar, int tipo_actividad, ArrayList<ReservaActividad> listaReservasActividades) {
         this.id_actividad = id_actividad;
         this.descripcion = descripcion;
         this.capacidad = capacidad;
+        this.numero_reservas = numero_reservas;
         this.imagen = imagen;
-        this.horario = horario;
         this.reservar = reservar;
         this.tipo_actividad = tipo_actividad;
         this.listaReservasActividades = listaReservasActividades;
     }
 
-    public Actividad(String descripcion, int capacidad, int imagen, String horario) {
+    public Actividad(String descripcion, int capacidad, int imagen) {
         this.descripcion = descripcion;
         this.capacidad = capacidad;
         this.imagen = imagen;
-        this.horario = horario;
     }
 
     public int getId_actividad() {
@@ -61,15 +60,7 @@ public class Actividad {
         this.imagen = imagen;
     }
 
-    public String getHorario() {
-        return horario;
-    }
-
-    public void setHorario(String horario) {
-        this.horario = horario;
-    }
-
-    public boolean isReservar() {
+     public boolean isReservar() {
         return reservar;
     }
 
@@ -99,5 +90,13 @@ public class Actividad {
 
     public void setCapacidad(int capacidad) {
         this.capacidad = capacidad;
+    }
+
+    public int getNumero_reservas() {
+        return numero_reservas;
+    }
+
+    public void setNumero_reservas(int numero_reservas) {
+        this.numero_reservas = numero_reservas;
     }
 }

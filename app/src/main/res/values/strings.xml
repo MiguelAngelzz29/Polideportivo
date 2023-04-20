@@ -46,6 +46,7 @@
     <string name="novedades">NOVEDADES</string>
     <string name="seleccionar">SELECCIONAR</string>
     <string name="contacto">CONTACTO</string>
+    <string name="ubicacion">UBICACIÓN</string>
     <string name="horario_lunes"><b>Lunes:</b>         7:30 a 22:30h</string>
     <string name="horario_martes"><b>Martes:</b>        7:30 a 22:30h</string>
     <string name="horario_miercoles"><b>Miércoles:</b>   7:30 a 22:30h</string>
