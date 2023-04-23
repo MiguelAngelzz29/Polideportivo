@@ -1,12 +1,13 @@
 package es.miguel.polideportivo_v2.dominio;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class ReservaActividad implements Comparable<ReservaActividad>{
 
 
         private String id_reserva_actividad;
-        private LocalDate fecha_reserva;
+        private LocalDateTime fecha_reserva;
         private String horario_reservado;
         private Actividad actividad;
         private Cliente cliente;
@@ -14,7 +15,7 @@ public class ReservaActividad implements Comparable<ReservaActividad>{
     public ReservaActividad() {
     }
 
-    public ReservaActividad(String id_reserva_actividad, LocalDate fecha_reserva, String horario_reservado, Actividad actividad, Cliente cliente) {
+    public ReservaActividad(String id_reserva_actividad, LocalDateTime fecha_reserva, String horario_reservado, Actividad actividad, Cliente cliente) {
         this.id_reserva_actividad = id_reserva_actividad;
         this.fecha_reserva = fecha_reserva;
         this.horario_reservado = horario_reservado;
@@ -30,11 +31,11 @@ public class ReservaActividad implements Comparable<ReservaActividad>{
         this.id_reserva_actividad = id_reserva_actividad;
     }
 
-    public LocalDate getFecha_reserva() {
+    public LocalDateTime getFecha_reserva() {
         return fecha_reserva;
     }
 
-    public void setFecha_reserva(LocalDate fecha_reserva) {
+    public void setFecha_reserva(LocalDateTime fecha_reserva) {
         this.fecha_reserva = fecha_reserva;
     }
 

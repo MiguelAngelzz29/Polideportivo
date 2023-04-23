@@ -1,8 +1,7 @@
 package es.miguel.polideportivo_v2.dominio;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.GregorianCalendar;
+
 
 public class ReservaPista implements Comparable<ReservaPista>{
 
@@ -12,6 +11,8 @@ public class ReservaPista implements Comparable<ReservaPista>{
     private double precio_pagado;
     private Pista pista;
     private Cliente cliente;
+
+
 
     public ReservaPista() {
     }
@@ -33,6 +34,12 @@ public class ReservaPista implements Comparable<ReservaPista>{
         this.cliente = cliente;
     }
 
+    public ReservaPista(LocalDateTime fecha_reserva, String horario_reservado, double precio_pagado, Pista pista) {
+        this.fecha_reserva = fecha_reserva;
+        this.horario_reservado = horario_reservado;
+        this.precio_pagado = precio_pagado;
+        this.pista = pista;
+    }
 
     public ReservaPista(String horario_reservado, Pista pista) {
         this.horario_reservado = horario_reservado;

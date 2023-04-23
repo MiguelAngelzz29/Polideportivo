@@ -23,6 +23,8 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -131,11 +133,10 @@ public class ConfirmarReservaActivity extends AppCompatActivity {
             String ubicacion = intent.getStringExtra("UBICACION_RESERVA");
             int capacidad = intent.getIntExtra("CAPACIDAD",0);
             String email = intent.getStringExtra("EMAIL_RESERVA");
+            String fechaStr = intent.getStringExtra("FECHA_RESERVA");
 
-
-            GregorianCalendar fecha = new GregorianCalendar();
-            Instant instant = fecha.toInstant();
-            Timestamp timestamp = new Timestamp(instant.toEpochMilli());
+            LocalDateTime fecha = LocalDateTime.parse(fechaStr, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
+            Timestamp timestamp = Timestamp.valueOf(fecha.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
 
             // Crear un mapa con los atributos del usuario

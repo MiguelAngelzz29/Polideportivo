@@ -2,6 +2,7 @@ package es.miguel.polideportivo_v2.adaptador;
 
 import static android.content.Intent.getIntent;
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 
 import org.apache.tools.ant.Main;
 
@@ -27,10 +30,13 @@ public class SeleccionarActividadAdapter extends RecyclerView.Adapter<Selecciona
     private List<Actividad> listaActividades;
     private String email;
 
+    private Context context;
 
-    public SeleccionarActividadAdapter(List<Actividad> listaActividades, String email) {
+
+    public SeleccionarActividadAdapter(List<Actividad> listaActividades, String email,Context context) {
         this.listaActividades = listaActividades;
         this.email = email;
+        this.context = context;
     }
 
     @NonNull
@@ -42,8 +48,10 @@ public class SeleccionarActividadAdapter extends RecyclerView.Adapter<Selecciona
 
     @Override
     public void onBindViewHolder(@NonNull SeleccionarActividadAdapter.ViewHolder holder, int position) {
-        int imagenId = listaActividades.get(position).getImagen();
-        holder.imagen.setImageResource(imagenId);
+        String url = listaActividades.get(position).getImagen();
+        Glide.with(context)
+                .load(url)
+                .into(holder.imagen);
         holder.descripcion.setText(listaActividades.get(position).getDescripcion());
 
 
