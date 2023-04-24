@@ -134,6 +134,7 @@ public class ConfirmarReservaActivity extends AppCompatActivity {
             int capacidad = intent.getIntExtra("CAPACIDAD",0);
             String email = intent.getStringExtra("EMAIL_RESERVA");
             String fechaStr = intent.getStringExtra("FECHA_RESERVA");
+            System.out.println("ffffffffffffffffffffffffff " +fechaStr);
 
             LocalDateTime fecha = LocalDateTime.parse(fechaStr, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
             Timestamp timestamp = Timestamp.valueOf(fecha.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));

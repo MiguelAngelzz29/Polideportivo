@@ -110,6 +110,6 @@ public class ReservaPista implements Comparable<ReservaPista>{
                 ", precio_pagado=" + precio_pagado +
                 ", pista=" + pista +
                 ", cliente=" + cliente +
-                '}';
+                '}' + "\n";
     }
 }

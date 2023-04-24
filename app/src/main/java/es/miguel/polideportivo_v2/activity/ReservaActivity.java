@@ -1,17 +1,20 @@
 package es.miguel.polideportivo_v2.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
 import java.sql.Timestamp;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -48,6 +51,7 @@ public class ReservaActivity extends AppCompatActivity {
 
     private String diaSeleccionado;
     private LocalDateTime fecha_reserva;
+    private ArrayList<ReservaPista> listaReservas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,44 +67,111 @@ public class ReservaActivity extends AppCompatActivity {
         cambiarColorDias();
         recibirDatos();
 
-        //cogen la conexioxDB getproximos7 dias, igual que en misReservas para conseguir una lista de las reservas de los próximos 7 días
-        // para después filtrarla y quitar los horarios que sean iguales.
+        // Llamada al método listaHorariosReservados con un callback
 
+    }
+
+    public interface ResultadoReservasCallback {
+        void onResultadoReservas(ArrayList<ReservaPista> reservas);
+
+        void onError(Throwable t);
+    }
+
+    public void listaHorariosReservados(ResultadoReservasCallback callback) {
+        ConexionDB.getReservasProximos7Dias(new ConexionDB.ResultadoReservasCallback() {
+            @Override
+            public void onResultadoReservas(ArrayList<ReservaPista> reservas) {
+                callback.onResultadoReservas(reservas);
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                callback.onError(t);
+            }
+        });
     }
 
     public void recibirDatos() {
-
-
         recyclerView_actividad.setHasFixedSize(true);
         recyclerView_actividad.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        if (seleccionaGim || seleccionaPiscina) {
-            actividadAdapter = new ReservaActividadAdapter(listaParaReservarActividades(), email, this);
-            recyclerView_actividad.setAdapter(actividadAdapter);
-        } else {
-            pistaAdapter = new ReservaAdapter(listaParaReservarPistas(), email, this,fecha_reserva);
-            recyclerView_actividad.setAdapter(pistaAdapter);
-        }
+
+        // Llamada al método listaHorariosReservados con un callback
+        listaHorariosReservados(new ResultadoReservasCallback() {
+            @Override
+            public void onResultadoReservas(ArrayList<ReservaPista> reservas) {
+                listaReservas = reservas;
+                boolean repetido = false;
+                ArrayList<ReservaPista> lista2 = new ArrayList<>();
+                ArrayList<ReservaPista> listaDisponible = listaParaReservarPistas();
+                ArrayList<ReservaPista> listaFinal = new ArrayList<>();
+
+                // Comparación de listas para obtener los horarios disponibles
+                for (ReservaPista reserva : listaReservas) {
+                    DayOfWeek nombreDia = reserva.getFecha_reserva().getDayOfWeek();
+                    String dia = nombreDia.getDisplayName(TextStyle.SHORT, Locale.getDefault());
+                    if (dia.equalsIgnoreCase(diaSeleccionado)
+                            && reserva.getPista().getTipo_deporte().equals(opcion)) {
+                        lista2.add(reserva);
+                    }
+                }
+                System.out.println("xxxxxxxxxxlista2 " + lista2);
+                System.out.println("xxxxxxxxxxxlistaDisponible" + listaDisponible);
+                if(!lista2.isEmpty()) {
+                    for (ReservaPista reserva : listaDisponible) {
+                        repetido = false;
+                        for (ReservaPista reserva2 : lista2) {
+
+                            if (reserva.getHorario_reservado().equals(reserva2.getHorario_reservado())
+                                    && reserva.getPista().getTipo_deporte().equalsIgnoreCase(reserva2.getPista().getTipo_deporte())
+                                    && reserva.getPista().getId_pista() == reserva2.getPista().getId_pista()) {
+
+                                repetido = true;
+                            }
+                        }
+                        if(!repetido){
+                            listaFinal.add(reserva);
+
+                        }
+                    }
+                }else{
+                    listaFinal = listaDisponible;
+                }
+               System.out.println("xxxxxxxxxxxlistaFinal" + listaFinal);
+
+
+
+                // Asignación del adapter correspondiente
+                if (seleccionaGim || seleccionaPiscina) {
+                    actividadAdapter = new ReservaActividadAdapter(listaParaReservarActividades(), email, ReservaActivity.this);
+                    recyclerView_actividad.setAdapter(actividadAdapter);
+                } else {
+                    pistaAdapter = new ReservaAdapter(listaFinal, email, ReservaActivity.this, fecha_reserva);
+                    recyclerView_actividad.setAdapter(pistaAdapter);
+                }
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                System.out.println("Error al obtener la lista de reservas: " + t.getMessage());
+            }
+        });
     }
 
     public void cambiarColorDias() {
-
-
-        LocalDate hoy = LocalDate.now(); // Obtener fecha actual
-        DayOfWeek dia = hoy.getDayOfWeek(); // Obtener día de la semana actual
-
+        LocalDate hoy = LocalDate.now();
+        DayOfWeek dia = hoy.getDayOfWeek();
 
         for (TextView textView : diasSemana()) {
-            if (textView.getText().toString().equalsIgnoreCase(dia.getDisplayName(TextStyle.SHORT, Locale.getDefault()))) { // Si el TextView corresponde al día actual
-                textView.setTextColor(getResources().getColor(R.color.teal_200)); // Establecer color blanco
+            if (textView.getText().toString().equalsIgnoreCase(dia.getDisplayName(TextStyle.SHORT, Locale.getDefault()))) {
+                textView.setTextColor(getResources().getColor(R.color.teal_200));
                 diaSeleccionado = textView.getText().toString();
                 seleccionarDia(textView);
                 recibirDatos();
             } else {
-                textView.setTextColor(getResources().getColor(R.color.white)); // Establecer color teal_200
+                textView.setTextColor(getResources().getColor(R.color.white));
             }
 
             textView.setOnClickListener(v -> {
-                // Cambiar color del TextView cuando es seleccionado
                 for (TextView tv : diasSemana()) {
                     if (tv == textView) {
                         tv.setTextColor(getResources().getColor(R.color.teal_200));
@@ -137,7 +208,7 @@ public class ReservaActivity extends AppCompatActivity {
     }
 
     public ArrayList<ReservaPista> listaParaReservarPistas() {
-        Bundle extra = getIntent().getExtras();
+        extra = getIntent().getExtras();
         opcion = extra.getString("DESCRIPCION_ACTIVIDAD");
         Pista pista1 = null, pista2 = null;
 
@@ -161,11 +232,9 @@ public class ReservaActivity extends AppCompatActivity {
         }
 
         ArrayList<ReservaPista> lista = new ArrayList<>();
-        lista.addAll(horarioPistas(pista1, pista2,diaSeleccionado));
+        lista.addAll(horarioPistas(pista1, pista2, diaSeleccionado));
 
-        // Ordenamiento de la lista por el horario de reserva
-        Collections.sort(horarioPistas(pista1, pista2,diaSeleccionado));
-
+        Collections.sort(horarioPistas(pista1, pista2, diaSeleccionado));
 
         return lista;
     }
@@ -177,7 +246,7 @@ public class ReservaActivity extends AppCompatActivity {
         String[] horarios = {"10:00 - 11:30", "11:30 - 13:00", "15:00 - 16:30", "16:30 - 18:00", "19:30 - 21:00", "21:00 - 22:30"};
 
         for (String nombreDia : dias) {
-            if (nombreDia.equals(dia)) { // Verificar si el día actual coincide con el parámetro
+            if (nombreDia.equals(dia)) {
                 for (String horario : horarios) {
                     ReservaPista reservaPista1 = new ReservaPista(horario, pista1);
                     lista.add(reservaPista1);
@@ -190,7 +259,7 @@ public class ReservaActivity extends AppCompatActivity {
     }
 
     public ArrayList<ReservaActividad> listaParaReservarActividades() {
-        Bundle extra = getIntent().getExtras();
+        extra = getIntent().getExtras();
         opcion = extra.getString("DESCRIPCION_ACTIVIDAD");
         Actividad actividad = null;
 
@@ -213,7 +282,6 @@ public class ReservaActivity extends AppCompatActivity {
 
             default:
 
-
                 break;
         }
 
@@ -222,7 +290,6 @@ public class ReservaActivity extends AppCompatActivity {
 
         // Ordenamiento de la lista por el horario de reserva
         //  Collections.sort(horarioPistas(pista1,pista2));
-
 
         return lista;
     }
@@ -248,7 +315,6 @@ public class ReservaActivity extends AppCompatActivity {
                 {lunes, martes, miercoles, jueves, viernes, sabado, ahora}
         };
 
-        // Verificar el texto del día seleccionado
         String textoDia = dia.getText().toString();
         int indiceX = -1;
         int indiceY = -1;
@@ -263,24 +329,10 @@ public class ReservaActivity extends AppCompatActivity {
             LocalDateTime proximoDia = dias[indiceX][indiceY];
 
             fecha_reserva = proximoDia;
-            //hacer algo con la fecha
-            }
         }
-
-    public void listaHorariosReservados() {
-
-        // Fecha actual
-        LocalDateTime today = LocalDateTime.now();
-
-        // Fecha dentro de 7 días
-        LocalDateTime weekLater = today.plusDays(7);
-        ArrayList<ReservaPista> resultados = new ArrayList<>();
-        // Consulta a Firebase
-        CollectionReference reservasRef = mFirestore.collection("ReservaPista");
-        Query query = reservasRef.whereGreaterThanOrEqualTo("fecha_reserva", Timestamp.valueOf(today.toString()))
-                .whereLessThanOrEqualTo("fecha_reserva", Timestamp.valueOf(weekLater.toString()));
-
-
-
     }
+
 }
+
+
+

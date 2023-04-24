@@ -11,6 +11,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,7 +83,13 @@ public class ConexionDB {
             if (task.isSuccessful() && task.getResult() != null) {
                 Pista pista = null;
                 for (DocumentSnapshot snapshot : task.getResult().getDocuments()){
-                    pista = snapshot.toObject(Pista.class);
+                    // Verificar que los campos necesarios estén disponibles
+                    if (snapshot.contains("tipo_deporte") && snapshot.contains("ubicacion") && snapshot.contains("imagen")) {
+                        String tipo_deporte = snapshot.getString("tipo_deporte");
+                        String ubicacion = snapshot.getString("ubicacion");
+                        String imagen = snapshot.getString("imagen");
+                        pista = new Pista(id, tipo_deporte, ubicacion, imagen);
+                    }
                 }
                 callback.onResultadoPista(pista);
             } else {
@@ -99,7 +106,21 @@ public class ConexionDB {
             if (task.isSuccessful() && task.getResult() != null) {
                 Cliente cliente = null;
                 for (DocumentSnapshot snapshot : task.getResult().getDocuments()){
-                    cliente = snapshot.toObject(Cliente.class);
+                    // Verificar que los datos sean válidos antes de crear el objeto
+                    if (snapshot.exists()) {
+                        String id_cliente = snapshot.getId();
+                        String nombre = snapshot.getString("nombre");
+                        String primer_apellido = snapshot.getString("primer_apellido");
+                        String segundo_apellido = snapshot.getString("segundo_apellido");
+                        String direccion = snapshot.getString("direccion");
+                        String email_cliente = snapshot.getString("email");
+                        String telefono = snapshot.getString("telefono");
+                       String tipo_abono = snapshot.getString("tipo_abono");
+
+                        cliente = new Cliente(id_cliente,nombre, primer_apellido,segundo_apellido,
+                                direccion,email_cliente,telefono,Integer.parseInt(tipo_abono));
+
+                    }
                 }
                 callback.onResultadoCliente(cliente);
             } else {
@@ -113,8 +134,16 @@ public class ConexionDB {
         CollectionReference collection = db.collection("ReservaPista");
         LocalDateTime today = LocalDateTime.now();
         LocalDateTime sevenDaysAhead = today.plusDays(7);
-        Timestamp todayTimestamp = Timestamp.valueOf(today.toString());
-        Timestamp sevenDaysAheadTimestamp = Timestamp.valueOf(sevenDaysAhead.toString());
+
+        //Formatear las fechas en un string con formato correcto
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String todayFormatted = today.format(formatter);
+        String sevenDaysAheadFormatted = sevenDaysAhead.format(formatter);
+
+        // Convertir las fechas formateadas en objetos Timestamp
+        Timestamp todayTimestamp = Timestamp.valueOf(todayFormatted);
+        Timestamp sevenDaysAheadTimestamp = Timestamp.valueOf(sevenDaysAheadFormatted);
+
         Query query = collection.whereGreaterThanOrEqualTo("fecha_reserva", todayTimestamp)
                 .whereLessThanOrEqualTo("fecha_reserva", sevenDaysAheadTimestamp);
         query.get().addOnCompleteListener((Task<QuerySnapshot> task) -> {
