@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 
 public class ReservaActividad implements Comparable<ReservaActividad>{
 
-
         private String id_reserva_actividad;
         private LocalDateTime fecha_reserva;
         private String horario_reservado;

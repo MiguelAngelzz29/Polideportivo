@@ -20,11 +20,12 @@ import es.miguel.polideportivo_v2.dominio.Pista;
 import es.miguel.polideportivo_v2.dominio.ReservaPista;
 
 public class ConexionDB {
-
-    public static void GetListaReservas(String email, ResultadoReservasCallback callback) {
+   //Consulta para misReservas
+    public static void getListaReservas(String email, ResultadoReservasCallback callback) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         com.google.firebase.Timestamp fechaHoy = null;
         CollectionReference collection = db.collection("ReservaPista");
+        System.out.println("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" + email);
         Query query = collection.whereEqualTo("id_cliente", email)
                 .whereGreaterThanOrEqualTo("fecha_reserva", fechaHoy.now());
         query.get().addOnCompleteListener(task -> {
@@ -39,10 +40,10 @@ public class ConexionDB {
                     double precio_pagado = doc.getLong("precio_pagado").doubleValue();
                     String id_cliente = doc.getString("id_cliente");
                     int id_pista = doc.getLong("id_pista").intValue();
-                    GetPista(id_pista, new ResultadoPistaCallback() {
+                    getPista(id_pista, new ResultadoPistaCallback() {
                         @Override
                         public void onResultadoPista(Pista p) {
-                            GetCliente(email, new ResultadoClienteCallback() {
+                            getCliente(email, new ResultadoClienteCallback() {
                                 @Override
                                 public void onResultadoCliente(Cliente cliente) {
                                     // Crear la ReservaPista con los datos de la consulta
@@ -51,8 +52,11 @@ public class ConexionDB {
                                     lista.add(reservaPista);
 
                                     // Verificar que se hayan cargado todas las reservas
+
+
                                     if (lista.size() == documents.size()) {
                                         callback.onResultadoReservas(lista);
+                                        System.out.println("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"+lista);
                                     }
                                 }
 
@@ -75,7 +79,7 @@ public class ConexionDB {
         });
     }
 
-    public static void GetPista(int id, ResultadoPistaCallback callback) {
+    public static void getPista(int id, ResultadoPistaCallback callback) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference collection = db.collection("Pista");
         Query query = collection.whereEqualTo("id", id);
@@ -98,7 +102,7 @@ public class ConexionDB {
         });
     }
 
-    public static void GetCliente(String email, ResultadoClienteCallback callback) {
+    public static void getCliente(String email, ResultadoClienteCallback callback) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference collection = db.collection("Cliente");
         Query query = collection.whereEqualTo("email", email);
@@ -157,7 +161,7 @@ public class ConexionDB {
                     String horario_reservado = doc.getString("horario_reservado");
                     double precio_pagado = doc.getLong("precio_pagado").doubleValue();
                     int id_pista = doc.getLong("id_pista").intValue();
-                    GetPista(id_pista, new ResultadoPistaCallback() {
+                    getPista(id_pista, new ResultadoPistaCallback() {
                         @Override
                         public void onResultadoPista(Pista p) {
                             ReservaPista reservaPista = new ReservaPista(fecha, horario_reservado, precio_pagado, p);
@@ -195,3 +199,4 @@ public class ConexionDB {
         void onError(Throwable t);
     }
 }
+

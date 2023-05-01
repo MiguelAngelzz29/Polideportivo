@@ -54,5 +54,7 @@
     <string name="horario_viernes"><b>Viernes:</b>       7:30 a 22:30h</string>
     <string name="horario_sabado"><b>Sábado:</b>        7:30 a 14:00h</string>
     <string name="horario_domingo"><b>Domingo:</b>     7:30 a 14:00h</string>
+    <string name="sin_reservas">No hay reservas pendientes</string>
+
 
 </resources>

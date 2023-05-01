@@ -2,6 +2,7 @@ package es.miguel.polideportivo_v2.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -31,7 +32,6 @@ public class SeleccionarActividadActivity extends AppCompatActivity {
         seleccionaPiscina = getIntent().getBooleanExtra("PISCINA",false);
         email = getIntent().getStringExtra("EMAIL_INICIO");
         recyclerView_actividad = findViewById(R.id.rv_seleccionar_actividad);
-
 
 
         //Datos RecyclerView

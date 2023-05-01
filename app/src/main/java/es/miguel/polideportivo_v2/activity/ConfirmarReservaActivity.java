@@ -5,7 +5,9 @@ import static android.content.ContentValues.TAG;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +43,7 @@ public class ConfirmarReservaActivity extends AppCompatActivity {
     private TextView flecha_izq;
     private LinearLayout  layout_capacidad;
     private double precio_pagado = 0;
+    String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +105,7 @@ public class ConfirmarReservaActivity extends AppCompatActivity {
     public void flechaVolver(){
         flecha_izq.setOnClickListener( v ->{
             Intent intent = new Intent(v.getContext(),InicioActivity.class);
+            intent.putExtra("EMAIL_MAIN",email);
             v.getContext().startActivity(intent);
 
         });
@@ -132,11 +136,11 @@ public class ConfirmarReservaActivity extends AppCompatActivity {
             String descripcion = intent.getStringExtra("DESCRIPCION_RESERVA");
             String ubicacion = intent.getStringExtra("UBICACION_RESERVA");
             int capacidad = intent.getIntExtra("CAPACIDAD",0);
-            String email = intent.getStringExtra("EMAIL_RESERVA");
+             email = intent.getStringExtra("EMAIL_RESERVA");
             String fechaStr = intent.getStringExtra("FECHA_RESERVA");
-            System.out.println("ffffffffffffffffffffffffff " +fechaStr);
 
-            LocalDateTime fecha = LocalDateTime.parse(fechaStr, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
+
+            LocalDateTime fecha = LocalDateTime.parse(fechaStr);
             Timestamp timestamp = Timestamp.valueOf(fecha.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
 

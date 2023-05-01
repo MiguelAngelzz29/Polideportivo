@@ -79,17 +79,9 @@ public class MainActivity extends AppCompatActivity {
                         password.getText().toString()).addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {*/
 
-            // obtenemos la referencia a las SharedPreferences
-            SharedPreferences prefs = getSharedPreferences("EMAIL_PREF", MODE_PRIVATE);
-
-          // guardamos el valor de una variable
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putString("EMAIL_PRE", email.getText().toString());
-            editor.apply(); // guardar los cambios
-
 
                         Intent intent = new Intent(MainActivity.this, InicioActivity.class);
-                        intent.putExtra("EMAIL_MAIN", email.getText().toString());
+                       intent.putExtra("EMAIL_MAIN", email.getText().toString());
                         startActivity(intent);
                  //   }
 

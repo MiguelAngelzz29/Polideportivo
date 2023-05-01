@@ -8,14 +8,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import java.sql.Timestamp;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -26,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.ExecutionException;
 
 import es.miguel.polideportivo_v2.R;
 import es.miguel.polideportivo_v2.adaptador.ReservaActividadAdapter;
@@ -64,10 +57,13 @@ public class ReservaActivity extends AppCompatActivity {
         seleccionaGim = extra.getBoolean("GIM");
         seleccionaPista = extra.getBoolean("PISTA");
         seleccionaPiscina = extra.getBoolean("PISCINA");
-        cambiarColorDias();
-        recibirDatos();
 
-        // Llamada al método listaHorariosReservados con un callback
+        cambiarColorDias();
+        recibirDatosPistas();
+
+         //Hacer un recibirDatosActividad, igual a recibirDatosPista. Hay que hacer la conexion a la DB.
+         //Revisar ReservaActividadAdapter tiene que llevar cantidad y nº de reservas
+         // ver el recyclerView para que se vea el nº de reservas
 
     }
 
@@ -91,7 +87,7 @@ public class ReservaActivity extends AppCompatActivity {
         });
     }
 
-    public void recibirDatos() {
+    public void recibirDatosPistas() {
         recyclerView_actividad.setHasFixedSize(true);
         recyclerView_actividad.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
@@ -114,8 +110,6 @@ public class ReservaActivity extends AppCompatActivity {
                         lista2.add(reserva);
                     }
                 }
-                System.out.println("xxxxxxxxxxlista2 " + lista2);
-                System.out.println("xxxxxxxxxxxlistaDisponible" + listaDisponible);
                 if(!lista2.isEmpty()) {
                     for (ReservaPista reserva : listaDisponible) {
                         repetido = false;
@@ -136,8 +130,6 @@ public class ReservaActivity extends AppCompatActivity {
                 }else{
                     listaFinal = listaDisponible;
                 }
-               System.out.println("xxxxxxxxxxxlistaFinal" + listaFinal);
-
 
 
                 // Asignación del adapter correspondiente
@@ -166,7 +158,7 @@ public class ReservaActivity extends AppCompatActivity {
                 textView.setTextColor(getResources().getColor(R.color.teal_200));
                 diaSeleccionado = textView.getText().toString();
                 seleccionarDia(textView);
-                recibirDatos();
+                recibirDatosPistas();
             } else {
                 textView.setTextColor(getResources().getColor(R.color.white));
             }
@@ -177,7 +169,7 @@ public class ReservaActivity extends AppCompatActivity {
                         tv.setTextColor(getResources().getColor(R.color.teal_200));
                         diaSeleccionado = textView.getText().toString();
                         seleccionarDia(tv);
-                        recibirDatos();
+                        recibirDatosPistas();
                     } else {
                         tv.setTextColor(getResources().getColor(R.color.white));
                     }
@@ -243,7 +235,12 @@ public class ReservaActivity extends AppCompatActivity {
         ArrayList<ReservaPista> lista = new ArrayList<>();
 
         String[] dias = {"LUN.", "MAR.", "MIÉ.", "JUE.", "VIE.", "SÁB.", "DOM."};
-        String[] horarios = {"10:00 - 11:30", "11:30 - 13:00", "15:00 - 16:30", "16:30 - 18:00", "19:30 - 21:00", "21:00 - 22:30"};
+        String[] horarios;
+        if(dia.equalsIgnoreCase("SÁB.") || dia.equalsIgnoreCase("DOM.")) {
+           horarios = new String[]{"10:00 - 11:30", "11:30 - 13:00"};
+        }else{
+            horarios = new String[]{"10:00 - 11:30", "11:30 - 13:00", "15:00 - 16:30", "16:30 - 18:00", "19:30 - 21:00", "21:00 - 22:30"};
+        }
 
         for (String nombreDia : dias) {
             if (nombreDia.equals(dia)) {
@@ -265,19 +262,34 @@ public class ReservaActivity extends AppCompatActivity {
 
         switch (opcion.toLowerCase()) {
             case "spinning":
-
+                  actividad = new Actividad("Spinning",20,0,
+                          "https://firebasestorage.googleapis.com/v0/b/polideportivo-5627a." +
+                                  "appspot.com/o/fotos%2Fspinning.jpg?alt=media&token=f4d7214c" +
+                                  "-43ec-4f00-8cb5-1be6abfb02ed", "Sala 1");
                 break;
             case "zumba":
-
+                actividad = new Actividad("Zumba", 30,0,
+                        "https://firebasestorage.googleapis.com/v0/b/polideportivo-5627a." +
+                                "appspot.com/o/fotos%2Fzumba.jpg?alt=media&token=c3976a86-eca2-" +
+                                "4de9-b481-d37e5120bc09","Sala 2");
                 break;
             case "pilates":
-
+                actividad = new Actividad("Pilates",30,0,
+                        "https://firebasestorage.googleapis.com/v0/b/polideportivo-5627a.appspot." +
+                                "com/o/fotos%2Fpilates.jpg?alt=media&token=207bc70e-" +
+                                "704e-4551-a7dc-4099d73475eb","Sala 3");
                 break;
             case "Boxeo":
-
+                 actividad = new Actividad("Boxeo",10,0,
+                         "https://firebasestorage.googleapis.com/v0/b/polideportivo-5627a.appspot." +
+                                 "com/o/fotos%2Fboxeo.jpg?alt=media&token=5f5bd7a5-" +
+                                 "87ca-4e94-bfc0-09a375a76eb1","Sala 4");
                 break;
             case "Karate":
-
+                  actividad = new Actividad("Karate",20,0,
+                          "https://firebasestorage.googleapis.com/" +
+                          "v0/b/polideportivo-5627a.appspot.com/o/fotos%2Fkarate.jpg?" +
+                          "alt=media&token=e017722c-a8bf-4275-8498-fbf2b0530da9","Sala 5");
                 break;
 
             default:

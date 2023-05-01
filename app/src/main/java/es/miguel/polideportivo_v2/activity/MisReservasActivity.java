@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Layout;
@@ -58,11 +59,10 @@ public class MisReservasActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mis_reservas);
         // obtenemos la referencia a las SharedPreferences
-        SharedPreferences prefs = getSharedPreferences("EMAIL_PREF", MODE_PRIVATE);
-        // obtenemos el valor de una variable
-        email = prefs.getString("EMAIL_PRE", "valorPredeterminado");
+          Intent intent = getIntent();
+          String email = intent.getStringExtra("EMAIL_INICIO");
         listaReservas = new ArrayList<>();
-        ConexionDB.GetListaReservas(email, new ConexionDB.ResultadoReservasCallback() {
+        ConexionDB.getListaReservas(email, new ConexionDB.ResultadoReservasCallback() {
             @Override
             public void onResultadoReservas(ArrayList<ReservaPista> reservas) {
                 listaReservas = reservas;

@@ -66,6 +66,8 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.ViewHold
             intent.putExtra("ID_PISTA_RESERVA", lista.get(position).getPista().getId_pista());
             intent.putExtra("EMAIL_RESERVA",this.email);
             intent.putExtra("FECHA_RESERVA",this.fecha.toString());
+            System.out.println("emailReservaAdaptermmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm" + email);
+
             v.getContext().startActivity(intent);
 
         });

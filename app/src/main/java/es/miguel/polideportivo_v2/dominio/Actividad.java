@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Actividad {
 
     private String id_actividad;
+    private String nombre;
     private String descripcion;
     private int capacidad;
     private int numero_reservas;
@@ -31,13 +32,12 @@ public class Actividad {
         this.tipo_actividad = tipo_actividad;
     }
 
-    public Actividad(String id_actividad, String descripcion, int capacidad, int numero_reservas, String imagen, int tipo_actividad) {
-        this.id_actividad = id_actividad;
-        this.descripcion = descripcion;
+    public Actividad(String nombre, int capacidad, int numero_reservas, String imagen, String ubicacion) {
+        this.nombre = nombre;
         this.capacidad = capacidad;
         this.numero_reservas = numero_reservas;
         this.imagen = imagen;
-        this.tipo_actividad = tipo_actividad;
+        this.ubicacion = ubicacion;
     }
 
     public Actividad(String descripcion, String imagen) {
@@ -107,5 +107,28 @@ public class Actividad {
 
     public void setUbicacion(String ubicacion) {
         this.ubicacion = ubicacion;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    @Override
+    public String toString() {
+        return "Actividad{" +
+                "id_actividad='" + id_actividad + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", capacidad=" + capacidad +
+                ", numero_reservas=" + numero_reservas +
+                ", imagen='" + imagen + '\'' +
+                ", ubicacion='" + ubicacion + '\'' +
+                ", tipo_actividad=" + tipo_actividad +
+                ", listaReservasActividades=" + listaReservasActividades +
+                '}';
     }
 }

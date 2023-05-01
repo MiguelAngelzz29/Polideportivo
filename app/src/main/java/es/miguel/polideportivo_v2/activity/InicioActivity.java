@@ -68,6 +68,7 @@ public class InicioActivity extends AppCompatActivity {
             intent.putExtra("GIM",seleccionaGim);
             intent.putExtra("PISCINA",seleccionaPiscina);
             intent.putExtra("EMAIL_INICIO",email);
+            System.out.println("emailiniciommmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm" + email);
             startActivity(intent);
         });
     }
@@ -135,6 +136,5 @@ public class InicioActivity extends AppCompatActivity {
     public void recibirDatos(){
         Intent intent = getIntent();
         email = intent.getStringExtra("EMAIL_MAIN");
-
     }
 }
