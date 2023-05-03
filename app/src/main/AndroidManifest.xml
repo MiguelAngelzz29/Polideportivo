@@ -19,6 +19,12 @@
             android:name=".activity.CentroActivity"
             android:exported="false" />
         <activity
+            android:name=".activity.MisReservasActividadesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.SinReservasActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.SeleccionarActividadActivity"
             android:exported="false" />
         <activity

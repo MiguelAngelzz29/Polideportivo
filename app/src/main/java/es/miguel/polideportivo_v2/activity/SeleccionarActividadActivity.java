@@ -19,7 +19,7 @@ public class SeleccionarActividadActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView_actividad;
     private boolean seleccionaPista,seleccionaGim,seleccionaPiscina;
-    private String email;
+    private String email,opcion;
 
 
     @Override
@@ -41,8 +41,6 @@ public class SeleccionarActividadActivity extends AppCompatActivity {
         SeleccionarActividadAdapter seleccionarActividadesAdapter = new SeleccionarActividadAdapter (listaActividades(),email,this);
         recyclerView_actividad.setAdapter(seleccionarActividadesAdapter);
 
-
-
     }
 
     public List<Actividad> listaActividades(){
@@ -63,6 +61,7 @@ public class SeleccionarActividadActivity extends AppCompatActivity {
             lista.add(actividad2);
             lista.add(actividad3);
             lista.add(actividad4);
+
 
       } else if(seleccionaGim){
 

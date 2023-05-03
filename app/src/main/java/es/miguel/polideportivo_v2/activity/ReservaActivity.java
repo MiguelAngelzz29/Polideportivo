@@ -1,5 +1,7 @@
 package es.miguel.polideportivo_v2.activity;
 
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
@@ -10,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.sql.Timestamp;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -40,11 +43,12 @@ public class ReservaActivity extends AppCompatActivity {
 
     private String opcion, email;
     private Bundle extra;
-    private boolean seleccionaGim, seleccionaPista, seleccionaPiscina;
 
     private String diaSeleccionado;
+
     private LocalDateTime fecha_reserva;
-    private ArrayList<ReservaPista> listaReservas;
+    private ArrayList<ReservaPista> listaReservasPistas;
+    private ArrayList<ReservaActividad> listaReservasActividad;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,16 +58,21 @@ public class ReservaActivity extends AppCompatActivity {
         recyclerView_actividad = findViewById(R.id.rv1_reserva);
         extra = getIntent().getExtras();
         email = extra.getString("EMAIL_ACTIVIDAD");
-        seleccionaGim = extra.getBoolean("GIM");
-        seleccionaPista = extra.getBoolean("PISTA");
-        seleccionaPiscina = extra.getBoolean("PISCINA");
 
         cambiarColorDias();
-        recibirDatosPistas();
+        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxGim" + seleccionaGim());
+        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxPista" + seleccionaPista());
+        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxPiscina" + seleccionaPiscina());
 
-         //Hacer un recibirDatosActividad, igual a recibirDatosPista. Hay que hacer la conexion a la DB.
-         //Revisar ReservaActividadAdapter tiene que llevar cantidad y nº de reservas
-         // ver el recyclerView para que se vea el nº de reservas
+        if(seleccionaPista()){
+            recibirDatosPistas();
+        }else if(seleccionaGim()){
+            recibirDatosActividad();
+        }else{
+         recibirDatosPiscina();
+        }
+
+
 
     }
 
@@ -73,8 +82,14 @@ public class ReservaActivity extends AppCompatActivity {
         void onError(Throwable t);
     }
 
-    public void listaHorariosReservados(ResultadoReservasCallback callback) {
-        ConexionDB.getReservasProximos7Dias(new ConexionDB.ResultadoReservasCallback() {
+    public interface ResultadoReservasActividadCallback {
+        void onResultadoReservasActividad(ArrayList<ReservaActividad> reservas);
+
+        void onError(Throwable t);
+    }
+
+    public void listaHorariosReservadosPista(ResultadoReservasCallback callback) {
+        ConexionDB.getReservasPistasProximos7Dias(new ConexionDB.ResultadoReservasCallback() {
             @Override
             public void onResultadoReservas(ArrayList<ReservaPista> reservas) {
                 callback.onResultadoReservas(reservas);
@@ -87,29 +102,45 @@ public class ReservaActivity extends AppCompatActivity {
         });
     }
 
+public void listaHorariosReservadosActividad(ResultadoReservasActividadCallback callback) {
+    ConexionDB.getReservasActividadProximos7Dias(new ConexionDB.ResultadoReservasActividadCallback() {
+        @Override
+        public void onResultadoReservasActividad(ArrayList<ReservaActividad> reservas) {
+            callback.onResultadoReservasActividad(reservas);
+        }
+
+        @Override
+        public void onError(Throwable t) {
+            callback.onError(t);
+        }
+    });
+}
+
+
     public void recibirDatosPistas() {
         recyclerView_actividad.setHasFixedSize(true);
         recyclerView_actividad.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
         // Llamada al método listaHorariosReservados con un callback
-        listaHorariosReservados(new ResultadoReservasCallback() {
+        listaHorariosReservadosPista(new ResultadoReservasCallback() {
             @Override
             public void onResultadoReservas(ArrayList<ReservaPista> reservas) {
-                listaReservas = reservas;
+                listaReservasPistas = reservas;
                 boolean repetido = false;
                 ArrayList<ReservaPista> lista2 = new ArrayList<>();
                 ArrayList<ReservaPista> listaDisponible = listaParaReservarPistas();
                 ArrayList<ReservaPista> listaFinal = new ArrayList<>();
-
                 // Comparación de listas para obtener los horarios disponibles
-                for (ReservaPista reserva : listaReservas) {
+                for (ReservaPista reserva : listaReservasPistas) {
                     DayOfWeek nombreDia = reserva.getFecha_reserva().getDayOfWeek();
                     String dia = nombreDia.getDisplayName(TextStyle.SHORT, Locale.getDefault());
                     if (dia.equalsIgnoreCase(diaSeleccionado)
                             && reserva.getPista().getTipo_deporte().equals(opcion)) {
                         lista2.add(reserva);
+
                     }
                 }
+
                 if(!lista2.isEmpty()) {
                     for (ReservaPista reserva : listaDisponible) {
                         repetido = false;
@@ -124,22 +155,14 @@ public class ReservaActivity extends AppCompatActivity {
                         }
                         if(!repetido){
                             listaFinal.add(reserva);
-
                         }
                     }
                 }else{
                     listaFinal = listaDisponible;
                 }
-
-
-                // Asignación del adapter correspondiente
-                if (seleccionaGim || seleccionaPiscina) {
-                    actividadAdapter = new ReservaActividadAdapter(listaParaReservarActividades(), email, ReservaActivity.this);
-                    recyclerView_actividad.setAdapter(actividadAdapter);
-                } else {
                     pistaAdapter = new ReservaAdapter(listaFinal, email, ReservaActivity.this, fecha_reserva);
                     recyclerView_actividad.setAdapter(pistaAdapter);
-                }
+
             }
 
             @Override
@@ -158,7 +181,15 @@ public class ReservaActivity extends AppCompatActivity {
                 textView.setTextColor(getResources().getColor(R.color.teal_200));
                 diaSeleccionado = textView.getText().toString();
                 seleccionarDia(textView);
-                recibirDatosPistas();
+
+                if(seleccionaPista()){
+                    recibirDatosPistas();
+                }else if(seleccionaGim()){
+                    recibirDatosActividad();
+                }else{
+                       recibirDatosPiscina();
+                }
+
             } else {
                 textView.setTextColor(getResources().getColor(R.color.white));
             }
@@ -169,7 +200,15 @@ public class ReservaActivity extends AppCompatActivity {
                         tv.setTextColor(getResources().getColor(R.color.teal_200));
                         diaSeleccionado = textView.getText().toString();
                         seleccionarDia(tv);
-                        recibirDatosPistas();
+
+                        if(seleccionaPista()){
+                            recibirDatosPistas();
+                        }else if(seleccionaGim()){
+                            recibirDatosActividad();
+                        }else{
+                             recibirDatosPiscina();
+                        }
+
                     } else {
                         tv.setTextColor(getResources().getColor(R.color.white));
                     }
@@ -226,7 +265,7 @@ public class ReservaActivity extends AppCompatActivity {
         ArrayList<ReservaPista> lista = new ArrayList<>();
         lista.addAll(horarioPistas(pista1, pista2, diaSeleccionado));
 
-        Collections.sort(horarioPistas(pista1, pista2, diaSeleccionado));
+      //  Collections.sort(horarioPistas(pista1, pista2, diaSeleccionado));
 
         return lista;
     }
@@ -255,41 +294,65 @@ public class ReservaActivity extends AppCompatActivity {
         return lista;
     }
 
-    public ArrayList<ReservaActividad> listaParaReservarActividades() {
+    public ArrayList<ReservaActividad> horarioActividades(Actividad a, String dia) {
+        ArrayList<ReservaActividad> lista = new ArrayList<>();
+
+        String[] dias = {"LUN.", "MAR.", "MIÉ.", "JUE.", "VIE.", "SÁB.", "DOM."};
+        String[] horarios;
+        if (dia.equalsIgnoreCase("SÁB.") || dia.equalsIgnoreCase("DOM.")) {
+            horarios = new String[]{"10:00 - 11:00", "12:00 - 13:00"};
+        } else {
+            horarios = new String[]{"10:00 - 11:00", "12:00 - 13:00", "17:00 - 18:00", "20:00 - 21:00"};
+        }
+
+        for (String nombreDia : dias) {
+            if (nombreDia.equals(dia)) {
+                for (String horario : horarios) {
+                    ReservaActividad actividad = new ReservaActividad(horario, a);
+                    lista.add(actividad);
+                }
+            }
+
+        }
+        return lista;
+    }
+
+
+    public ArrayList<ReservaActividad> listaParaReservarActividadesGim() {
         extra = getIntent().getExtras();
         opcion = extra.getString("DESCRIPCION_ACTIVIDAD");
         Actividad actividad = null;
-
         switch (opcion.toLowerCase()) {
             case "spinning":
-                  actividad = new Actividad("Spinning",20,0,
-                          "https://firebasestorage.googleapis.com/v0/b/polideportivo-5627a." +
-                                  "appspot.com/o/fotos%2Fspinning.jpg?alt=media&token=f4d7214c" +
-                                  "-43ec-4f00-8cb5-1be6abfb02ed", "Sala 1");
+                  actividad = new Actividad(1,"Spinning",20,
+                          "https://firebasestorage.googleapis.com/v0/b/polideportivo-" +
+                                  "5627a.appspot.com/o/fotos%2Fspinning2.jpeg?alt=media&token=" +
+                                  "0453f015-677d-4dc0-899e-50a9444fceb9",
+                          "Sala 1",1);
                 break;
             case "zumba":
-                actividad = new Actividad("Zumba", 30,0,
+                actividad = new Actividad(8,"Zumba", 30,
                         "https://firebasestorage.googleapis.com/v0/b/polideportivo-5627a." +
                                 "appspot.com/o/fotos%2Fzumba.jpg?alt=media&token=c3976a86-eca2-" +
-                                "4de9-b481-d37e5120bc09","Sala 2");
+                                "4de9-b481-d37e5120bc09","Sala 2",1);
                 break;
             case "pilates":
-                actividad = new Actividad("Pilates",30,0,
+                actividad = new Actividad(3,"Pilates",30,
                         "https://firebasestorage.googleapis.com/v0/b/polideportivo-5627a.appspot." +
                                 "com/o/fotos%2Fpilates.jpg?alt=media&token=207bc70e-" +
-                                "704e-4551-a7dc-4099d73475eb","Sala 3");
+                                "704e-4551-a7dc-4099d73475eb","Sala 3",1);
                 break;
-            case "Boxeo":
-                 actividad = new Actividad("Boxeo",10,0,
-                         "https://firebasestorage.googleapis.com/v0/b/polideportivo-5627a.appspot." +
-                                 "com/o/fotos%2Fboxeo.jpg?alt=media&token=5f5bd7a5-" +
-                                 "87ca-4e94-bfc0-09a375a76eb1","Sala 4");
+            case "boxeo":
+                 actividad = new Actividad(2,"Boxeo",10,
+                         "https://firebasestorage.googleapis.com/v0/b/polideportivo-5627a." +
+                                 "appspot.com/o/fotos%2Fboxeo.jpg?alt=media&token=5f5bd7a5-" +
+                                 "87ca-4e94-bfc0-09a375a76eb1","Sala 4",1);
                 break;
-            case "Karate":
-                  actividad = new Actividad("Karate",20,0,
-                          "https://firebasestorage.googleapis.com/" +
-                          "v0/b/polideportivo-5627a.appspot.com/o/fotos%2Fkarate.jpg?" +
-                          "alt=media&token=e017722c-a8bf-4275-8498-fbf2b0530da9","Sala 5");
+            case "karate":
+                  actividad = new Actividad(5,"Karate",20,
+                          "https://firebasestorage.googleapis.com/v0/b/polideportivo-5627a." +
+                                  "appspot.com/o/fotos%2Fkarate.jpg?alt=media&token=e017722c-" +
+                                  "a8bf-4275-8498-fbf2b0530da9","Sala 5",1);
                 break;
 
             default:
@@ -297,13 +360,58 @@ public class ReservaActivity extends AppCompatActivity {
                 break;
         }
 
-        ArrayList<ReservaActividad> lista = new ArrayList<>();
-        // lista.addAll(horarioPistas(pista1, pista2));
+        ArrayList<ReservaActividad> listaActividades = new ArrayList<>();
+        listaActividades.addAll(horarioActividades(actividad,diaSeleccionado));
 
         // Ordenamiento de la lista por el horario de reserva
-        //  Collections.sort(horarioPistas(pista1,pista2));
+        //  Collections.sort(horarioActividades(actividad a));
 
-        return lista;
+        return listaActividades;
+    }
+
+    private ArrayList<ReservaActividad> listaParaReservarActividadesPiscina() {
+        extra = getIntent().getExtras();
+        opcion = extra.getString("DESCRIPCION_ACTIVIDAD");
+        Actividad actividad = null;
+        switch (opcion.toLowerCase()) {
+            case "natación":
+                actividad = new Actividad(7,"Natación",20,
+                        "https://firebasestorage.googleapis.com/v0/b/polideportivo-5627a." +
+                                "appspot.com/o/fotos%2Fnatacion.jpg?alt=media&token=97d591bb-" +
+                                "20a6-45ad-b8cd-b08c60a69ff5",
+                        "Piscina 1",2);
+                break;
+            case "waterpolo":
+                actividad = new Actividad(6,"Waterpolo", 20,
+                        "https://firebasestorage.googleapis.com/v0/b/polideportivo-5627a." +
+                                "appspot.com/o/fotos%2Fwaterpolo.jpg?alt=media&token=7b2cf20a-" +
+                                "7fed-4884-bd57-429e7f7d32c3","Piscina 2",2);
+                break;
+            case "aquagim":
+                actividad = new Actividad(4,"AquaGim",20,
+                        "https://firebasestorage.googleapis.com/v0/b/polideportivo-5627a." +
+                                "appspot.com/o/fotos%2Faquagim.jpg?alt=media&token=c3a25d2a-" +
+                                "cac3-4e7b-a1e5-e7c6c782951c","Piscina 3",2);
+                break;
+            case "sincronizada":
+                actividad = new Actividad(2,"Sincronizada",20,
+                        "https://firebasestorage.googleapis.com/v0/b/polideportivo-5627a." +
+                                "appspot.com/o/fotos%2Fnatacion_sin.jpg?alt=media&token=e2444d3f-" +
+                                "f5bc-4233-b9fa-e0b101dea541","Piscina 4",2);
+                break;
+
+            default:
+
+                break;
+        }
+
+        ArrayList<ReservaActividad> listaActividades = new ArrayList<>();
+        listaActividades.addAll(horarioActividades(actividad,diaSeleccionado));
+
+        // Ordenamiento de la lista por el horario de reserva
+        //  Collections.sort(horarioActividades(actividad a));
+
+        return listaActividades;
     }
 
     public void seleccionarDia(TextView dia) {
@@ -344,7 +452,138 @@ public class ReservaActivity extends AppCompatActivity {
         }
     }
 
+   public void recibirDatosActividad() {
+       ArrayList<ReservaActividad> listaDisponible = listaParaReservarActividadesGim();
+
+           recyclerView_actividad.setHasFixedSize(true);
+           recyclerView_actividad.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+           actividadAdapter = new ReservaActividadAdapter(listaDisponible, email, ReservaActivity.this, fecha_reserva);
+           recyclerView_actividad.setAdapter(actividadAdapter);
+       }
+
+
+   public void recibirDatosPiscina(){
+       recyclerView_actividad.setHasFixedSize(true);
+       recyclerView_actividad.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
+
+       ArrayList<ReservaActividad> listaDisponible = listaParaReservarActividadesPiscina();
+
+
+       actividadAdapter = new ReservaActividadAdapter(listaDisponible, email, ReservaActivity.this, fecha_reserva);
+       recyclerView_actividad.setAdapter(actividadAdapter);
+   }
+
+    public boolean seleccionaPista(){
+        extra = getIntent().getExtras();
+        opcion = extra.getString("DESCRIPCION_ACTIVIDAD");
+        if(opcion.equalsIgnoreCase("Pádel")
+                || opcion.equalsIgnoreCase("Tenis")
+                || opcion.equalsIgnoreCase("Baloncesto")
+                || opcion.equalsIgnoreCase("Fútbol Sala")){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean seleccionaGim(){
+        extra = getIntent().getExtras();
+        opcion = extra.getString("DESCRIPCION_ACTIVIDAD");
+        if(opcion.equalsIgnoreCase("Spinning")
+                || opcion.equalsIgnoreCase("Zumba")
+                || opcion.equalsIgnoreCase("Pilates")
+                || opcion.equalsIgnoreCase("Boxeo")
+                || opcion.equalsIgnoreCase("Karate")){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean seleccionaPiscina(){
+        extra = getIntent().getExtras();
+        opcion = extra.getString("DESCRIPCION_ACTIVIDAD");
+        if(opcion.equalsIgnoreCase("Natación")
+                || opcion.equalsIgnoreCase("WaterPolo")
+                || opcion.equalsIgnoreCase("AquaGim")
+                || opcion.equalsIgnoreCase("Sincronizada")){
+            return true;
+        }
+        return false;
+    }
+
+
+
 }
 
 
+   /* public void recibirDatosActividad() {
+        recyclerView_actividad.setHasFixedSize(true);
+        recyclerView_actividad.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+        // Llamada al método listaHorariosReservados con un callback
+        listaHorariosReservadosActividad(new ResultadoReservasActividadCallback() {
+            @Override
+            public void onResultadoReservasActividad(ArrayList<ReservaActividad> reservas) {
+                listaReservasActividad = reservas;
+                boolean repetido = false;
+                ArrayList<ReservaActividad> lista2 = new ArrayList<>();
+                ArrayList<ReservaActividad> listaDisponible = listaParaReservarActividades();
+                ArrayList<ReservaActividad> listaFinal = new ArrayList<>();
+                System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxlista1"+listaDisponible);
 
+                // Comparación de listas para obtener los horarios disponibles
+                for (ReservaActividad reserva : listaReservasActividad) {
+                    DayOfWeek nombreDia = reserva.getFecha_reserva().getDayOfWeek();
+                    String dia = nombreDia.getDisplayName(TextStyle.SHORT, Locale.getDefault());
+                    if (dia.equalsIgnoreCase(diaSeleccionado)
+                            && reserva.getActividad().getNombre().equals(opcion)) {
+                        lista2.add(reserva);
+                        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxlista2"+lista2);
+                    }
+                }
+                if(!lista2.isEmpty()) {
+                    for (ReservaActividad reserva : listaDisponible) {
+                        repetido = false;
+                        for (ReservaActividad reserva2 : lista2) {
+
+                            if (reserva.getHorario_reservado().equals(reserva2.getHorario_reservado())
+                                    && reserva.getActividad().getNombre().equalsIgnoreCase(reserva2.getActividad().getNombre())
+                                    && reserva.getActividad().getId_actividad() == reserva.getActividad().getId_actividad()) {
+
+                                repetido = true;
+                            }
+                        }
+                        if(!repetido){
+                            listaFinal.add(reserva);
+
+                        }
+                    }
+                }else{
+                    listaFinal = listaDisponible;
+                }
+                System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"+listaFinal);
+                    actividadAdapter = new ReservaActividadAdapter(listaFinal, email, ReservaActivity.this, fecha_reserva);
+                    recyclerView_actividad.setAdapter(actividadAdapter);
+                }
+
+            @Override
+            public void onError(Throwable t) {
+
+            }
+
+
+        });
+    }*/
+
+
+/*    public void listaHorariosReservadosActividad(ResultadoReservasActividadCallback callback) {
+        ConexionDB.getReservasActividadProximos7Dias(new ConexionDB.ResultadoReservasActividadCallback() {
+            @Override
+            public void onResultadoReservasActividad(ArrayList<ReservaActividad> reservas) {
+            }
+            @Override
+            public void onError(Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }*/

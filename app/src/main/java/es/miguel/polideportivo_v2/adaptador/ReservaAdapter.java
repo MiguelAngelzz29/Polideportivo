@@ -59,6 +59,7 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.ViewHold
 
         holder.layout.setOnClickListener( v -> {
             Intent intent = new Intent(v.getContext(), ConfirmarReservaActivity.class);
+            intent.putExtra("ID_RESERVA",lista.get(position).getPista().getId_pista());
             intent.putExtra("IMAGEN_RESERVA", lista.get(position).getPista().getImagen());
             intent.putExtra("DESCRIPCION_RESERVA", lista.get(position).getPista().getTipo_deporte());
             intent.putExtra("HORARIO_RESERVA", lista.get(position).getHorario_reservado());
@@ -66,7 +67,6 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.ViewHold
             intent.putExtra("ID_PISTA_RESERVA", lista.get(position).getPista().getId_pista());
             intent.putExtra("EMAIL_RESERVA",this.email);
             intent.putExtra("FECHA_RESERVA",this.fecha.toString());
-            System.out.println("emailReservaAdaptermmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm" + email);
 
             v.getContext().startActivity(intent);
 

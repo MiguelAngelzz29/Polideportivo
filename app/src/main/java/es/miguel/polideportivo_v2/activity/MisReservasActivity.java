@@ -33,6 +33,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -48,7 +49,7 @@ import es.miguel.polideportivo_v2.dominio.ReservaPista;
 
 public class MisReservasActivity extends AppCompatActivity {
 
-    private String email;
+
     private ArrayList<ReservaPista> listaReservas;
     private RecyclerView rv;
     private MisReservasAdapter misReservas;
@@ -58,10 +59,10 @@ public class MisReservasActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mis_reservas);
-        // obtenemos la referencia a las SharedPreferences
+
           Intent intent = getIntent();
           String email = intent.getStringExtra("EMAIL_INICIO");
-        listaReservas = new ArrayList<>();
+          listaReservas = new ArrayList<>();
         ConexionDB.getListaReservas(email, new ConexionDB.ResultadoReservasCallback() {
             @Override
             public void onResultadoReservas(ArrayList<ReservaPista> reservas) {
@@ -69,6 +70,7 @@ public class MisReservasActivity extends AppCompatActivity {
                 rv = findViewById(R.id.rv_mis_reservas);
                 rv.setHasFixedSize(true);
                 rv.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                Collections.sort(listaReservas);
                 misReservas = new MisReservasAdapter(listaReservas, email, MisReservasActivity.this);
                 rv.setAdapter(misReservas);
             }
@@ -78,9 +80,10 @@ public class MisReservasActivity extends AppCompatActivity {
                 Log.e(TAG, "Error al obtener lista de reservas: ", t);
             }
         });
+
     }
 
 
-    // Aquí irían otros métodos para manejar eventos de la interfaz de usuario
-    // y otras funcionalidades que no tienen que ver con la base de datos
+
+
 }

@@ -7,6 +7,7 @@ public class Pista {
     private int id_pista;
     private String tipo_deporte;
     private String ubicacion;
+    private String descripcion;
     private boolean disponible;
     private String imagen;
     private double precio_sin_iluminacion;
@@ -14,8 +15,7 @@ public class Pista {
 
     private ArrayList<ReservaPista> listaReservas;
 
-    public Pista(int i, String pádel, String s, boolean b, int pista_padel) {
-    }
+
 
     public Pista(int id_pista, String tipo_deporte, String ubicacion, boolean disponible, String imagen, double precio_sin_iluminacion, double precion_con_iluminacion, ArrayList<ReservaPista> listaReservas) {
         this.id_pista = id_pista;
@@ -38,10 +38,18 @@ public class Pista {
         this.listaReservas = listaReservas;
     }
 
-    public Pista(int id_pista, String tipo_deporte, String ubicacion, String imagen) {
+    public Pista(int id_pista, String tipo_deporte,String ubicacion, String imagen) {
         this.id_pista = id_pista;
         this.tipo_deporte = tipo_deporte;
         this.ubicacion = ubicacion;
+        this.imagen = imagen;
+    }
+
+    public Pista(int id_pista, String tipo_deporte, String ubicacion, String descripcion, String imagen) {
+        this.id_pista = id_pista;
+        this.tipo_deporte = tipo_deporte;
+        this.ubicacion = ubicacion;
+        this.descripcion = descripcion;
         this.imagen = imagen;
     }
 
@@ -116,6 +124,14 @@ public class Pista {
 
     public void setImagen(String imagen) {
         this.imagen = imagen;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     @Override

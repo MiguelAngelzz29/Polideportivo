@@ -37,6 +37,7 @@ public class InicioActivity extends AppCompatActivity {
         reservarGim();
         reservarPiscina();
         misReservas();
+        misReservasActividades();
 
 
 
@@ -68,7 +69,6 @@ public class InicioActivity extends AppCompatActivity {
             intent.putExtra("GIM",seleccionaGim);
             intent.putExtra("PISCINA",seleccionaPiscina);
             intent.putExtra("EMAIL_INICIO",email);
-            System.out.println("emailiniciommmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm" + email);
             startActivity(intent);
         });
     }
@@ -96,7 +96,16 @@ public class InicioActivity extends AppCompatActivity {
             intent.putExtra("EMAIL_INICIO",email);
             startActivity(intent);
         });
+    }
 
+    public void misReservasActividades(){
+        misReservas = findViewById(R.id.cv_reservas_actividades);
+        misReservas.setOnClickListener( v->{
+            recibirDatos();
+            Intent intent = new Intent(InicioActivity.this,MisReservasActividadesActivity.class);
+            intent.putExtra("EMAIL_INICIO",email);
+            startActivity(intent);
+        });
     }
     public void informacionCentro(){
         centro = findViewById(R.id.cv_centro);

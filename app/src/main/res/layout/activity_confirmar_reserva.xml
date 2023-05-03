@@ -98,25 +98,6 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/confirmar_capacidad"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:background="@color/white"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tv_confirmar_capacidad"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="00/30"
-                    android:textColor="@color/teal_200"
-                    android:textSize="16sp" />
-            </LinearLayout>
-
-            <LinearLayout
                 android:id="@+id/layout_reservar_actividad"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -228,8 +209,7 @@
                 android:layout_height="match_parent"
                 android:layout_margin="8dp"
                 android:paddingTop="10dp"
-                android:text="adsfasdfasdfasdfasdfsdfasdffsfasfdsafasfasdfasdfasdfsdafasdfafasdf
-                          afasdfasfasfasdfasdfasfdasdffasfasdfasfs"
+                android:text=""
                 android:gravity="top"
                 android:editable="false"
                 android:cursorVisible="false"/>

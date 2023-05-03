@@ -98,7 +98,11 @@ public class ReservaPista implements Comparable<ReservaPista>{
 
     @Override
     public int compareTo(ReservaPista otraReserva) {
-        return this.horario_reservado.compareTo(otraReserva.getHorario_reservado());
+        int resultado = fecha_reserva.compareTo(otraReserva.fecha_reserva);
+        if (resultado == 0) {
+            resultado = horario_reservado.compareTo(otraReserva.horario_reservado);
+        }
+        return resultado;
     }
 
     @Override

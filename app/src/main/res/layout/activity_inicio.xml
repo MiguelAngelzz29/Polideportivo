@@ -170,7 +170,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/mis_reservas"
+                android:text="@string/reservas_pistas"
                 android:textSize="16sp"
                 android:textColor="@color/teal_200"
                 android:gravity="center"
@@ -190,7 +190,7 @@
         app:layout_constraintTop_toBottomOf="@id/layout3">
 
         <LinearLayout
-            android:id="@+id/cv_novedades"
+            android:id="@+id/cv_reservas_actividades"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -200,12 +200,12 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableBottom="@drawable/novedades"
+                android:drawableBottom="@drawable/calendar"
                 android:gravity="center"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/novedades"
+                android:text="@string/reservas_actividades"
                 android:textSize="16sp"
                 android:textColor="@color/teal_200"
                 android:gravity="center"

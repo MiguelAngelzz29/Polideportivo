@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Actividad {
 
-    private String id_actividad;
+    private int id_actividad;
     private String nombre;
     private String descripcion;
     private int capacidad;
@@ -22,8 +22,9 @@ public class Actividad {
     }
 
 
-    public Actividad(String id_actividad, String descripcion, int capacidad, int numero_reservas, String imagen, String ubicacion, int tipo_actividad) {
+    public Actividad(int id_actividad, String nombre, String descripcion, int capacidad, int numero_reservas, String imagen, String ubicacion, int tipo_actividad) {
         this.id_actividad = id_actividad;
+        this.nombre = nombre;
         this.descripcion = descripcion;
         this.capacidad = capacidad;
         this.numero_reservas = numero_reservas;
@@ -32,12 +33,23 @@ public class Actividad {
         this.tipo_actividad = tipo_actividad;
     }
 
-    public Actividad(String nombre, int capacidad, int numero_reservas, String imagen, String ubicacion) {
+    public Actividad(int id_actividad, String nombre, int capacidad, int numero_reservas, String imagen, String ubicacion, int tipo_actividad) {
+        this.id_actividad = id_actividad;
         this.nombre = nombre;
         this.capacidad = capacidad;
         this.numero_reservas = numero_reservas;
         this.imagen = imagen;
         this.ubicacion = ubicacion;
+        this.tipo_actividad = tipo_actividad;
+    }
+
+    public Actividad(int id_actividad, String nombre, int capacidad, String imagen, String ubicacion, int tipo_actividad) {
+        this.id_actividad = id_actividad;
+        this.nombre = nombre;
+        this.capacidad = capacidad;
+        this.imagen = imagen;
+        this.ubicacion = ubicacion;
+        this.tipo_actividad = tipo_actividad;
     }
 
     public Actividad(String descripcion, String imagen) {
@@ -45,11 +57,11 @@ public class Actividad {
         this.imagen = imagen;
     }
 
-    public String getId_actividad() {
+    public int getId_actividad() {
         return id_actividad;
     }
 
-    public void setId_actividad(String id_actividad) {
+    public void setId_actividad(int id_actividad) {
         this.id_actividad = id_actividad;
     }
 

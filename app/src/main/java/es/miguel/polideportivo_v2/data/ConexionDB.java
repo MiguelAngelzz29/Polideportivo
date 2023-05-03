@@ -1,6 +1,13 @@
 package es.miguel.polideportivo_v2.data;
 
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -14,9 +21,12 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
+import es.miguel.polideportivo_v2.dominio.Actividad;
 import es.miguel.polideportivo_v2.dominio.Cliente;
 import es.miguel.polideportivo_v2.dominio.Pista;
+import es.miguel.polideportivo_v2.dominio.ReservaActividad;
 import es.miguel.polideportivo_v2.dominio.ReservaPista;
 
 public class ConexionDB {
@@ -25,7 +35,6 @@ public class ConexionDB {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         com.google.firebase.Timestamp fechaHoy = null;
         CollectionReference collection = db.collection("ReservaPista");
-        System.out.println("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" + email);
         Query query = collection.whereEqualTo("id_cliente", email)
                 .whereGreaterThanOrEqualTo("fecha_reserva", fechaHoy.now());
         query.get().addOnCompleteListener(task -> {
@@ -56,7 +65,6 @@ public class ConexionDB {
 
                                     if (lista.size() == documents.size()) {
                                         callback.onResultadoReservas(lista);
-                                        System.out.println("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"+lista);
                                     }
                                 }
 
@@ -91,8 +99,9 @@ public class ConexionDB {
                     if (snapshot.contains("tipo_deporte") && snapshot.contains("ubicacion") && snapshot.contains("imagen")) {
                         String tipo_deporte = snapshot.getString("tipo_deporte");
                         String ubicacion = snapshot.getString("ubicacion");
+                        String descripcion = snapshot.getString("descripcion");
                         String imagen = snapshot.getString("imagen");
-                        pista = new Pista(id, tipo_deporte, ubicacion, imagen);
+                        pista = new Pista(id, tipo_deporte, ubicacion,descripcion, imagen);
                     }
                 }
                 callback.onResultadoPista(pista);
@@ -133,10 +142,39 @@ public class ConexionDB {
         });
     }
 
-    public static void getReservasProximos7Dias(ResultadoReservasCallback callback) {
+    public static void getActividad(int id_act, ResultadoActividadCallback callback) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference collection = db.collection("Actividad");
+        Query query = collection.whereEqualTo("id", id_act);
+        query.get().addOnCompleteListener((Task<QuerySnapshot> task) -> {
+            if (task.isSuccessful() && task.getResult() != null) {
+                Actividad actividad = null;
+                for (DocumentSnapshot snapshot : task.getResult().getDocuments()){
+                    // Verificar que los campos necesarios estén disponibles
+                    if (snapshot.contains("nombre") && snapshot.contains("capacidad") && snapshot.contains("imagen")) {
+
+                        int id = snapshot.getLong("id").intValue();
+                        String nombre1 = snapshot.getString("nombre");
+                        String descripcion = snapshot.getString("descripcion");
+                        int capacidad = snapshot.getLong("capacidad").intValue();
+                        int numero_reservas = snapshot.getLong("numero_reservas").intValue();
+                        String imagen = snapshot.getString("imagen");
+                        String ubicacion = snapshot.getString("ubicacion");
+                        int tipo_actividad = snapshot.getLong("tipo_actividad").intValue();
+                        actividad = new Actividad(id,nombre1,descripcion,capacidad,numero_reservas,imagen,ubicacion,tipo_actividad);
+                    }
+                }
+                callback.onResultadoActividad(actividad);
+            } else {
+                callback.onError(task.getException());
+            }
+        });
+    }
+
+    public static void getReservasPistasProximos7Dias(ResultadoReservasCallback callback) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference collection = db.collection("ReservaPista");
-        LocalDateTime today = LocalDateTime.now();
+        LocalDateTime today = LocalDateTime.now().minusDays(1);
         LocalDateTime sevenDaysAhead = today.plusDays(7);
 
         //Formatear las fechas en un string con formato correcto
@@ -183,9 +221,140 @@ public class ConexionDB {
         });
     }
 
+    public static void getReservasActividadProximos7Dias(ResultadoReservasActividadCallback callback) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference collection = db.collection("ReservaActividad");
+        LocalDateTime today = LocalDateTime.now().minusDays(1);
+        LocalDateTime sevenDaysAhead = today.plusDays(7);
+
+        //Formatear las fechas en un string con formato correcto
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String todayFormatted = today.format(formatter);
+        String sevenDaysAheadFormatted = sevenDaysAhead.format(formatter);
+
+        // Convertir las fechas formateadas en objetos Timestamp
+        Timestamp todayTimestamp = Timestamp.valueOf(todayFormatted);
+        Timestamp sevenDaysAheadTimestamp = Timestamp.valueOf(sevenDaysAheadFormatted);
+
+        Query query = collection.whereGreaterThanOrEqualTo("fecha_reserva", todayTimestamp)
+                .whereLessThanOrEqualTo("fecha_reserva", sevenDaysAheadTimestamp);
+        query.get().addOnCompleteListener((Task<QuerySnapshot> task) -> {
+            if (task.isSuccessful() && task.getResult() != null) {
+                List<DocumentSnapshot> documents = task.getResult().getDocuments();
+                ArrayList<ReservaActividad> lista = new ArrayList<>();
+                for (DocumentSnapshot doc : documents) {
+                    com.google.firebase.Timestamp fecha_reserva = doc.getTimestamp("fecha_reserva");
+                    Instant instant = fecha_reserva.toDate().toInstant();
+                    LocalDateTime fecha = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+                    String horario_reservado = doc.getString("horario_reservado");
+                    int id = doc.getLong("id_actividad").intValue();
+                    getActividad(id, new ResultadoActividadCallback() {
+                        @Override
+                        public void onResultadoActividad(Actividad a) {
+                            ReservaActividad reservaActividad = new ReservaActividad(fecha, horario_reservado, a);
+                            lista.add(reservaActividad);
+                            if (lista.size() == documents.size()) {
+                                callback.onResultadoReservasActividad(lista);
+                            }
+                        }
+
+                        @Override
+                        public void onError(Throwable t) {
+                            callback.onError(t);
+                        }
+                    });
+                }
+            } else {
+                callback.onError(task.getException());
+            }
+        });
+    }
+
+    public static int getNumeroReservas(int id, Timestamp fecha, String horario) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        Task<QuerySnapshot> query = db.collection("ReservaActividad")
+                .whereEqualTo("id_actividad", id)
+                .whereEqualTo("fecha_reserva", fecha)
+                .whereEqualTo("horario_reservado", horario)
+                .get();
+
+        // Esperar la respuesta asíncrona de la consulta
+        try {
+            QuerySnapshot querySnapshot = Tasks.await(query);
+            int count = querySnapshot.size();
+            Log.d("Reservas count", count + " reservas encontradas");
+            return count;
+        } catch (ExecutionException | InterruptedException e) {
+            Log.w("Error", "Error al obtener las reservas.", e);
+            return -1;
+        }
+    }
+
+    public static void getListaReservasActividades(String email, ResultadoReservasActividadCallback callback) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        com.google.firebase.Timestamp fechaHoy = null;
+        CollectionReference collection = db.collection("ReservaActividad");
+        Query query = collection.whereEqualTo("id_cliente", email)
+                .whereGreaterThanOrEqualTo("fecha_reserva", fechaHoy.now());
+        query.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                if (task.getResult().isEmpty()) { // Verificar si no hay datos
+                    callback.onResultadoReservasActividad(new ArrayList<>());
+                } else {
+                    List<DocumentSnapshot> documents = task.getResult().getDocuments();
+                    ArrayList<ReservaActividad> lista = new ArrayList<>();
+                    for (DocumentSnapshot doc : documents) {
+                        com.google.firebase.Timestamp fecha_reserva = doc.getTimestamp("fecha_reserva");
+                        Instant instant = fecha_reserva.toDate().toInstant();
+                        LocalDateTime fecha = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+                        String horario_reservado = doc.getString("horario_reservado");
+                        String id_cliente = doc.getString("id_cliente");
+                        int id_actividad = doc.getLong("id_actividad").intValue();
+                        getActividad(id_actividad, new ResultadoActividadCallback() {
+                            @Override
+                            public void onResultadoActividad(Actividad a) {
+                                getCliente(email, new ResultadoClienteCallback() {
+                                    @Override
+                                    public void onResultadoCliente(Cliente cliente) {
+                                        // Crear la ReservaActividad con los datos de la consulta
+                                        ReservaActividad reservaActividad = new ReservaActividad(fecha, horario_reservado,a, cliente);
+                                        // Agregar la reserva a la lista
+                                        lista.add(reservaActividad);
+
+                                        // Verificar que se hayan cargado todas las reservas
+                                        if (lista.size() == documents.size()) {
+                                            callback.onResultadoReservasActividad(lista);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable t) {
+                                        callback.onError(t);
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onError(Throwable t) {
+                                callback.onError(t);
+                            }
+                        });
+                    }
+                }
+            } else {
+                callback.onError(task.getException());
+            }
+        });
+    }
 
     public interface ResultadoReservasCallback {
         void onResultadoReservas(ArrayList<ReservaPista> reservas);
+        void onError(Throwable t);
+    }
+
+    public interface ResultadoReservasActividadCallback {
+        void onResultadoReservasActividad(ArrayList<ReservaActividad> reservas);
         void onError(Throwable t);
     }
 
@@ -196,6 +365,11 @@ public class ConexionDB {
 
     public interface ResultadoClienteCallback {
         void onResultadoCliente(Cliente cliente);
+        void onError(Throwable t);
+    }
+
+    public interface ResultadoActividadCallback {
+        void onResultadoActividad(Actividad actividad);
         void onError(Throwable t);
     }
 }

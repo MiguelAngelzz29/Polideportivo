@@ -22,6 +22,24 @@ public class ReservaActividad implements Comparable<ReservaActividad>{
         this.cliente = cliente;
     }
 
+    public ReservaActividad(LocalDateTime fecha_reserva, String horario_reservado, Actividad actividad) {
+        this.fecha_reserva = fecha_reserva;
+        this.horario_reservado = horario_reservado;
+        this.actividad = actividad;
+    }
+
+    public ReservaActividad(String horario_reservado, Actividad actividad) {
+        this.horario_reservado = horario_reservado;
+        this.actividad = actividad;
+    }
+
+    public ReservaActividad(LocalDateTime fecha_reserva, String horario_reservado, Actividad actividad, Cliente cliente) {
+        this.fecha_reserva = fecha_reserva;
+        this.horario_reservado = horario_reservado;
+        this.actividad = actividad;
+        this.cliente = cliente;
+    }
+
     public String getId_reserva_actividad() {
         return id_reserva_actividad;
     }
@@ -64,6 +82,21 @@ public class ReservaActividad implements Comparable<ReservaActividad>{
 
     @Override
     public int compareTo(ReservaActividad otraReserva) {
-        return this.horario_reservado.compareTo(otraReserva.getHorario_reservado());
+        int resultado = fecha_reserva.compareTo(otraReserva.fecha_reserva);
+        if (resultado == 0) {
+            resultado = horario_reservado.compareTo(otraReserva.horario_reservado);
+        }
+        return resultado;
+    }
+
+    @Override
+    public String toString() {
+        return "ReservaActividad{" +
+                "id_reserva_actividad='" + id_reserva_actividad + '\'' +
+                ", fecha_reserva=" + fecha_reserva +
+                ", horario_reservado='" + horario_reservado + '\'' +
+                ", actividad=" + actividad +
+                ", cliente=" + cliente +
+                '}' + "\n";
     }
 }
