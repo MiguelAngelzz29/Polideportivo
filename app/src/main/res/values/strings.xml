@@ -42,6 +42,7 @@
     <string name="centro">CENTRO</string>
     <string name="horarios">HORARIO</string>
     <string name="reservas">RESERVAS</string>
+    <string name="eliminar">ELIMINAR</string>
     <string name="reservas_pistas">RESERVAS PISTAS</string>
     <string name="reservas_actividades">RESERVAS ACTIVIDADES</string>
     <string name="novedades">NOVEDADES</string>

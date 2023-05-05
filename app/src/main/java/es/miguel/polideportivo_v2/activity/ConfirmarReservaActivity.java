@@ -47,11 +47,13 @@ public class ConfirmarReservaActivity extends AppCompatActivity {
     private LinearLayout reservar;
     private ImageView imageView;
     private EditText texto;
-    private TextView tv_descripcion, tv_horario, tv_duracion, tv_ubicacion;
+    private TextView tv_descripcion, tv_horario, tv_duracion, tv_ubicacion,tv_nombre;
     private TextView flecha_izq;
     private LinearLayout layout_capacidad, layout_iluminacion;
     private double precio_pagado = 0;
     private String email, nombre, descripcion;
+    private boolean reservaAceptada=true;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,22 +70,30 @@ public class ConfirmarReservaActivity extends AppCompatActivity {
         texto = findViewById(R.id.editText_confirmar);
         tv_duracion = findViewById(R.id.tv_confirmar_duracion);
 
+
         flechaVolver();
         if (descripcionPista()) {
 
             recibirDatosIntentPista();
-        } else if (descripcionActividad()) {
-            recibirDatosIntentActividad();
         } else {
-            // recibirDatosPiscina();
+            recibirDatosIntentActividad();
         }
 
         reservar.setOnClickListener(v -> {
-            mostrarToastPersonalizado();
-            if (descripcionPista()) {
-                guardarDatosPista();
-            } else if (descripcionActividad()) {
-                guardarDatosActividad();
+
+
+            if(reservaAceptada) {
+                if (descripcionPista()) {
+                    guardarDatosPista();
+                    reservar.setBackgroundResource(R.color.grey);
+                    reservaAceptada=false;
+                    mostrarToastPersonalizado();
+                } else {
+                    guardarDatosActividad();
+                    reservar.setBackgroundResource(R.color.grey);
+                    reservaAceptada=false;
+                    mostrarToastPersonalizado();
+                }
             }
         });
     }
@@ -115,6 +125,7 @@ public class ConfirmarReservaActivity extends AppCompatActivity {
         tv_horario.setText(hora);
         tv_ubicacion.setText(ubicacion);
         tv_duracion.setText("TIEMPO: 90'");
+        tv_descripcion.setText(descripcion);
 
         ConexionDB.getPista(id, new ConexionDB.ResultadoPistaCallback() {
 
@@ -147,6 +158,7 @@ public class ConfirmarReservaActivity extends AppCompatActivity {
         String hora = intent.getStringExtra("HORARIO_RESERVA_ACTIVIDAD");
         String ubicacion = intent.getStringExtra("UBICACION_RESERVA_ACTIVIDAD");
         String fechaStr = intent.getStringExtra("FECHA_RESERVA_ACTIVIDAD");
+        String nombre = intent.getStringExtra("NOMBRE_RESERVA_ACTIVIDAD");
 
         LocalDateTime fecha = LocalDateTime.parse(fechaStr);
         Timestamp timestamp = Timestamp.valueOf(fecha.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
@@ -158,6 +170,7 @@ public class ConfirmarReservaActivity extends AppCompatActivity {
         tv_horario.setText(hora);
         tv_ubicacion.setText(ubicacion);
         tv_duracion.setText("TIEMPO: 60'");
+        tv_descripcion.setText(nombre);
 
         ConexionDB.getActividad(id, new ConexionDB.ResultadoActividadCallback() {
 
@@ -296,5 +309,7 @@ public class ConfirmarReservaActivity extends AppCompatActivity {
         }
         return false;
     }
+
+
 
 }

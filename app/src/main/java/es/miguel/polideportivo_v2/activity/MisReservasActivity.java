@@ -40,8 +40,10 @@ import java.util.List;
 import java.util.Locale;
 
 import es.miguel.polideportivo_v2.R;
+import es.miguel.polideportivo_v2.adaptador.MisReservasActividadesAdapter;
 import es.miguel.polideportivo_v2.adaptador.MisReservasAdapter;
 import es.miguel.polideportivo_v2.adaptador.ReservaAdapter;
+import es.miguel.polideportivo_v2.adaptador.SinReservasAdapter;
 import es.miguel.polideportivo_v2.data.ConexionDB;
 import es.miguel.polideportivo_v2.dominio.Cliente;
 import es.miguel.polideportivo_v2.dominio.Pista;
@@ -54,6 +56,7 @@ public class MisReservasActivity extends AppCompatActivity {
     private RecyclerView rv;
     private MisReservasAdapter misReservas;
     private static final String TAG = "MisReservasActivity";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,9 +73,18 @@ public class MisReservasActivity extends AppCompatActivity {
                 rv = findViewById(R.id.rv_mis_reservas);
                 rv.setHasFixedSize(true);
                 rv.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+                if (listaReservas.size() > 0) {
                 Collections.sort(listaReservas);
-                misReservas = new MisReservasAdapter(listaReservas, email, MisReservasActivity.this);
+                misReservas = new MisReservasAdapter(listaReservas, email, MisReservasActivity.this, listaReservas.get(0).getFecha_reserva());
                 rv.setAdapter(misReservas);
+
+            }else {
+                    // Si no hay reservas, mostrar algún mensaje o hacer alguna acción
+                    SinReservasAdapter sinReserva = new SinReservasAdapter();
+                    rv.setAdapter(sinReserva);
+                }
+
             }
 
             @Override
@@ -82,8 +94,4 @@ public class MisReservasActivity extends AppCompatActivity {
         });
 
     }
-
-
-
-
 }

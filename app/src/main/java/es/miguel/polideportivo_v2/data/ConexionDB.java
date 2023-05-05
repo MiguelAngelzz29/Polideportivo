@@ -1,5 +1,7 @@
 package es.miguel.polideportivo_v2.data;
 
+import static android.content.ContentValues.TAG;
+
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -9,6 +11,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -39,47 +42,52 @@ public class ConexionDB {
                 .whereGreaterThanOrEqualTo("fecha_reserva", fechaHoy.now());
         query.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                List<DocumentSnapshot> documents = task.getResult().getDocuments();
-                ArrayList<ReservaPista> lista = new ArrayList<ReservaPista>();
-                for (DocumentSnapshot doc : documents) {
-                    com.google.firebase.Timestamp fecha_reserva = doc.getTimestamp("fecha_reserva");
-                    Instant instant = fecha_reserva.toDate().toInstant();
-                    LocalDateTime fecha = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
-                    String horario_reservado = doc.getString("horario_reservado");
-                    double precio_pagado = doc.getLong("precio_pagado").doubleValue();
-                    String id_cliente = doc.getString("id_cliente");
-                    int id_pista = doc.getLong("id_pista").intValue();
-                    getPista(id_pista, new ResultadoPistaCallback() {
-                        @Override
-                        public void onResultadoPista(Pista p) {
-                            getCliente(email, new ResultadoClienteCallback() {
-                                @Override
-                                public void onResultadoCliente(Cliente cliente) {
-                                    // Crear la ReservaPista con los datos de la consulta
-                                    ReservaPista reservaPista = new ReservaPista(fecha, horario_reservado, precio_pagado, p, cliente);
-                                    // Agregar la reserva a la lista
-                                    lista.add(reservaPista);
+                if (task.getResult().isEmpty()) { // Verificar si no hay datos
+                    callback.onResultadoReservas(new ArrayList<>());
+                } else {
+                    List<DocumentSnapshot> documents = task.getResult().getDocuments();
+                    ArrayList<ReservaPista> lista = new ArrayList<ReservaPista>();
+                    for (DocumentSnapshot doc : documents) {
+                        com.google.firebase.Timestamp fecha_reserva = doc.getTimestamp("fecha_reserva");
+                        Instant instant = fecha_reserva.toDate().toInstant();
+                        LocalDateTime fecha = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+                        String id_reserva = doc.getId();
+                        String horario_reservado = doc.getString("horario_reservado");
+                        double precio_pagado = doc.getLong("precio_pagado").doubleValue();
+                        String id_cliente = doc.getString("id_cliente");
+                        int id_pista = doc.getLong("id_pista").intValue();
+                        getPista(id_pista, new ResultadoPistaCallback() {
+                            @Override
+                            public void onResultadoPista(Pista p) {
+                                getCliente(email, new ResultadoClienteCallback() {
+                                    @Override
+                                    public void onResultadoCliente(Cliente cliente) {
+                                        // Crear la ReservaPista con los datos de la consulta
+                                        ReservaPista reservaPista = new ReservaPista(id_reserva,fecha, horario_reservado, precio_pagado, p, cliente);
+                                        // Agregar la reserva a la lista
+                                        lista.add(reservaPista);
 
-                                    // Verificar que se hayan cargado todas las reservas
+                                        // Verificar que se hayan cargado todas las reservas
 
 
-                                    if (lista.size() == documents.size()) {
-                                        callback.onResultadoReservas(lista);
+                                        if (lista.size() == documents.size()) {
+                                            callback.onResultadoReservas(lista);
+                                        }
                                     }
-                                }
 
-                                @Override
-                                public void onError(Throwable t) {
-                                    callback.onError(t);
-                                }
-                            });
-                        }
+                                    @Override
+                                    public void onError(Throwable t) {
+                                        callback.onError(t);
+                                    }
+                                });
+                            }
 
-                        @Override
-                        public void onError(Throwable t) {
-                            callback.onError(t);
-                        }
-                    });
+                            @Override
+                            public void onError(Throwable t) {
+                                callback.onError(t);
+                            }
+                        });
+                    }
                 }
             } else {
                 callback.onError(task.getException());
@@ -308,6 +316,7 @@ public class ConexionDB {
                         com.google.firebase.Timestamp fecha_reserva = doc.getTimestamp("fecha_reserva");
                         Instant instant = fecha_reserva.toDate().toInstant();
                         LocalDateTime fecha = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+                        String id_reserva = doc.getId();
                         String horario_reservado = doc.getString("horario_reservado");
                         String id_cliente = doc.getString("id_cliente");
                         int id_actividad = doc.getLong("id_actividad").intValue();
@@ -318,7 +327,7 @@ public class ConexionDB {
                                     @Override
                                     public void onResultadoCliente(Cliente cliente) {
                                         // Crear la ReservaActividad con los datos de la consulta
-                                        ReservaActividad reservaActividad = new ReservaActividad(fecha, horario_reservado,a, cliente);
+                                        ReservaActividad reservaActividad = new ReservaActividad(id_reserva,fecha, horario_reservado,a, cliente);
                                         // Agregar la reserva a la lista
                                         lista.add(reservaActividad);
 
@@ -345,6 +354,34 @@ public class ConexionDB {
             } else {
                 callback.onError(task.getException());
             }
+        });
+    }
+
+    public static void eliminarReservaPista(String id) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference reservasRef = db.collection("ReservaPista");
+
+        // Crear la referencia al documento que se va a eliminar
+        DocumentReference reservaRef = reservasRef.document(id);
+
+        reservaRef.delete().addOnSuccessListener(aVoid -> {
+            Log.d(TAG, "Documento eliminado con éxito.");
+        }).addOnFailureListener(e -> {
+            Log.w(TAG, "Error al eliminar documento", e);
+        });
+    }
+
+    public static void eliminarReservaActividad(String id) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference reservasRef = db.collection("ReservaActividad");
+
+        // Crear la referencia al documento que se va a eliminar
+        DocumentReference reservaRef = reservasRef.document(id);
+
+        reservaRef.delete().addOnSuccessListener(aVoid -> {
+            Log.d(TAG, "Documento eliminado con éxito.");
+        }).addOnFailureListener(e -> {
+            Log.w(TAG, "Error al eliminar documento", e);
         });
     }
 

@@ -42,27 +42,21 @@ public class MisReservasActividadesActivity extends AppCompatActivity {
             @Override
             public void onResultadoReservasActividad(ArrayList<ReservaActividad> reservas) {
                 listaReservas = reservas;
-                System.out.println("ccccccccccccccccccccccccccccccccc2 " + listaReservas);
+                rv = findViewById(R.id.rv_mis_reservas);
+                rv.setHasFixedSize(true);
+                rv.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
-                // Mover la comprobación aquí
-                if (listaReservas.size() > 0) { // Comprobación aquí
-                    rv = findViewById(R.id.rv_mis_reservas);
-                    rv.setHasFixedSize(true);
-                    rv.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                if (listaReservas.size() > 0) {
+
                     Collections.sort(listaReservas);
                     misReservas = new MisReservasActividadesAdapter(listaReservas, email, MisReservasActividadesActivity.this);
                     rv.setAdapter(misReservas);
                 } else {
                     // Si no hay reservas, mostrar algún mensaje o hacer alguna acción
-                    rv = findViewById(R.id.rv_mis_reservas);
-                    rv.setHasFixedSize(true);
-                    rv.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
                     SinReservasAdapter sinReserva = new SinReservasAdapter();
                     rv.setAdapter(sinReserva);
 
-                   /* Intent intent = new Intent(MisReservasActividadesActivity.this, SinReservasActivity.class);
-                    startActivity(intent);*/
                 }
             }
 

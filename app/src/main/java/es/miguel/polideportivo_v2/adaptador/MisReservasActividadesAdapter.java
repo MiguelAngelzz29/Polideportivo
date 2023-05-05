@@ -1,6 +1,7 @@
 package es.miguel.polideportivo_v2.adaptador;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import es.miguel.polideportivo_v2.R;
+import es.miguel.polideportivo_v2.activity.EliminarReservaActivity;
 import es.miguel.polideportivo_v2.dominio.ReservaActividad;
 import es.miguel.polideportivo_v2.dominio.ReservaPista;
 
@@ -57,7 +59,29 @@ public class MisReservasActividadesAdapter extends RecyclerView.Adapter<MisReser
 
   holder.layout.setOnClickListener( v -> {
 
-   // implementar un layout para anular reservas
+   int id_actividad = lista.get(position).getActividad().getId_actividad();
+   String imagen = lista.get(position).getActividad().getImagen();
+   String nombre = lista.get(position).getActividad().getNombre();
+   String horario = lista.get(position).getHorario_reservado();
+   String ubicacion = lista.get(position).getActividad().getUbicacion();
+   String descripcion = lista.get(position).getActividad().getDescripcion();
+   int capacidad = lista.get(position).getActividad().getCapacidad();
+   int numero_reservas = lista.get(position).getActividad().getNumero_reservas();
+   String id_reserva = lista.get(position).getId_reserva_actividad();
+
+   Intent intent = new Intent (v.getContext(), EliminarReservaActivity.class);
+   intent.putExtra("ID_RESERVA_ACT",id_reserva);
+   intent.putExtra("ID_RESERVA_ACTIVIDAD", id_actividad);
+   intent.putExtra("IMAGEN_RESERVA_ACTIVIDAD", imagen);
+   intent.putExtra("NOMBRE_RESERVA_ACTIVIDAD", nombre);
+   intent.putExtra("HORARIO_RESERVA_ACTIVIDAD", horario);
+   intent.putExtra("UBICACION_RESERVA_ACTIVIDAD", ubicacion);
+   intent.putExtra("CAPACIDAD_RESERVA_ACTIVIDAD", capacidad);
+   intent.putExtra("NUMERO_RESERVA_ACTIVIDAD", numero_reservas);
+   intent.putExtra("EMAIL_RESERVA_ACTIVIDAD", email);
+   intent.putExtra("FECHA_RESERVA_ACTIVIDAD", fecha.toString());
+   intent.putExtra("DESCRIPCION_RESERVA_ACTIVIDAD",descripcion);
+   v.getContext().startActivity(intent);
 
   });
 

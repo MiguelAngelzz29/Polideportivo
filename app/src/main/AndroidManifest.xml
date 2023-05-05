@@ -22,7 +22,7 @@
             android:name=".activity.MisReservasActividadesActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.SinReservasActivity"
+            android:name=".activity.EliminarReservaActivity"
             android:exported="false" />
         <activity
             android:name=".activity.SeleccionarActividadActivity"

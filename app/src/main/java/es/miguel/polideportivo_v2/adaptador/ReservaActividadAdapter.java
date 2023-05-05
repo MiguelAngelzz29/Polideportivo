@@ -71,12 +71,6 @@ public class ReservaActividadAdapter extends RecyclerView.Adapter<ReservaActivid
             int numero_reservas = lista.get(position).getActividad().getNumero_reservas();
 
 
-
-            //Solucionar el envío de numero_reservas al activity confirmarResevaActivity.
-
-
-
-
             Intent intent = new Intent(v.getContext(), ConfirmarReservaActivity.class);
             intent.putExtra("ID_RESERVA_ACTIVIDAD", id_actividad);
             intent.putExtra("IMAGEN_RESERVA_ACTIVIDAD", imagen);
@@ -87,7 +81,6 @@ public class ReservaActividadAdapter extends RecyclerView.Adapter<ReservaActivid
             intent.putExtra("NUMERO_RESERVA_ACTIVIDAD", numero_reservas);
             intent.putExtra("EMAIL_RESERVA_ACTIVIDAD", email);
             intent.putExtra("FECHA_RESERVA_ACTIVIDAD", fecha_reserva.toString());
-            System.out.println("ffffffffffffffffffffffffffffffffffffffff " + fecha_reserva.toString());
             intent.putExtra("DESCRIPCION_RESERVA_ACTIVIDAD",descripcion);
 
             v.getContext().startActivity(intent);

@@ -14,11 +14,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import es.miguel.polideportivo_v2.R;
+import es.miguel.polideportivo_v2.activity.EliminarReservaActivity;
 import es.miguel.polideportivo_v2.dominio.ReservaPista;
 
 public class MisReservasAdapter extends RecyclerView.Adapter<MisReservasAdapter.ViewHolder> {
@@ -26,11 +28,13 @@ public class MisReservasAdapter extends RecyclerView.Adapter<MisReservasAdapter.
  private List<ReservaPista> lista;
  private String email;
  private Context context;
+ private LocalDateTime fecha;
 
- public MisReservasAdapter(List<ReservaPista> lista, String email, Context context) {
+ public MisReservasAdapter(List<ReservaPista> lista, String email, Context context, LocalDateTime fecha) {
   this.lista = lista;
   this.email = email;
   this.context = context;
+  this.fecha = fecha;
  }
 
  @NonNull
@@ -57,7 +61,17 @@ public class MisReservasAdapter extends RecyclerView.Adapter<MisReservasAdapter.
 
   holder.layout.setOnClickListener( v -> {
 
-   // implementar un layout para anular reservas
+   Intent intent = new Intent (v.getContext(), EliminarReservaActivity.class);
+    intent.putExtra("ID_RESERVA",lista.get(position).getId_reserva_pista());
+   intent.putExtra("ID_PISTA",lista.get(position).getPista().getId_pista());
+   intent.putExtra("IMAGEN_RESERVA", lista.get(position).getPista().getImagen());
+   intent.putExtra("DESCRIPCION_RESERVA", lista.get(position).getPista().getTipo_deporte());
+   intent.putExtra("HORARIO_RESERVA", lista.get(position).getHorario_reservado());
+   intent.putExtra("UBICACION_RESERVA", lista.get(position).getPista().getUbicacion());
+   intent.putExtra("ID_PISTA_RESERVA", lista.get(position).getPista().getId_pista());
+   intent.putExtra("EMAIL_RESERVA",this.email);
+   intent.putExtra("FECHA_RESERVA",this.fecha.toString());
+   v.getContext().startActivity(intent);
 
   });
 
