@@ -8,16 +8,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-
 import es.miguel.polideportivo_v2.R;
 import es.miguel.polideportivo_v2.activity.ConfirmarReservaActivity;
 import es.miguel.polideportivo_v2.dominio.ReservaPista;
@@ -30,7 +25,8 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.ViewHold
     private LocalDateTime fecha;
     private Context context;
 
-    public ReservaAdapter(List<ReservaPista> lista, String email, Context context,LocalDateTime fecha) {
+    public ReservaAdapter(List<ReservaPista> lista, String email, Context context
+            , LocalDateTime fecha) {
         this.lista = lista;
         this.email = email;
         this.context = context;
@@ -40,7 +36,8 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.ViewHold
     @NonNull
     @Override
     public ReservaAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_reserva_actividades,parent,false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.recyclerview_reserva_actividades, parent, false);
         return new ViewHolder(view);
     }
 
@@ -55,23 +52,25 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.ViewHold
         holder.horario.setText(lista.get(position).getHorario_reservado());
         holder.ubicacion.setText(lista.get(position).getPista().getUbicacion());
 
-        alternarColorRecyclerView(holder,position);
+        alternarColorRecyclerView(holder, position);
 
-        holder.layout.setOnClickListener( v -> {
+        holder.layout.setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), ConfirmarReservaActivity.class);
-            intent.putExtra("ID_RESERVA",lista.get(position).getPista().getId_pista());
+            intent.putExtra("ID_RESERVA", lista.get(position).getPista().getId_pista());
             intent.putExtra("IMAGEN_RESERVA", lista.get(position).getPista().getImagen());
-            intent.putExtra("DESCRIPCION_RESERVA", lista.get(position).getPista().getTipo_deporte());
-            intent.putExtra("HORARIO_RESERVA", lista.get(position).getHorario_reservado());
-            intent.putExtra("UBICACION_RESERVA", lista.get(position).getPista().getUbicacion());
-            intent.putExtra("ID_PISTA_RESERVA", lista.get(position).getPista().getId_pista());
-            intent.putExtra("EMAIL_RESERVA",this.email);
-            intent.putExtra("FECHA_RESERVA",this.fecha.toString());
+            intent.putExtra("DESCRIPCION_RESERVA", lista.get(position)
+                    .getPista().getTipo_deporte());
+            intent.putExtra("HORARIO_RESERVA", lista.get(position)
+                    .getHorario_reservado());
+            intent.putExtra("UBICACION_RESERVA", lista.get(position)
+                    .getPista().getUbicacion());
+            intent.putExtra("ID_PISTA_RESERVA", lista.get(position)
+                    .getPista().getId_pista());
+            intent.putExtra("EMAIL_RESERVA", this.email);
+            intent.putExtra("FECHA_RESERVA", this.fecha.toString());
 
             v.getContext().startActivity(intent);
-
         });
-
     }
 
     @Override
@@ -81,7 +80,7 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView horario,descripcion,reservar,ubicacion;
+        private TextView horario, descripcion, reservar, ubicacion;
         private ImageView imagen;
         private LinearLayout layout;
 
@@ -94,16 +93,14 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.ViewHold
             ubicacion = itemView.findViewById(R.id.tv_capacidad_reserva_actividad);
             imagen = itemView.findViewById(R.id.iv_foto_actividad);
             layout = itemView.findViewById(R.id.layoutPrincipal);
-
         }
     }
 
-    public void alternarColorRecyclerView(ReservaAdapter.ViewHolder holder, int position){
-        if(position % 2 == 0){
+    public void alternarColorRecyclerView(ReservaAdapter.ViewHolder holder, int position) {
+        if (position % 2 == 0) {
             holder.layout.setBackgroundResource(R.drawable.background_color_1);
-        }else{
+        } else {
             holder.layout.setBackgroundResource(R.drawable.background_color_2);
         }
     }
-
 }

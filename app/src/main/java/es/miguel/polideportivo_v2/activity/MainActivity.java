@@ -1,19 +1,14 @@
 package es.miguel.polideportivo_v2.activity;
 
-import static android.content.ContentValues.TAG;
-
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -23,23 +18,15 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import es.miguel.polideportivo_v2.R;
 
 public class MainActivity extends AppCompatActivity {
 
 
-    private TextView email,password,registrarse,recuperarPass;
+    private TextView email,password,registrarse;
     private Button login;
     private ImageView btn_google;
     private int GOOGLE_SIGN_IN = 100;
@@ -56,12 +43,10 @@ public class MainActivity extends AppCompatActivity {
         password = findViewById(R.id.password);
         registrarse = findViewById(R.id.registrarse);
         login = findViewById(R.id.btnLogin);
-        recuperarPass = findViewById(R.id.forgotpass);
 
          entrarApp();
          entrarAppConGoogle();;
          registrarse();
-         recuperarPass();
 
         FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(this);
         Bundle bundle = new Bundle();
@@ -99,13 +84,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void recuperarPass(){
-        recuperarPass.setOnClickListener( v -> {
-
-
-        });
-
-    }
 
     public void salirApp(){
 

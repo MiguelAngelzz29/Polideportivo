@@ -25,7 +25,9 @@ import es.miguel.polideportivo_v2.activity.MainActivity;
 import es.miguel.polideportivo_v2.activity.ReservaActivity;
 import es.miguel.polideportivo_v2.dominio.Actividad;
 
-public class SeleccionarActividadAdapter extends RecyclerView.Adapter<SeleccionarActividadAdapter.ViewHolder> {
+public class SeleccionarActividadAdapter extends RecyclerView
+        .Adapter<SeleccionarActividadAdapter
+        .ViewHolder> {
 
     private List<Actividad> listaActividades;
     private String email;
@@ -33,7 +35,8 @@ public class SeleccionarActividadAdapter extends RecyclerView.Adapter<Selecciona
     private Context context;
 
 
-    public SeleccionarActividadAdapter(List<Actividad> listaActividades, String email,Context context) {
+    public SeleccionarActividadAdapter(List<Actividad> listaActividades, String email,
+                                       Context context) {
         this.listaActividades = listaActividades;
         this.email = email;
         this.context = context;
@@ -41,13 +44,16 @@ public class SeleccionarActividadAdapter extends RecyclerView.Adapter<Selecciona
 
     @NonNull
     @Override
-    public SeleccionarActividadAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_seleccionar_actividades,parent,false);
+    public SeleccionarActividadAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
+                                                                     int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.recyclerview_seleccionar_actividades, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SeleccionarActividadAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SeleccionarActividadAdapter
+            .ViewHolder holder, int position) {
         String url = listaActividades.get(position).getImagen();
         Glide.with(context)
                 .load(url)
@@ -55,19 +61,20 @@ public class SeleccionarActividadAdapter extends RecyclerView.Adapter<Selecciona
         holder.descripcion.setText(listaActividades.get(position).getDescripcion());
 
 
-        alternarColorRecyclerView(holder,position);
+        alternarColorRecyclerView(holder, position);
 
-        holder.layout.setOnClickListener( v -> {
+        holder.layout.setOnClickListener(v -> {
 
             Intent intent = new Intent(v.getContext(), ReservaActivity.class);
-            intent.putExtra("IMAGEN_ACTIVIDAD",listaActividades.get(position).getImagen());
-            intent.putExtra("DESCRIPCION_ACTIVIDAD",listaActividades.get(position).getDescripcion());
-            intent.putExtra("EMAIL_ACTIVIDAD",this.email);
+            intent.putExtra("IMAGEN_ACTIVIDAD", listaActividades.get(position).getImagen());
+            intent.putExtra("DESCRIPCION_ACTIVIDAD", listaActividades.get(position)
+                    .getDescripcion());
+            intent.putExtra("EMAIL_ACTIVIDAD", this.email);
             v.getContext().startActivity(intent);
 
         });
 
-        }
+    }
 
     @Override
     public int getItemCount() {
@@ -76,7 +83,7 @@ public class SeleccionarActividadAdapter extends RecyclerView.Adapter<Selecciona
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView horario,descripcion;
+        private TextView horario, descripcion;
         private ImageView imagen;
         private LinearLayout layout;
 
@@ -91,12 +98,13 @@ public class SeleccionarActividadAdapter extends RecyclerView.Adapter<Selecciona
         }
     }
 
-    public void alternarColorRecyclerView(SeleccionarActividadAdapter.ViewHolder holder, int position){
-        if(position % 2 == 0){
+    public void alternarColorRecyclerView(SeleccionarActividadAdapter.ViewHolder holder,
+                                          int position) {
+        if (position % 2 == 0) {
             holder.layout.setBackgroundResource(R.drawable.background_color_1);
-        }else{
+        } else {
             holder.layout.setBackgroundResource(R.drawable.background_color_2);
         }
     }
 
-    }
+}

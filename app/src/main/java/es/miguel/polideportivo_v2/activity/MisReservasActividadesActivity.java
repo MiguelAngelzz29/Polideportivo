@@ -36,8 +36,6 @@ public class MisReservasActividadesActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String email = intent.getStringExtra("EMAIL_INICIO");
         listaReservas = new ArrayList<>();
-        Log.d(TAG, "Lista de reservas recibida: " + listaReservas.toString());
-        System.out.println("ccccccccccccccccccccccccccccccccc1 " + listaReservas);
         ConexionDB.getListaReservasActividades(email, new ConexionDB.ResultadoReservasActividadCallback() {
             @Override
             public void onResultadoReservasActividad(ArrayList<ReservaActividad> reservas) {

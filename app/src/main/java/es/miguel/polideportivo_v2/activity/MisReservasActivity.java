@@ -84,7 +84,6 @@ public class MisReservasActivity extends AppCompatActivity {
                     SinReservasAdapter sinReserva = new SinReservasAdapter();
                     rv.setAdapter(sinReserva);
                 }
-
             }
 
             @Override
@@ -92,6 +91,5 @@ public class MisReservasActivity extends AppCompatActivity {
                 Log.e(TAG, "Error al obtener lista de reservas: ", t);
             }
         });
-
     }
 }

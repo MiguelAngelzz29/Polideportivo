@@ -60,9 +60,6 @@ public class ReservaActivity extends AppCompatActivity {
         email = extra.getString("EMAIL_ACTIVIDAD");
 
         cambiarColorDias();
-        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxGim" + seleccionaGim());
-        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxPista" + seleccionaPista());
-        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxPiscina" + seleccionaPiscina());
 
         if(seleccionaPista()){
             recibirDatosPistas();
@@ -102,7 +99,7 @@ public class ReservaActivity extends AppCompatActivity {
         });
     }
 
-public void listaHorariosReservadosActividad(ResultadoReservasActividadCallback callback) {
+    public void listaHorariosReservadosActividad(ResultadoReservasActividadCallback callback) {
     ConexionDB.getReservasActividadProximos7Dias(new ConexionDB.ResultadoReservasActividadCallback() {
         @Override
         public void onResultadoReservasActividad(ArrayList<ReservaActividad> reservas) {
@@ -511,79 +508,4 @@ public void listaHorariosReservadosActividad(ResultadoReservasActividadCallback 
         return false;
     }
 
-
-
 }
-
-
-   /* public void recibirDatosActividad() {
-        recyclerView_actividad.setHasFixedSize(true);
-        recyclerView_actividad.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-        // Llamada al método listaHorariosReservados con un callback
-        listaHorariosReservadosActividad(new ResultadoReservasActividadCallback() {
-            @Override
-            public void onResultadoReservasActividad(ArrayList<ReservaActividad> reservas) {
-                listaReservasActividad = reservas;
-                boolean repetido = false;
-                ArrayList<ReservaActividad> lista2 = new ArrayList<>();
-                ArrayList<ReservaActividad> listaDisponible = listaParaReservarActividades();
-                ArrayList<ReservaActividad> listaFinal = new ArrayList<>();
-                System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxlista1"+listaDisponible);
-
-                // Comparación de listas para obtener los horarios disponibles
-                for (ReservaActividad reserva : listaReservasActividad) {
-                    DayOfWeek nombreDia = reserva.getFecha_reserva().getDayOfWeek();
-                    String dia = nombreDia.getDisplayName(TextStyle.SHORT, Locale.getDefault());
-                    if (dia.equalsIgnoreCase(diaSeleccionado)
-                            && reserva.getActividad().getNombre().equals(opcion)) {
-                        lista2.add(reserva);
-                        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxlista2"+lista2);
-                    }
-                }
-                if(!lista2.isEmpty()) {
-                    for (ReservaActividad reserva : listaDisponible) {
-                        repetido = false;
-                        for (ReservaActividad reserva2 : lista2) {
-
-                            if (reserva.getHorario_reservado().equals(reserva2.getHorario_reservado())
-                                    && reserva.getActividad().getNombre().equalsIgnoreCase(reserva2.getActividad().getNombre())
-                                    && reserva.getActividad().getId_actividad() == reserva.getActividad().getId_actividad()) {
-
-                                repetido = true;
-                            }
-                        }
-                        if(!repetido){
-                            listaFinal.add(reserva);
-
-                        }
-                    }
-                }else{
-                    listaFinal = listaDisponible;
-                }
-                System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"+listaFinal);
-                    actividadAdapter = new ReservaActividadAdapter(listaFinal, email, ReservaActivity.this, fecha_reserva);
-                    recyclerView_actividad.setAdapter(actividadAdapter);
-                }
-
-            @Override
-            public void onError(Throwable t) {
-
-            }
-
-
-        });
-    }*/
-
-
-/*    public void listaHorariosReservadosActividad(ResultadoReservasActividadCallback callback) {
-        ConexionDB.getReservasActividadProximos7Dias(new ConexionDB.ResultadoReservasActividadCallback() {
-            @Override
-            public void onResultadoReservasActividad(ArrayList<ReservaActividad> reservas) {
-            }
-            @Override
-            public void onError(Throwable t) {
-                callback.onError(t);
-            }
-        });
-    }*/

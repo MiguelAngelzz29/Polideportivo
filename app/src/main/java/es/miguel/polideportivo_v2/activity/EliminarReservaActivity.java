@@ -2,6 +2,7 @@ package es.miguel.polideportivo_v2.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -34,6 +35,7 @@ public class EliminarReservaActivity extends AppCompatActivity {
     private LinearLayout layout_capacidad, layout_iluminacion;
     private double precio_pagado = 0;
     private String email, nombre, descripcion;
+    private boolean reservaAceptada = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,14 +59,19 @@ public class EliminarReservaActivity extends AppCompatActivity {
             }
 
         reservar.setOnClickListener(v -> {
-
-            if (descripcionPista()) {
-                eliminarReservaPista();
-                mostrarToastPersonalizado();
-            }else{
-                eliminarReservaActividad();
-                mostrarToastPersonalizado();
-            }
+           if(reservaAceptada) {
+               if (descripcionPista()) {
+                   eliminarReservaPista();
+                   reservar.setBackgroundResource(R.color.grey);
+                   reservaAceptada = false;
+               } else {
+                   eliminarReservaActividad();
+                   reservar.setBackgroundResource(R.color.grey);
+                   reservaAceptada = false;
+               }
+               mostrarToastPersonalizado();
+               new Handler().postDelayed(() -> volver(), 3000);
+           }
         });
 
 
@@ -178,6 +185,21 @@ public class EliminarReservaActivity extends AppCompatActivity {
         });
     }
 
+    public void volver(){
+        Intent intent1 = getIntent();
+        if(descripcionPista()){
+            email = intent1.getStringExtra("EMAIL_RESERVA");
+        }else{
+            email = intent1.getStringExtra("EMAIL_RESERVA_ACTIVIDAD");
+        }
+
+        Intent intent = new Intent(this, InicioActivity.class);
+        intent.putExtra("EMAIL_MAIN", email);
+        intent.putExtra("DESCRIPCION_ACTIVIDAD", descripcion);
+        startActivity(intent);
+
+    }
+
     public boolean descripcionPista() {
         Intent intent = getIntent();
         descripcion = intent.getStringExtra("DESCRIPCION_RESERVA");
@@ -194,9 +216,9 @@ public class EliminarReservaActivity extends AppCompatActivity {
 
     public void mostrarToastPersonalizado() {
         LayoutInflater inflater = getLayoutInflater();
-        View toastLayout = inflater.inflate(R.layout.toast_layout, null);
+        View toastLayout = inflater.inflate(R.layout.toast_eliminar_layout, null);
         TextView tvMensaje = toastLayout.findViewById(R.id.tvMensaje);
-        tvMensaje.setText("Reserva realizada con éxito!");
+        tvMensaje.setText("Reserva eliminada con éxito!");
 
         Toast toast = new Toast(getApplicationContext());
         toast.setDuration(Toast.LENGTH_LONG);

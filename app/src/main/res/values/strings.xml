@@ -32,6 +32,7 @@
     <string name="mes">Abr</string>
     <string name="confirmarReserva">CONFIRMAR RESERVA</string>
     <string name="padel">Pádel</string>
+    <string name="entrar_con">Entrar con</string>
     <string name="spinning">Spinning</string>
     <string name="tipo_deporte">Tipo Deporte</string>
     <string name="ver">VER</string>
@@ -57,6 +58,13 @@
     <string name="horario_sabado"><b>Sábado:</b>        7:30 a 14:00h</string>
     <string name="horario_domingo"><b>Domingo:</b>     7:30 a 14:00h</string>
     <string name="sin_reservas">No hay reservas pendientes</string>
+    <string name="polideportivo">Un polideportivo es un complejo deportivo versátil que ofrece
+        instalaciones para una variedad de deportes y actividades físicas. Con múltiples canchas
+        y campos adaptados para baloncesto, voleibol, tenis, fútbol indoor, entre otros, permite
+        la participación en competiciones organizadas y juegos casuales. Además, puede incluir
+        gimnasios, áreas de ejercicios, piscinas y estudios de aeróbicos. Con el objetivo de
+        promover la actividad física y la vida saludable, los polideportivos son lugares de
+        encuentro para deportistas y entusiastas del deporte.</string>
 
 
 </resources>

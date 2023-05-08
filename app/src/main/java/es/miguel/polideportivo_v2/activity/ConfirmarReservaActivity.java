@@ -3,12 +3,8 @@ package es.miguel.polideportivo_v2.activity;
 import static android.content.ContentValues.TAG;
 
 import androidx.appcompat.app.AppCompatActivity;
-import android.content.BroadcastReceiver;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,42 +13,29 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-
 import com.bumptech.glide.Glide;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.io.InterruptedIOException;
-import java.sql.SQLOutput;
 import java.sql.Timestamp;
-import java.time.Instant;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
 import es.miguel.polideportivo_v2.R;
 import es.miguel.polideportivo_v2.data.ConexionDB;
 import es.miguel.polideportivo_v2.dominio.Actividad;
 import es.miguel.polideportivo_v2.dominio.Pista;
-import es.miguel.polideportivo_v2.dominio.ReservaActividad;
 
 public class ConfirmarReservaActivity extends AppCompatActivity {
 
     private LinearLayout reservar;
     private ImageView imageView;
     private EditText texto;
-    private TextView tv_descripcion, tv_horario, tv_duracion, tv_ubicacion,tv_nombre;
+    private TextView tv_descripcion, tv_horario, tv_duracion, tv_ubicacion;
     private TextView flecha_izq;
-    private LinearLayout layout_capacidad, layout_iluminacion;
+    private LinearLayout layout_iluminacion;
     private double precio_pagado = 0;
-    private String email, nombre, descripcion;
-    private boolean reservaAceptada=true;
+    private String email,descripcion;
+    private boolean reservaAceptada = true;
 
 
     @Override
@@ -70,7 +53,7 @@ public class ConfirmarReservaActivity extends AppCompatActivity {
         texto = findViewById(R.id.editText_confirmar);
         tv_duracion = findViewById(R.id.tv_confirmar_duracion);
 
-
+        seleccionarIluminacion();
         flechaVolver();
         if (descripcionPista()) {
 
@@ -81,17 +64,16 @@ public class ConfirmarReservaActivity extends AppCompatActivity {
 
         reservar.setOnClickListener(v -> {
 
-
-            if(reservaAceptada) {
+            if (reservaAceptada) {
                 if (descripcionPista()) {
                     guardarDatosPista();
                     reservar.setBackgroundResource(R.color.grey);
-                    reservaAceptada=false;
+                    reservaAceptada = false;
                     mostrarToastPersonalizado();
                 } else {
                     guardarDatosActividad();
                     reservar.setBackgroundResource(R.color.grey);
-                    reservaAceptada=false;
+                    reservaAceptada = false;
                     mostrarToastPersonalizado();
                 }
             }
@@ -112,7 +94,7 @@ public class ConfirmarReservaActivity extends AppCompatActivity {
 
     public void recibirDatosIntentPista() {
         Intent intent = getIntent();
-        int id = intent.getIntExtra("ID_RESERVA",0);
+        int id = intent.getIntExtra("ID_RESERVA", 0);
         String imagen = intent.getStringExtra("IMAGEN_RESERVA");
         String hora = intent.getStringExtra("HORARIO_RESERVA");
         String descripcion = intent.getStringExtra("DESCRIPCION_RESERVA");
@@ -128,13 +110,12 @@ public class ConfirmarReservaActivity extends AppCompatActivity {
         tv_descripcion.setText(descripcion);
 
         ConexionDB.getPista(id, new ConexionDB.ResultadoPistaCallback() {
-
             @Override
             public void onResultadoPista(Pista p) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        // aquí puedes actualizar la interfaz de usuario con los datos de la actividad
+
                         texto.setText(p.getDescripcion());
                     }
                 });
@@ -142,7 +123,7 @@ public class ConfirmarReservaActivity extends AppCompatActivity {
 
             @Override
             public void onError(Throwable t) {
-                // Aquí puedes manejar errores relacionados con la obtención de la actividad
+
             }
         });
 
@@ -161,7 +142,8 @@ public class ConfirmarReservaActivity extends AppCompatActivity {
         String nombre = intent.getStringExtra("NOMBRE_RESERVA_ACTIVIDAD");
 
         LocalDateTime fecha = LocalDateTime.parse(fechaStr);
-        Timestamp timestamp = Timestamp.valueOf(fecha.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        Timestamp timestamp = Timestamp.valueOf(fecha.format(DateTimeFormatter
+                                .ofPattern("yyyy-MM-dd HH:mm:ss")));
 
         Glide.with(this)
                 .load(imagen)
@@ -179,7 +161,7 @@ public class ConfirmarReservaActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        // aquí puedes actualizar la interfaz de usuario con los datos de la actividad
+
                         texto.setText(a.getDescripcion());
                     }
                 });
@@ -187,7 +169,7 @@ public class ConfirmarReservaActivity extends AppCompatActivity {
 
             @Override
             public void onError(Throwable t) {
-                // Aquí puedes manejar errores relacionados con la obtención de la actividad
+
             }
         });
     }
@@ -216,7 +198,8 @@ public class ConfirmarReservaActivity extends AppCompatActivity {
         String fechaStr = intent.getStringExtra("FECHA_RESERVA");
 
         LocalDateTime fecha = LocalDateTime.parse(fechaStr);
-        Timestamp timestamp = Timestamp.valueOf(fecha.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        Timestamp timestamp = Timestamp.valueOf(fecha.format(DateTimeFormatter
+                .ofPattern("yyyy-MM-dd 10:00:00")));
 
         // Crear un mapa con los atributos del usuario
         Map<String, Object> user = new HashMap<>();
@@ -228,7 +211,8 @@ public class ConfirmarReservaActivity extends AppCompatActivity {
 
         // Añadir el documento a Firestore (la colección "usuarios" no tiene por qué existir previamente)
         db.collection("ReservaPista").add(user)
-                .addOnSuccessListener(documentReference -> Log.d(TAG, "Documento creado con ID: " + documentReference.getId()))
+                .addOnSuccessListener(documentReference -> Log.d(TAG, "Documento creado " +
+                        "con ID: " + documentReference.getId()))
                 .addOnFailureListener(e -> Log.w(TAG, "Error al crear el documento", e));
     }
 
@@ -243,7 +227,8 @@ public class ConfirmarReservaActivity extends AppCompatActivity {
         String fechaStr = intent.getStringExtra("FECHA_RESERVA_ACTIVIDAD");
 
         LocalDateTime fecha = LocalDateTime.parse(fechaStr);
-        Timestamp timestamp = Timestamp.valueOf(fecha.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        Timestamp timestamp = Timestamp.valueOf(fecha.format(DateTimeFormatter
+                            .ofPattern("yyyy-MM-dd 10:00:00")));
 
         // Crear un mapa con los atributos del usuario
         Map<String, Object> user = new HashMap<>();
@@ -254,7 +239,8 @@ public class ConfirmarReservaActivity extends AppCompatActivity {
 
         // Añadir el documento a Firestore (la colección "usuarios" no tiene por qué existir previamente)
         db.collection("ReservaActividad").add(user)
-                .addOnSuccessListener(documentReference -> Log.d(TAG, "Documento creado con ID: " + documentReference.getId()))
+                .addOnSuccessListener(documentReference -> Log.d(TAG, "Documento creado con" +
+                        " ID: " + documentReference.getId()))
                 .addOnFailureListener(e -> Log.w(TAG, "Error al crear el documento", e));
     }
 
@@ -263,6 +249,8 @@ public class ConfirmarReservaActivity extends AppCompatActivity {
         precio_pagado = 0;
         con_iluminacion = findViewById(R.id.tv_con_iluminación);
         sin_iluminacion = findViewById(R.id.tv_sin_iluminación);
+        precio_pagado = 9.00;
+        sin_iluminacion.setBackgroundColor(getResources().getColor(R.color.teal_200));
 
         con_iluminacion.setOnClickListener(v -> {
             precio_pagado = 12.00;
@@ -285,25 +273,6 @@ public class ConfirmarReservaActivity extends AppCompatActivity {
                     || descripcion.equalsIgnoreCase("Tenis")
                     || descripcion.equalsIgnoreCase("Baloncesto")
                     || descripcion.equalsIgnoreCase("Fútbol sala")) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean descripcionActividad() {
-        Intent intent = getIntent();
-        descripcion = intent.getStringExtra("NOMBRE_RESERVA_ACTIVIDAD");
-        if (descripcion != null) {
-            if (descripcion.equalsIgnoreCase("Spinning")
-                    || descripcion.equalsIgnoreCase("Zumba")
-                    || descripcion.equalsIgnoreCase("Pilates")
-                    || descripcion.equalsIgnoreCase("Boxeo")
-                    || descripcion.equalsIgnoreCase("Karate")
-                    || descripcion.equalsIgnoreCase("Natación")
-                    || descripcion.equalsIgnoreCase("Waterpolo")
-                    || descripcion.equalsIgnoreCase("AquaGim")
-                    || descripcion.equalsIgnoreCase("Sincronizada")) {
                 return true;
             }
         }

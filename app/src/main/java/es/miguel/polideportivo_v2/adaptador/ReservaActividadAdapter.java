@@ -26,7 +26,8 @@ import es.miguel.polideportivo_v2.data.ConexionDB;
 import es.miguel.polideportivo_v2.dominio.ReservaActividad;
 
 
-public class ReservaActividadAdapter extends RecyclerView.Adapter<ReservaActividadAdapter.ViewHolder> {
+public class ReservaActividadAdapter extends RecyclerView
+        .Adapter<ReservaActividadAdapter.ViewHolder> {
 
     private List<ReservaActividad> lista;
     private String email;
@@ -34,7 +35,8 @@ public class ReservaActividadAdapter extends RecyclerView.Adapter<ReservaActivid
 
     private LocalDateTime fecha_reserva;
 
-    public ReservaActividadAdapter(List<ReservaActividad> lista, String email, Context context, LocalDateTime fecha_reserva) {
+    public ReservaActividadAdapter(List<ReservaActividad> lista, String email, Context context,
+                                   LocalDateTime fecha_reserva) {
         this.lista = lista;
         this.email = email;
         this.context = context;
@@ -43,8 +45,10 @@ public class ReservaActividadAdapter extends RecyclerView.Adapter<ReservaActivid
 
     @NonNull
     @Override
-    public ReservaActividadAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_reserva_actividades,parent,false);
+    public ReservaActividadAdapter
+            .ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.recyclerview_reserva_actividades, parent, false);
         return new ViewHolder(view);
     }
 
@@ -58,9 +62,9 @@ public class ReservaActividadAdapter extends RecyclerView.Adapter<ReservaActivid
         holder.nombre.setText(lista.get(position).getActividad().getNombre());
         holder.horario.setText(lista.get(position).getHorario_reservado());
 
-        alternarColorRecyclerView(holder,position);
+        alternarColorRecyclerView(holder, position);
 
-        holder.layout.setOnClickListener( v -> {
+        holder.layout.setOnClickListener(v -> {
             int id_actividad = lista.get(position).getActividad().getId_actividad();
             String imagen = lista.get(position).getActividad().getImagen();
             String nombre = lista.get(position).getActividad().getNombre();
@@ -69,7 +73,6 @@ public class ReservaActividadAdapter extends RecyclerView.Adapter<ReservaActivid
             String descripcion = lista.get(position).getActividad().getDescripcion();
             int capacidad = lista.get(position).getActividad().getCapacidad();
             int numero_reservas = lista.get(position).getActividad().getNumero_reservas();
-
 
             Intent intent = new Intent(v.getContext(), ConfirmarReservaActivity.class);
             intent.putExtra("ID_RESERVA_ACTIVIDAD", id_actividad);
@@ -81,7 +84,7 @@ public class ReservaActividadAdapter extends RecyclerView.Adapter<ReservaActivid
             intent.putExtra("NUMERO_RESERVA_ACTIVIDAD", numero_reservas);
             intent.putExtra("EMAIL_RESERVA_ACTIVIDAD", email);
             intent.putExtra("FECHA_RESERVA_ACTIVIDAD", fecha_reserva.toString());
-            intent.putExtra("DESCRIPCION_RESERVA_ACTIVIDAD",descripcion);
+            intent.putExtra("DESCRIPCION_RESERVA_ACTIVIDAD", descripcion);
 
             v.getContext().startActivity(intent);
 
@@ -92,7 +95,8 @@ public class ReservaActividadAdapter extends RecyclerView.Adapter<ReservaActivid
                 holder,
                 position,
                 lista.get(position).getActividad().getId_actividad(),
-                Timestamp.valueOf(fecha_reserva.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))),
+                Timestamp.valueOf(fecha_reserva
+                        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd 10:00:00"))),
                 lista.get(position).getHorario_reservado()
         );
         getNumeroReservaTask.execute();
@@ -124,8 +128,8 @@ public class ReservaActividadAdapter extends RecyclerView.Adapter<ReservaActivid
         }
     }
 
-    public void alternarColorRecyclerView(ReservaActividadAdapter.ViewHolder holder, int position){
-        if(position % 2 == 0) {
+    public void alternarColorRecyclerView(ReservaActividadAdapter.ViewHolder holder, int position) {
+        if (position % 2 == 0) {
             holder.layout.setBackgroundResource(R.drawable.background_color_1);
         } else {
             holder.layout.setBackgroundResource(R.drawable.background_color_2);
@@ -140,7 +144,8 @@ public class ReservaActividadAdapter extends RecyclerView.Adapter<ReservaActivid
         private Timestamp timestamp;
         private String hora;
 
-        public GetNumeroReservaTask(ViewHolder holder, int position, int id, Timestamp timestamp, String hora) {
+        public GetNumeroReservaTask(ViewHolder holder, int position, int id, Timestamp timestamp,
+                                    String hora) {
             this.holder = holder;
             this.position = position;
             this.id = id;

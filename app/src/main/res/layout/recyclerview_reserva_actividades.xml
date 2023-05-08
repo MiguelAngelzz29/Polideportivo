@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="140dp"
-    app:cardElevation="8dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginTop="1dp"
-    android:layout_marginBottom="1dp">
+    android:layout_marginBottom="1dp"
+    app:cardElevation="8dp">
 
 
     <LinearLayout
@@ -14,8 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/black"
-        android:orientation="horizontal"
         android:gravity="center"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,8 +27,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:orientation="vertical"
             android:gravity="center"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -38,9 +38,9 @@
                 android:id="@+id/cv_1"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
+                android:gravity="center"
                 app:cardCornerRadius="100dp"
-                app:cardElevation="5dp"
-                android:gravity="center">
+                app:cardElevation="5dp">
 
                 <ImageView
                     android:id="@+id/iv_foto_actividad"
@@ -84,6 +84,7 @@
                 android:textColor="@color/white"
                 android:textSize="24sp"
                 android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/tv_reservar_actividad"
                 android:layout_width="match_parent"
@@ -93,28 +94,30 @@
                 android:textColor="@color/teal_200"
                 android:textSize="20sp"
                 android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/tv_capacidad_reserva_actividad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="10dp"
-                android:text="00/30"
+                android:text="0/20"
                 android:textColor="@color/teal_200"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.15"
             android:orientation="vertical">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableBottom="@drawable/flecha"/>
+                android:drawableBottom="@drawable/flecha" />
         </LinearLayout>
-
 
     </LinearLayout>
 

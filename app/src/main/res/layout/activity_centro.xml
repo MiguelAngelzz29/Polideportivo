@@ -38,7 +38,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="CENTRO"
-                    android:textColor="@color/teal_200"
+                    android:textColor="@color/white"
                     android:textSize="26dp"
                     android:textStyle="bold" />
                 </LinearLayout>
@@ -81,16 +81,17 @@
                 android:id="@+id/editText_confirmar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="8dp"
+                android:layout_margin="0dp"
                 android:paddingTop="10dp"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
-                android:text="adsfasdfasdfasdfasdfsdfasdffsfasfdsafasfasdfasdfasdfsdafasdfafasdf
-                          afasdfasfasfasdfasdfasfdasdffasfasdfasfs"
+                android:background="@color/grey"
+                android:text="@string/polideportivo"
                 android:gravity="top"
-                android:textColor="@color/teal_200"
+                android:textColor="@color/black"
                 android:editable="false"
-                android:cursorVisible="false"/>
+                android:cursorVisible="false"
+                android:justificationMode="inter_word"/>
         </LinearLayout>
 
 
