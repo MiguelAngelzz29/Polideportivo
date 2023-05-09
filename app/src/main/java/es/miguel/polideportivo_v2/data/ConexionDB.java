@@ -204,15 +204,16 @@ public class ConexionDB {
                     if (snapshot.exists()) {
                         String id_cliente = snapshot.getId();
                         String nombre = snapshot.getString("nombre");
-                        String primer_apellido = snapshot.getString("primer_apellido");
-                        String segundo_apellido = snapshot.getString("segundo_apellido");
+                        String primer_apellido = snapshot.getString("1apellido");
+                        String segundo_apellido = snapshot.getString("2apellido");
                         String direccion = snapshot.getString("direccion");
                         String email_cliente = snapshot.getString("email");
-                        String telefono = snapshot.getString("telefono");
+                        String telefono = snapshot.getString("tlf_movil");
+                        String password = snapshot.getString(("password"));
                         String tipo_abono = snapshot.getString("tipo_abono");
 
                         cliente = new Cliente(id_cliente, nombre, primer_apellido, segundo_apellido,
-                                direccion, email_cliente, telefono, Integer.parseInt(tipo_abono));
+                                direccion, email_cliente, telefono,password, Integer.parseInt(tipo_abono));
 
                     }
                 }
@@ -436,5 +437,6 @@ public class ConexionDB {
 
         void onError(Throwable t);
     }
+
 }
 

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        <string name="app_name">Sports Center</string>
+        <string name="archivo_preferencias">es.miguel.polideportivo_v2.PREFERENCIA_FILE_KEY</string>
+        <string name="email">Email</string>
+        <string name="password">Password</string>
+        <string name="login">Log in</string>
+        <string name="forgot_password">Recover password</string>
+        <string name="or">OR</string>
+        <string name="google_icon">google icon</string>
+        <string name="facebook_icon">facebook icon</string>
+        <string name="registrarse">Registrarse</string>
+        <string name="nombre">Name</string>
+        <string name="primerApellido">1ºLast name</string>
+        <string name="segundoApellido">2ºLast name</string>
+        <string name="direccion">Adress</string>
+        <string name="movil">Mobile</string>
+        <string name="repitePassword">Repeat password</string>
+        <string name="reservaPista">RESERVE COURT</string>
+        <string name="reservaGim">GYM ACTIVITIES</string>
+        <string name="reservaPiscina">POOL ACTIVITIES</string>
+        <string name="horariosDisponibles">AVAILABLE SCHEDULES</string>
+        <string name="dia">Lun</string>
+        <string name="diaNum">4</string>
+        <string name="mes">Abr</string>
+        <string name="confirmarReserva">CONFIRM RESERVATION</string>
+        <string name="padel">Pádel</string>
+        <string name="entrar_con">Enter with</string>
+        <string name="spinning">Spinning</string>
+        <string name="tipo_deporte">Sport Type</string>
+        <string name="ver">WATCH</string>
+        <string name="reservar">RESERVE</string>
+        <string name="seleccionarActividad">Select Activity</string>
+        <string name="seleccionaFecha">Selecciona fecha</string>
+        <string name="seleccionaHora">select date</string>
+        <string name="centro">CENTER</string>
+        <string name="horarios">SCHEDULE</string>
+        <string name="reservas">BOOKINGS</string>
+        <string name="eliminar">DELETE</string>
+        <string name="reservas_pistas">TRACK RESERVATIONS</string>
+        <string name="reservas_actividades">RESERVATIONS ACTIVITIES</string>
+        <string name="novedades">NEWS</string>
+        <string name="seleccionar">SELECT</string>
+        <string name="contacto">CONTACT</string>
+        <string name="ubicacion">LOCATION</string>
+        <string name="horario_lunes"><b>Monday:</b>         7:30 a 22:30h</string>
+        <string name="horario_martes"><b>Tuesday:</b>        7:30 a 22:30h</string>
+        <string name="horario_miercoles"><b>Wenesday:</b>   7:30 a 22:30h</string>
+        <string name="horario_jueves"><b>Thrusday:</b>        7:30 a 22:30h</string>
+        <string name="horario_viernes"><b>Friday:</b>       7:30 a 22:30h</string>
+        <string name="horario_sabado"><b>Saturday:</b>        7:30 a 14:00h</string>
+        <string name="horario_domingo"><b>Sunday:</b>     7:30 a 14:00h</string>
+        <string name="sin_reservas">There are no pending reservations</string>
+        <string name="polideportivo">A sports center is a versatile sports complex that offers
+        facilities for a variety of sports and physical activities. With multiple courts
+        and fields adapted for basketball, volleyball, tennis, indoor soccer, among others, allows
+        participation in organized competitions and casual games. Also, you can include
+        gyms, exercise areas, swimming pools and aerobics studios. With the objective of
+        promote physical activity and healthy living, sports centers are places of
+        meeting for athletes and sports enthusiasts.</string>
+</resources>

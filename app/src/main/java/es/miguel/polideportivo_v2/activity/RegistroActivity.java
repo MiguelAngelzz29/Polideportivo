@@ -116,7 +116,7 @@ public class RegistroActivity extends AppCompatActivity {
         user.put("email", email.getText().toString());
         user.put("tipo_abono", "0");
 
-        // Crear un mapa con los filtros de contraseÃ±a
+      /*  // Crear un mapa con los filtros de contraseÃ±a
         List<Map<String, String>> filters = new ArrayList<>();
         Map<String, String> filtro1 = new HashMap<>();
         filtro1.put("tipo", "Mayusculas");
@@ -126,8 +126,8 @@ public class RegistroActivity extends AppCompatActivity {
         filters.add(filtro2);
         Map<String, Object> password = new HashMap<>();
         password.put("password", "");
-        password.put("filters", filters);
-        user.put("password", password);
+        password.put("filters", filters);*/
+        user.put("password", password.getText().toString());
         user.put("tlf_movil", movil.getText().toString());
 
         // Añadir el documento a Firestore (la colección "usuarios" no tiene por qué existir previamente)
