@@ -43,6 +43,7 @@
         <string name="seleccionar">SELECT</string>
         <string name="contacto">CONTACT</string>
         <string name="ubicacion">LOCATION</string>
+        <string name="pistas">COURTS</string>
         <string name="horario_lunes"><b>Monday:</b>         7:30 a 22:30h</string>
         <string name="horario_martes"><b>Tuesday:</b>        7:30 a 22:30h</string>
         <string name="horario_miercoles"><b>Wenesday:</b>   7:30 a 22:30h</string>

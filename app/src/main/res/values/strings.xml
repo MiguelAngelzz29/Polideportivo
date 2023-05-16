@@ -41,6 +41,7 @@
     <string name="seleccionaFecha">Selecciona fecha</string>
     <string name="seleccionaHora">Selecciona hora</string>
     <string name="centro">CENTRO</string>
+    <string name="pistas">PISTAS</string>
     <string name="horarios">HORARIO</string>
     <string name="reservas">RESERVAS</string>
     <string name="eliminar">ELIMINAR</string>
