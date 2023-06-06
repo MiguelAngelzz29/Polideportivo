@@ -32,8 +32,18 @@ import es.miguel.polideportivo_v2.R;
 
 public class RegistroActivity extends AppCompatActivity {
 
-    private EditText nombre, primerApellido, segundoApellido, direccion, email, movil, password, repitePassword;
+    public EditText nombre;
+    public EditText primerApellido;
+    public EditText segundoApellido;
+    public EditText direccion;
+    public EditText email;
+    public EditText movil;
+    public EditText password;
+    public EditText repitePassword;
     private FloatingActionButton btn_registro;
+
+    public RegistroActivity() {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +56,7 @@ public class RegistroActivity extends AppCompatActivity {
         btn_registro.setOnClickListener(v -> {
             recogerDatos();
             limpiarDatos();
-            btn_registro.setVisibility(View.GONE);
+            
             Intent intent = new Intent (this, MainActivity.class);
             startActivity(intent);
         });
@@ -115,18 +125,6 @@ public class RegistroActivity extends AppCompatActivity {
         user.put("direccion", direccion.getText().toString());
         user.put("email", email.getText().toString());
         user.put("tipo_abono", "0");
-
-      /*  // Crear un mapa con los filtros de contraseÃ±a
-        List<Map<String, String>> filters = new ArrayList<>();
-        Map<String, String> filtro1 = new HashMap<>();
-        filtro1.put("tipo", "Mayusculas");
-        Map<String, String> filtro2 = new HashMap<>();
-        filtro2.put("tipo", "Minusculas");
-        filters.add(filtro1);
-        filters.add(filtro2);
-        Map<String, Object> password = new HashMap<>();
-        password.put("password", "");
-        password.put("filters", filters);*/
         user.put("password", password.getText().toString());
         user.put("tlf_movil", movil.getText().toString());
 
@@ -136,7 +134,7 @@ public class RegistroActivity extends AppCompatActivity {
                 .addOnFailureListener(e -> Log.w(TAG, "Error al crear el documento", e));
     }
 
-    private void limpiarDatos() {
+    public void limpiarDatos() {
         nombre.setText("");
         primerApellido.setText("");
         segundoApellido.setText("");

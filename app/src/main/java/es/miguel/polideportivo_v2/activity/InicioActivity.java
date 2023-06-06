@@ -20,7 +20,7 @@ public class InicioActivity extends AppCompatActivity {
 
 
      private boolean seleccionaPista,seleccionaGim,seleccionaPiscina;
-     private LinearLayout reservaPista,actividadGim,actividadPiscina,centro,horario,misReservas;
+     private LinearLayout reservaPista,actividadGim,actividadPiscina,centro,horario,misReservas,contacto;
      private String email;
 
     @Override
@@ -32,6 +32,7 @@ public class InicioActivity extends AppCompatActivity {
 
         informacionCentro();
         informacionHorario();
+        contacto();
         recibirDatos();
         reservarPista();
         reservarGim();
@@ -145,5 +146,12 @@ public class InicioActivity extends AppCompatActivity {
     public void recibirDatos(){
         Intent intent = getIntent();
         email = intent.getStringExtra("EMAIL_MAIN");
+    }
+    public void contacto(){
+        contacto = findViewById(R.id.cv_contacto);
+        contacto.setOnClickListener( v ->{
+            Intent intent = new Intent(this,ContactoActivity.class);
+            startActivity(intent);
+        });
     }
 }

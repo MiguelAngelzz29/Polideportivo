@@ -168,20 +168,27 @@ public class ConexionDB {
     }
 
     public static void getPista(int id, ResultadoPistaCallback callback) {
+        //Hacer una instancia a la base de datos
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        //Hacer referencia a colección a la que queremos hacer la consulta
         CollectionReference collection = db.collection("Pista");
+        //Hacer la consulta
         Query query = collection.whereEqualTo("id", id);
+        //Añadir un listener para manejar los resultados de la consulta
         query.get().addOnCompleteListener((Task<QuerySnapshot> task) -> {
             if (task.isSuccessful() && task.getResult() != null) {
                 Pista pista = null;
+                //Iterar sobre los documentos encontrados
                 for (DocumentSnapshot snapshot : task.getResult().getDocuments()) {
                     // Verificar que los campos necesarios estén disponibles
                     if (snapshot.contains("tipo_deporte") && snapshot.contains("ubicacion")
                             && snapshot.contains("imagen")) {
+                        //Obtener la información necesaria
                         String tipo_deporte = snapshot.getString("tipo_deporte");
                         String ubicacion = snapshot.getString("ubicacion");
                         String descripcion = snapshot.getString("descripcion");
                         String imagen = snapshot.getString("imagen");
+
                         pista = new Pista(id, tipo_deporte, ubicacion, descripcion, imagen);
                     }
                 }
@@ -193,10 +200,17 @@ public class ConexionDB {
     }
 
     public static void getCliente(String email, ResultadoClienteCallback callback) {
+
+        //Hacer una instancia a la base de datos
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        //Hacer referencia a colección a la que queremos hacer la consulta
         CollectionReference collection = db.collection("Cliente");
+
+        //Hacer la consulta
         Query query = collection.whereEqualTo("email", email);
         query.get().addOnCompleteListener((Task<QuerySnapshot> task) -> {
+
             if (task.isSuccessful() && task.getResult() != null) {
                 Cliente cliente = null;
                 for (DocumentSnapshot snapshot : task.getResult().getDocuments()) {

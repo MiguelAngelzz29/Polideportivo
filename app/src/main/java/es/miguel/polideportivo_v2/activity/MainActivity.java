@@ -91,16 +91,16 @@ public class MainActivity extends AppCompatActivity {
 
     public void entrarApp(){
         login.setOnClickListener(v -> {
-           /* ConexionDB.getCliente(email.getText().toString(), new ConexionDB.ResultadoClienteCallback() {
+           ConexionDB.getCliente(email.getText().toString(), new ConexionDB.ResultadoClienteCallback() {
                 @Override
                 public void onResultadoCliente(Cliente cliente) {
                     if(cliente != null && email.getText().toString().equals(cliente.getEmail())  &&
                             password.getText().toString().equals(cliente.getPassword())){
-*/
+
                         Intent intent = new Intent(MainActivity.this, InicioActivity.class);
                         intent.putExtra("EMAIL_MAIN", email.getText().toString());
                         startActivity(intent);
-                  /*  }else{
+                   }else{
                         Toast.makeText(MainActivity.this, "Credenciales incorrectas",
                                 Toast.LENGTH_SHORT).show();
                     }
@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onError(Throwable t) {
 
                 }
-            });*/
+            });
         });
     }
 

@@ -36,6 +36,10 @@ import es.miguel.polideportivo_v2.dominio.ReservaPista;
 
 public class ReservaActivity extends AppCompatActivity {
 
+    public ReservaActivity() {
+
+    }
+
     private RecyclerView recyclerView_actividad;
     private ReservaAdapter pistaAdapter;
     private ReservaActividadAdapter actividadAdapter;
@@ -60,7 +64,6 @@ public class ReservaActivity extends AppCompatActivity {
         email = extra.getString("EMAIL_ACTIVIDAD");
 
         cambiarColorDias();
-        System.out.println("dddddddddddddddddddddddddddddddddddddddddddddddddddddddddd "+seleccionaPista());
         if(seleccionaPista()){
             recibirDatosPistas();
         }else if(seleccionaGim()){
@@ -115,7 +118,7 @@ public class ReservaActivity extends AppCompatActivity {
 
 
     public void recibirDatosPistas() {
-        System.out.println("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww estoy aqui");
+
         recyclerView_actividad.setHasFixedSize(true);
         recyclerView_actividad.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
@@ -124,11 +127,9 @@ public class ReservaActivity extends AppCompatActivity {
             @Override
             public void onResultadoReservas(ArrayList<ReservaPista> reservas) {
                 listaReservasPistas = reservas;
-                System.out.println("dddddddddddddddddddddd " + listaReservasPistas);
                 boolean repetido = false;
                 ArrayList<ReservaPista> lista2 = new ArrayList<>();
                 ArrayList<ReservaPista> listaDisponible = listaParaReservarPistas();
-                System.out.println("wwwwwwwwwwwwwwwwwwww " +listaDisponible);
                 ArrayList<ReservaPista> listaFinal = new ArrayList<>();
                 // Comparación de listas para obtener los horarios disponibles
                 for (ReservaPista reserva : listaReservasPistas) {
@@ -137,7 +138,6 @@ public class ReservaActivity extends AppCompatActivity {
                     if (dia.equalsIgnoreCase(diaSeleccionado)
                             && reserva.getPista().getTipo_deporte().equals(opcion)) {
                         lista2.add(reserva);
-                        System.out.println("dddddddddddddddddddddd2 " + lista2);
                     }
                 }
 
@@ -160,11 +160,8 @@ public class ReservaActivity extends AppCompatActivity {
                 }else{
                     listaFinal = listaDisponible;
                 }
-                System.out.println("ffffffffffffffffffffff " + listaFinal);
                     pistaAdapter = new ReservaAdapter(listaFinal, email, ReservaActivity.this, fecha_reserva);
                     recyclerView_actividad.setAdapter(pistaAdapter);
-                System.out.println("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
-
             }
 
             @Override
@@ -479,13 +476,10 @@ public class ReservaActivity extends AppCompatActivity {
     public boolean seleccionaPista(){
         extra = getIntent().getExtras();
         opcion = extra.getString("DESCRIPCION_ACTIVIDAD");
-        if(opcion.equalsIgnoreCase("Pádel")
+        return opcion.equalsIgnoreCase("Pádel")
                 || opcion.equalsIgnoreCase("Tenis")
                 || opcion.equalsIgnoreCase("Baloncesto")
-                || opcion.equalsIgnoreCase("Fútbol Sala")){
-            return true;
-        }
-        return false;
+                || opcion.equalsIgnoreCase("Fútbol Sala");
     }
 
     public boolean seleccionaGim(){

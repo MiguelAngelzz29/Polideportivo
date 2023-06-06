@@ -8,27 +8,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import es.miguel.polideportivo_v2.R;
 
-public class CentroActivity extends AppCompatActivity {
+public class ContactoActivity extends AppCompatActivity {
 
     private TextView flecha;
-    private Intent intent;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_centro);
+        setContentView(R.layout.activity_contacto);
 
         flecha = findViewById(R.id.centro_flecha_izq);
-        intent = new Intent(this, InicioActivity.class);
 
-        flecha.setOnClickListener(v -> irAInicio());
-    }
-
-    public void setFlecha(TextView flecha) {
-        this.flecha = flecha;
-    }
-
-    public void irAInicio() {
-        startActivity(intent);
+        flecha.setOnClickListener( v ->{
+            Intent intent = new Intent(this,InicioActivity.class);
+            startActivity(intent);
+        });
     }
 }

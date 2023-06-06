@@ -38,6 +38,10 @@
             android:exported="false"
             android:parentActivityName=".activity.MainActivity" />
         <activity
+            android:name=".activity.ContactoActivity"
+            android:exported="false"
+            android:parentActivityName=".activity.MainActivity" />
+        <activity
             android:name=".activity.MainActivity"
             android:exported="true">
             <intent-filter>

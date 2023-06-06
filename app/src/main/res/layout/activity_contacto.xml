@@ -37,7 +37,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="CENTRO"
+                    android:text="CONTACTO"
                     android:textColor="@color/white"
                     android:textSize="26dp"
                     android:textStyle="bold" />
@@ -87,7 +87,7 @@
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
                 android:background="@color/grey"
-                android:text="@string/polideportivo"
+                android:text="@string/contacto2"
                 android:gravity="top"
                 android:textColor="@color/black"
                 android:editable="false"

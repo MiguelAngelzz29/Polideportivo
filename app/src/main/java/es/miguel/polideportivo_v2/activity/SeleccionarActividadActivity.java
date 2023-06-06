@@ -20,6 +20,11 @@ public class SeleccionarActividadActivity extends AppCompatActivity {
     private RecyclerView recyclerView_actividad;
     private boolean seleccionaPista,seleccionaGim,seleccionaPiscina;
     private String email,opcion;
+    private Actividad actividad;
+
+    public SeleccionarActividadActivity() {
+
+    }
 
 
     @Override
