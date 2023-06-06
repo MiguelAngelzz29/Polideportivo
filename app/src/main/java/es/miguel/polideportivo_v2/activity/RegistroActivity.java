@@ -56,7 +56,7 @@ public class RegistroActivity extends AppCompatActivity {
         btn_registro.setOnClickListener(v -> {
             recogerDatos();
             limpiarDatos();
-            
+
             Intent intent = new Intent (this, MainActivity.class);
             startActivity(intent);
         });
@@ -96,8 +96,7 @@ public class RegistroActivity extends AppCompatActivity {
         repitePassword = findViewById(R.id.registroRepitePassword);
         btn_registro = findViewById(R.id.btn_registro);
 
-        // Configurar la visibilidad inicial del botón de registro
-        actualizarVisibilidadBotonRegistro();
+     
     }
 
     private void actualizarVisibilidadBotonRegistro() {
